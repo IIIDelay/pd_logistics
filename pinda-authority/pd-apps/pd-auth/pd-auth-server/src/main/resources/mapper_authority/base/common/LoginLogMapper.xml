@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.iiidev.pinda.authority.biz.dao.common.LoginLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.iiidev.pinda.authority.entity.common.LoginLog">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <respResult column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <respResult column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <respResult column="request_ip" jdbcType="VARCHAR" property="requestIp"/>
+        <respResult column="user_id" jdbcType="BIGINT" property="userId"/>
+        <respResult column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <respResult column="account" jdbcType="VARCHAR" property="account"/>
+        <respResult column="description" jdbcType="VARCHAR" property="description"/>
+        <respResult column="login_date" jdbcType="DATE" property="loginDate"/>
+        <respResult column="ua" jdbcType="VARCHAR" property="ua"/>
+        <respResult column="browser" jdbcType="VARCHAR" property="browser"/>
+        <respResult column="browser_version" jdbcType="VARCHAR" property="browserVersion"/>
+        <respResult column="operating_system" jdbcType="VARCHAR" property="operatingSystem"/>
+        <respResult column="location" jdbcType="VARCHAR" property="location"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_time, create_user, 
+        request_ip, user_id, user_name, account, description, login_date, ua, browser, browser_version, operating_system, location
+    </sql>
+
+</mapper>

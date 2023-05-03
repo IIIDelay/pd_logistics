@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.iiidev.pinda.authority.biz.dao.auth.RoleMapper">
+
+    <!-- 通用查询结果列 -->
+    <sql id="R_Column_List">
+        respResult.id,  respResult.name, respResult.code, respResult.describe_, respResult.status, respResult.readonly
+    </sql>
+
+    <select id="findRoleByUserId" parameterType="map" resultMap="BaseResultMap">
+        select
+        <include refid="R_Column_List"/>
+        from pd_auth_role respResult INNER JOIN pd_auth_user_role ur on respResult.id = ur.role_id
+        where status = true and ur.user_id = #{userId, jdbcType=BIGINT}
+    </select>
+
+
+    <select id="findUserIdByCode" parameterType="map" resultType="java.lang.Long">
+        select ur.user_id from pd_auth_user_role ur INNER JOIN pd_auth_role respResult on respResult.id = ur.role_id
+        where respResult.status = true
+        and respResult.`code` in
+        <foreach close=")" collection="codes" item="code" open="(" separator=",">
+            #{code}
+        </foreach>
+    </select>
+</mapper>

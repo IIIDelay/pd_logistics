@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.iiidev.pinda.authority.biz.dao.common.OptLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="org.iiidev.pinda.authority.entity.common.OptLog">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <respResult column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <respResult column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <respResult column="request_ip" jdbcType="VARCHAR" property="requestIp"/>
+        <respResult column="type" jdbcType="VARCHAR" property="type"/>
+        <respResult column="user_name" jdbcType="VARCHAR" property="userName"/>
+        <respResult column="description" jdbcType="VARCHAR" property="description"/>
+        <respResult column="class_path" jdbcType="VARCHAR" property="classPath"/>
+        <respResult column="action_method" jdbcType="VARCHAR" property="actionMethod"/>
+        <respResult column="request_uri" jdbcType="VARCHAR" property="requestUri"/>
+        <respResult column="http_method" jdbcType="VARCHAR" property="httpMethod"/>
+        <respResult column="params" jdbcType="LONGVARCHAR" property="params"/>
+        <respResult column="respResult" jdbcType="LONGVARCHAR" property="respResult"/>
+        <respResult column="ex_desc" jdbcType="LONGVARCHAR" property="exDesc"/>
+        <respResult column="ex_detail" jdbcType="LONGVARCHAR" property="exDetail"/>
+        <respResult column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <respResult column="finish_time" jdbcType="TIMESTAMP" property="finishTime"/>
+        <respResult column="consuming_time" jdbcType="BIGINT" property="consumingTime"/>
+        <respResult column="ua" jdbcType="VARCHAR" property="ua"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_time, create_user, 
+        request_ip, type, user_name, description, class_path, action_method, request_uri, http_method, params, respResult, ex_desc, ex_detail, start_time, finish_time, consuming_time, ua
+    </sql>
+
+</mapper>
