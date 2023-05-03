@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      discovery:
+        server-addr: 47.97.199.157:8848
+        group: pinda-tms
+        namespace: a6e42188-4f68-4839-97aa-1d2e85ea98db
+      config:
+        server-addr: 47.97.199.157:8848
+        file-extension: yml
+        group: pinda-tms
+        namespace: a6e42188-4f68-4839-97aa-1d2e85ea98db
+
+  # jackson时间格式化
+  jackson:
+    time-zone: ${spring.jackson.time-zone}
+    date-format: ${spring.jackson.date-format}
+  servlet:
+    multipart:
+      max-file-size: ${spring.servlet.multipart.max-file-size}
+      max-request-size: ${spring.servlet.multipart.max-request-size}
+      enabled: ${spring.servlet.multipart.enabled}
