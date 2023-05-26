@@ -48,11 +48,6 @@
             <artifactId>p6spy</artifactId>
         </dependency>
 
-        <!-- 解决mybatis 和 LocalDateTime 的问题 -->
-        <dependency>
-            <groupId>org.mybatis</groupId>
-            <artifactId>mybatis-typehandlers-jsr310</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>

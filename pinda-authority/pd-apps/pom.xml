@@ -20,6 +20,7 @@
         <module>pd-gateway</module>
         <!--<module>pd-file</module>-->
     </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -27,62 +28,67 @@
                 <artifactId>pd-auth-entity</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <!--<dependency>
-                <groupId>org.iiidev</groupId>
-                <artifactId>pd-auth-api</artifactId>
-                <version>${project.version}</version>
-            </dependency>-->
 
             <dependency>
                 <groupId>org.iiidev</groupId>
                 <artifactId>pd-tools-user</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.iiidev</groupId>
                 <artifactId>pd-tools-j2cache</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.iiidev</groupId>
                 <artifactId>pd-tools-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.iiidev</groupId>
                 <artifactId>pd-tools-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.iiidev</groupId>
                 <artifactId>pd-tools-databases</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.iiidev</groupId>
                 <artifactId>pd-tools-swagger2</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.iiidev</groupId>
                 <artifactId>pd-tools-dozer</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.iiidev</groupId>
                 <artifactId>pd-tools-log</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.iiidev</groupId>
                 <artifactId>pd-tools-validator</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.iiidev</groupId>
                 <artifactId>pd-tools-jwt</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.iiidev</groupId>
                 <artifactId>pd-tools-xss</artifactId>

@@ -27,15 +27,16 @@ public enum Sex implements BaseEnum {
      * W="女"
      */
     W("女"),
+
     /**
      * M="男"
      */
     M("男"),
+
     /**
      * N="未知"
      */
-    N("未知"),
-    ;
+    N("未知");
 
     @ApiModelProperty(value = "描述")
     private String desc;

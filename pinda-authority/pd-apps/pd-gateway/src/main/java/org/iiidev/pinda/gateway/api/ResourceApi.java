@@ -1,4 +1,4 @@
-package org.iiidev.pinda.zuul.api;
+package org.iiidev.pinda.gateway.api;
 
 import org.iiidev.pinda.authority.dto.auth.ResourceQueryDTO;
 import org.iiidev.pinda.authority.entity.auth.Resource;
@@ -13,9 +13,9 @@ import java.util.List;
 public interface ResourceApi {
     //获取所有需要鉴权的资源
     @GetMapping("/resource/list")
-    public Result<List> list();
+    Result<List> list();
 
     //查询当前登录用户拥有的资源权限
     @GetMapping("/resource")
-    public Result<List<Resource>> visible(ResourceQueryDTO resource);
+    Result<List<Resource>> visible(ResourceQueryDTO resource);
 }

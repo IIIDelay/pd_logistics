@@ -23,10 +23,7 @@
             <groupId>org.iiidev</groupId>
             <artifactId>pd-tools-user</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-core</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.iiidev</groupId>
             <artifactId>pd-tools-databases</artifactId>
@@ -40,6 +37,7 @@
             <groupId>org.iiidev</groupId>
             <artifactId>pd-tools-core</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -81,22 +79,27 @@
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.iiidev</groupId>
             <artifactId>pd-tools-j2cache</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.iiidev</groupId>
             <artifactId>pd-tools-swagger2</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.iiidev</groupId>
             <artifactId>pd-tools-validator</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.iiidev</groupId>
             <artifactId>pd-tools-xss</artifactId>
         </dependency>
+        
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
@@ -116,16 +119,12 @@
             <groupId>com.github.whvcse</groupId>
             <artifactId>easy-captcha</artifactId>
         </dependency>
+
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-            </exclusions>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.ow2.asm</groupId>
             <artifactId>asm</artifactId>

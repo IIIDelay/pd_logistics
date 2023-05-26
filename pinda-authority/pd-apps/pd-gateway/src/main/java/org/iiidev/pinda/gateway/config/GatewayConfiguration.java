@@ -1,4 +1,4 @@
-package org.iiidev.pinda.zuul.config;
+package org.iiidev.pinda.gateway.config;
 
 import org.iiidev.pinda.common.config.BaseConfig;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +9,7 @@ import org.springframework.web.filter.CorsFilter;
  * 解决跨域问题的配置类
  */
 @Configuration
-public class ZuulConfiguration extends BaseConfig {
+public class GatewayConfiguration extends BaseConfig {
     @Bean
     public CorsFilter corsFilter() {
         final UrlBasedCorsConfigurationSource source =

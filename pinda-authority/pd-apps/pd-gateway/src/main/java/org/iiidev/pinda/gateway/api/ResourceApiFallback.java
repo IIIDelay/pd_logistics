@@ -1,4 +1,4 @@
-package org.iiidev.pinda.zuul.api;
+package org.iiidev.pinda.gateway.api;
 
 import org.iiidev.pinda.authority.dto.auth.ResourceQueryDTO;
 import org.iiidev.pinda.authority.entity.auth.Resource;

@@ -1,13 +1,13 @@
 package org.iiidev.pinda.user.model;
 
-import java.util.List;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import java.util.List;
 
 /**
  * 用户实体
@@ -76,15 +76,16 @@ public class SysUser {
      * 启用条件： LoginUser.isFull = true || LoginUser.isRole = true
      */
     private List<SysRole> roles;
+
     /**
      * 当前登录用户的组织架构
      * 启用条件： LoginUser.isFull = true || LoginUser.isOrg = true
      */
     private SysOrg org;
+
     /**
      * 当前登录用户的 岗位
      * 启用条件： LoginUser.isFull = true || LoginUser.isStation = true
      */
     private SysStation station;
-
 }
