@@ -5,16 +5,16 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.iiidev.pinda.authority.entity.auth.Resource">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <respResult column="create_user" jdbcType="BIGINT" property="createUser"/>
-        <respResult column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <respResult column="update_user" jdbcType="BIGINT" property="updateUser"/>
-        <respResult column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <respResult column="code" jdbcType="VARCHAR" property="code"/>
-        <respResult column="name" jdbcType="VARCHAR" property="name"/>
-        <respResult column="menu_id" jdbcType="BIGINT" property="menuId"/>
-        <respResult column="describe_" jdbcType="VARCHAR" property="describe"/>
-        <respResult column="method" jdbcType="VARCHAR" property="method"/>
-        <respResult column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="menu_id" jdbcType="BIGINT" property="menuId"/>
+        <result column="describe_" jdbcType="VARCHAR" property="describe"/>
+        <result column="method" jdbcType="VARCHAR" property="method"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

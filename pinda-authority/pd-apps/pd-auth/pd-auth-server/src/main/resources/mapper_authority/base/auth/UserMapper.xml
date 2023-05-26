@@ -5,25 +5,25 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.iiidev.pinda.authority.entity.auth.User">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <respResult column="create_user" jdbcType="BIGINT" property="createUser"/>
-        <respResult column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <respResult column="update_user" jdbcType="BIGINT" property="updateUser"/>
-        <respResult column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <respResult column="account" jdbcType="VARCHAR" property="account"/>
-        <respResult column="name" jdbcType="VARCHAR" property="name"/>
-        <respResult column="org_id" jdbcType="BIGINT" property="orgId"/>
-        <respResult column="station_id" jdbcType="BIGINT" property="stationId"/>
-        <respResult column="email" jdbcType="VARCHAR" property="email"/>
-        <respResult column="mobile" jdbcType="VARCHAR" property="mobile"/>
-        <respResult column="sex" jdbcType="VARCHAR" property="sex"/>
-        <respResult column="status" jdbcType="BIT" property="status"/>
-        <respResult column="avatar" jdbcType="VARCHAR" property="avatar"/>
-        <respResult column="work_describe" jdbcType="VARCHAR" property="workDescribe"/>
-        <respResult column="password_error_last_time" jdbcType="TIMESTAMP" property="passwordErrorLastTime"/>
-        <respResult column="password_error_num" jdbcType="INTEGER" property="passwordErrorNum"/>
-        <respResult column="password_expire_time" jdbcType="TIMESTAMP" property="passwordExpireTime"/>
-        <respResult column="password" jdbcType="VARCHAR" property="password"/>
-        <respResult column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="account" jdbcType="VARCHAR" property="account"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="org_id" jdbcType="BIGINT" property="orgId"/>
+        <result column="station_id" jdbcType="BIGINT" property="stationId"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="mobile" jdbcType="VARCHAR" property="mobile"/>
+        <result column="sex" jdbcType="VARCHAR" property="sex"/>
+        <result column="status" jdbcType="BIT" property="status"/>
+        <result column="avatar" jdbcType="VARCHAR" property="avatar"/>
+        <result column="work_describe" jdbcType="VARCHAR" property="workDescribe"/>
+        <result column="password_error_last_time" jdbcType="TIMESTAMP" property="passwordErrorLastTime"/>
+        <result column="password_error_num" jdbcType="INTEGER" property="passwordErrorNum"/>
+        <result column="password_expire_time" jdbcType="TIMESTAMP" property="passwordExpireTime"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

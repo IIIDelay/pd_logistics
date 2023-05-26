@@ -5,10 +5,10 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.iiidev.pinda.authority.entity.auth.UserRole">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <respResult column="create_user" jdbcType="BIGINT" property="createUser"/>
-        <respResult column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <respResult column="role_id" jdbcType="BIGINT" property="roleId"/>
-        <respResult column="user_id" jdbcType="BIGINT" property="userId"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="role_id" jdbcType="BIGINT" property="roleId"/>
+        <result column="user_id" jdbcType="BIGINT" property="userId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

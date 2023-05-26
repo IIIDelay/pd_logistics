@@ -8,14 +8,14 @@
            输出代码中指定的消息
            %p
            输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL
-           %respResult
+           %result
            输出自应用启动到输出该log信息耗费的毫秒数
            %c
            输出所属的类目，通常就是所在类的全名
            %t
            输出产生该日志事件的线程名
            %n
-           输出一个回车换行符，Windows平台为“\respResult\n”，Unix平台为“\n”
+           输出一个回车换行符，Windows平台为“\result\n”，Unix平台为“\n”
            %d
            输出日志时间点的日期或时间，默认格式为ISO8601，也可以在其后指定格式，比如：%d{yyy MMM dd HH:mm:ss,SSS}，
            输出类似：2002年10月18日 22：10：28，921
@@ -26,7 +26,7 @@
     <springProperty scope="context" name="spring.application.name" source="spring.application.name"/>
     <springProperty scope="context" name="spring.profiles.active" source="spring.profiles.active"/>
     <springProperty scope="context" name="common-pattern" source="logging.common-pattern"
-                    defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%respResult] [%logger{50}.%M:%L] --> %msg%n"/>
+                    defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%result] [%logger{50}.%M:%L] --> %msg%n"/>
     <springProperty scope="context" name="log.level.console" source="logging.level.console" defaultValue="INFO"/>
     <springProperty scope="context" name="log.level.controller" source="logging.level.controller" defaultValue="INFO"/>
     <springProperty scope="context" name="log.level.service" source="logging.level.service" defaultValue="INFO"/>
@@ -44,7 +44,7 @@
             <level>${log.level.console}</level>
         </filter>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%respResult] [%cyan(%logger{50}).%M:%L] --> %highlight(%msg) %n
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%result] [%cyan(%logger{50}).%M:%L] --> %highlight(%msg) %n
             </pattern>
         </encoder>
     </appender>

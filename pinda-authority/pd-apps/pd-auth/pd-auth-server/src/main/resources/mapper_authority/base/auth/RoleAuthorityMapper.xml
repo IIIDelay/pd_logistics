@@ -5,11 +5,11 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.iiidev.pinda.authority.entity.auth.RoleAuthority">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <respResult column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <respResult column="create_user" jdbcType="BIGINT" property="createUser"/>
-        <respResult column="authority_id" jdbcType="BIGINT" property="authorityId"/>
-        <respResult column="authority_type" jdbcType="VARCHAR" property="authorityType"/>
-        <respResult column="role_id" jdbcType="BIGINT" property="roleId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="authority_id" jdbcType="BIGINT" property="authorityId"/>
+        <result column="authority_type" jdbcType="VARCHAR" property="authorityType"/>
+        <result column="role_id" jdbcType="BIGINT" property="roleId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

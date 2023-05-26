@@ -3,21 +3,21 @@
 <mapper namespace="org.iiidev.pinda.mapper.OrderCargoMapper" >
   <resultMap id="BaseResultMap" type="org.iiidev.pinda.entity.OrderCargo" >
     <id column="id" property="id" jdbcType="VARCHAR" />
-    <respResult column="tran_order_id" property="tranOrderId" jdbcType="VARCHAR" />
-    <respResult column="order_id" property="orderId" jdbcType="VARCHAR" />
-    <respResult column="goods_type_id" property="goodsTypeId" jdbcType="VARCHAR" />
-    <respResult column="name" property="name" jdbcType="VARCHAR" />
-    <respResult column="unit" property="unit" jdbcType="VARCHAR" />
-    <respResult column="cargo_value" property="cargoValue" jdbcType="DECIMAL" />
-    <respResult column="cargo_barcode" property="cargoBarcode" jdbcType="VARCHAR" />
-    <respResult column="quantity" property="quantity" jdbcType="INTEGER" />
-    <respResult column="volume" property="volume" jdbcType="DECIMAL" />
-    <respResult column="weight" property="weight" jdbcType="DECIMAL" />
-    <respResult column="total_volume" property="totalVolume" jdbcType="DECIMAL" />
-    <respResult column="total_weight" property="totalWeight" jdbcType="DECIMAL" />
+    <result column="tran_order_id" property="tranOrderId" jdbcType="VARCHAR" />
+    <result column="order_id" property="orderId" jdbcType="VARCHAR" />
+    <result column="goods_type_id" property="goodsTypeId" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="cargo_value" property="cargoValue" jdbcType="DECIMAL" />
+    <result column="cargo_barcode" property="cargoBarcode" jdbcType="VARCHAR" />
+    <result column="quantity" property="quantity" jdbcType="INTEGER" />
+    <result column="volume" property="volume" jdbcType="DECIMAL" />
+    <result column="weight" property="weight" jdbcType="DECIMAL" />
+    <result column="total_volume" property="totalVolume" jdbcType="DECIMAL" />
+    <result column="total_weight" property="totalWeight" jdbcType="DECIMAL" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="org.iiidev.pinda.entity.OrderCargo" extends="BaseResultMap" >
-    <respResult column="remark" property="remark" jdbcType="LONGVARCHAR" />
+    <result column="remark" property="remark" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, order_id, tran_order_id,goods_type_id, name, unit, cargo_value, cargo_barcode, quantity, volume, weight,

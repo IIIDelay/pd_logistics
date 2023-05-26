@@ -17,6 +17,7 @@ import { druid } from '@/settings'
 
 export default {
   components: { iFrame },
+  
   data() {
     return {
       authorityDruid: '',

@@ -21,8 +21,8 @@
         and id in (
         SELECT distinct authority_id FROM pd_auth_role_authority ra
         INNER JOIN pd_auth_user_role ur on ra.role_id = ur.role_id
-        INNER JOIN pd_auth_role respResult on respResult.id = ra.role_id
-        where ur.user_id = #{userId, jdbcType=BIGINT} and respResult.status = true
+        INNER JOIN pd_auth_role result on result.id = ra.role_id
+        where ur.user_id = #{userId, jdbcType=BIGINT} and result.status = true
         and ra.authority_type = 'MENU'
         )
         ) tmp ORDER BY sort_value asc

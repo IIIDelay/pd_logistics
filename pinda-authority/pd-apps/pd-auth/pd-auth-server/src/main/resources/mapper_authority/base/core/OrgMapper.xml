@@ -5,17 +5,17 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.iiidev.pinda.authority.entity.core.Org">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <respResult column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <respResult column="create_user" jdbcType="BIGINT" property="createUser"/>
-        <respResult column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <respResult column="update_user" jdbcType="BIGINT" property="updateUser"/>
-        <respResult column="name" jdbcType="VARCHAR" property="name"/>
-        <respResult column="abbreviation" jdbcType="VARCHAR" property="abbreviation"/>
-        <respResult column="parent_id" jdbcType="BIGINT" property="parentId"/>
-        <respResult column="tree_path" jdbcType="VARCHAR" property="treePath"/>
-        <respResult column="sort_value" jdbcType="INTEGER" property="sortValue"/>
-        <respResult column="status" jdbcType="BIT" property="status"/>
-        <respResult column="describe_" jdbcType="VARCHAR" property="describe"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="abbreviation" jdbcType="VARCHAR" property="abbreviation"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="tree_path" jdbcType="VARCHAR" property="treePath"/>
+        <result column="sort_value" jdbcType="INTEGER" property="sortValue"/>
+        <result column="status" jdbcType="BIT" property="status"/>
+        <result column="describe_" jdbcType="VARCHAR" property="describe"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

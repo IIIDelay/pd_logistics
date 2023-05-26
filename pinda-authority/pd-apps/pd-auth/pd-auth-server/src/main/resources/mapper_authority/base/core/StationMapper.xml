@@ -5,14 +5,14 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.iiidev.pinda.authority.entity.core.Station">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <respResult column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <respResult column="create_user" jdbcType="BIGINT" property="createUser"/>
-        <respResult column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <respResult column="update_user" jdbcType="BIGINT" property="updateUser"/>
-        <respResult column="name" jdbcType="VARCHAR" property="name"/>
-        <respResult column="org_id" jdbcType="BIGINT" property="orgId"/>
-        <respResult column="status" jdbcType="BIT" property="status"/>
-        <respResult column="describe_" jdbcType="VARCHAR" property="describe"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="org_id" jdbcType="BIGINT" property="orgId"/>
+        <result column="status" jdbcType="BIT" property="status"/>
+        <result column="describe_" jdbcType="VARCHAR" property="describe"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

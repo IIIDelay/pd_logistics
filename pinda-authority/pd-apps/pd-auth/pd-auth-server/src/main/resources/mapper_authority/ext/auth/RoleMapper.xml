@@ -4,21 +4,21 @@
 
     <!-- 通用查询结果列 -->
     <sql id="R_Column_List">
-        respResult.id,  respResult.name, respResult.code, respResult.describe_, respResult.status, respResult.readonly
+        result.id,  result.name, result.code, result.describe_, result.status, result.readonly
     </sql>
 
     <select id="findRoleByUserId" parameterType="map" resultMap="BaseResultMap">
         select
         <include refid="R_Column_List"/>
-        from pd_auth_role respResult INNER JOIN pd_auth_user_role ur on respResult.id = ur.role_id
+        from pd_auth_role result INNER JOIN pd_auth_user_role ur on result.id = ur.role_id
         where status = true and ur.user_id = #{userId, jdbcType=BIGINT}
     </select>
 
 
     <select id="findUserIdByCode" parameterType="map" resultType="java.lang.Long">
-        select ur.user_id from pd_auth_user_role ur INNER JOIN pd_auth_role respResult on respResult.id = ur.role_id
-        where respResult.status = true
-        and respResult.`code` in
+        select ur.user_id from pd_auth_user_role ur INNER JOIN pd_auth_role result on result.id = ur.role_id
+        where result.status = true
+        and result.`code` in
         <foreach close=")" collection="codes" item="code" open="(" separator=",">
             #{code}
         </foreach>

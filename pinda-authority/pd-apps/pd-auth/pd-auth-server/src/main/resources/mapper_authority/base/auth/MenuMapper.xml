@@ -5,20 +5,20 @@
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="org.iiidev.pinda.authority.entity.auth.Menu">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <respResult column="create_user" jdbcType="BIGINT" property="createUser"/>
-        <respResult column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
-        <respResult column="update_user" jdbcType="BIGINT" property="updateUser"/>
-        <respResult column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
-        <respResult column="name" jdbcType="VARCHAR" property="name"/>
-        <respResult column="describe_" jdbcType="VARCHAR" property="describe"/>
-        <respResult column="is_public" jdbcType="BIT" property="isPublic"/>
-        <respResult column="path" jdbcType="VARCHAR" property="path"/>
-        <respResult column="component" jdbcType="VARCHAR" property="component"/>
-        <respResult column="is_enable" jdbcType="BIT" property="isEnable"/>
-        <respResult column="sort_value" jdbcType="INTEGER" property="sortValue"/>
-        <respResult column="icon" jdbcType="VARCHAR" property="icon"/>
-        <respResult column="group_" jdbcType="VARCHAR" property="group"/>
-        <respResult column="parent_id" jdbcType="BIGINT" property="parentId"/>
+        <result column="create_user" jdbcType="BIGINT" property="createUser"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_user" jdbcType="BIGINT" property="updateUser"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="describe_" jdbcType="VARCHAR" property="describe"/>
+        <result column="is_public" jdbcType="BIT" property="isPublic"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="component" jdbcType="VARCHAR" property="component"/>
+        <result column="is_enable" jdbcType="BIT" property="isEnable"/>
+        <result column="sort_value" jdbcType="INTEGER" property="sortValue"/>
+        <result column="icon" jdbcType="VARCHAR" property="icon"/>
+        <result column="group_" jdbcType="VARCHAR" property="group"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
