@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.core.incrementer.IKeyGenerator;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import com.google.common.collect.Lists;
 import org.iiidev.pinda.database.properties.DatabaseProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
@@ -214,7 +215,7 @@ public abstract class BaseDatabaseConfiguration implements InitializingBean {
         // TODO 注入主键生成器
         if (this.applicationContext.getBeanNamesForType(IKeyGenerator.class, false, false).length > 0) {
             IKeyGenerator keyGenerator = this.applicationContext.getBean(IKeyGenerator.class);
-            globalConfig.getDbConfig().setKeyGenerator(keyGenerator);
+            globalConfig.getDbConfig().setKeyGenerators(Lists.newArrayList(keyGenerator));
         }
         // TODO 注入sql注入器
         if (this.applicationContext.getBeanNamesForType(ISqlInjector.class, false, false).length > 0) {

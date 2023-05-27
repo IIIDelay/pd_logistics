@@ -1,7 +1,8 @@
 package org.iiidev.pinda.base;
 
-import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.metadata.OrderItem;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.context.BaseContextHandler;
 import org.iiidev.pinda.exception.BizException;
 import org.iiidev.pinda.exception.code.BaseExceptionCode;
@@ -13,6 +14,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.iiidev.pinda.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 
@@ -166,8 +171,12 @@ public abstract class BaseController {
         pageSize = pageSize > MAX_LIMIT ? MAX_LIMIT : pageSize;
         Page<T> page = new Page<>(pageNo, pageSize);
         if (openSort) {
-            page.setAsc(getParameterSafeValues(PAGE_ASCS));
-            page.setDesc(getParameterSafeValues(PAGE_DESCS));
+            List<OrderItem> orderItems = Stream.concat(Arrays.stream(getParameterSafeValues(PAGE_ASCS)).map(str -> new OrderItem(str, true)),
+                Arrays.stream(getParameterSafeValues(PAGE_DESCS)).map(str -> new OrderItem(str, true))).collect(Collectors.toList());
+            page.setOrders(orderItems);
+            // addOrder方法替代setAsc()与setDesc(), 已经废弃了
+            // page.setAsc(getParameterSafeValues(PAGE_ASCS));
+            // page.setDesc(getParameterSafeValues(PAGE_DESCS));
         }
         return page;
     }
@@ -192,11 +201,11 @@ public abstract class BaseController {
 
     private LocalDateTime getLocalDateTime(String endCreateTime) {
         String startCreateTime = request.getParameter(endCreateTime);
-        if (StrUtil.isBlank(startCreateTime)) {
+        if (StringUtils.isBlank(startCreateTime)) {
             return null;
         }
         String safeValue = AntiSqlFilter.getSafeValue(startCreateTime);
-        if (StrUtil.isBlank(safeValue)) {
+        if (StringUtils.isBlank(safeValue)) {
             return null;
         }
         return LocalDateTime.parse(safeValue, DateTimeFormatter.ofPattern(DEFAULT_DATE_TIME_FORMAT));

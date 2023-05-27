@@ -1,8 +1,5 @@
 package org.iiidev.pinda.gateway.filter;
 
-import org.iiidev.pinda.auth.client.properties.AuthClientProperties;
-import org.iiidev.pinda.auth.client.utils.JwtTokenClientUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -11,9 +8,4 @@ import org.springframework.stereotype.Component;
 @Component
 public class TokenContextFilter extends BaseFilter {
 
-    @Autowired
-    private AuthClientProperties authClientProperties;
-
-    @Autowired
-    private JwtTokenClientUtils jwtTokenClientUtils;
 }

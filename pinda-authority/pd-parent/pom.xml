@@ -73,24 +73,20 @@
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring.boot.version>2.2.2.RELEASE</spring.boot.version>
         <spring.cloud.version>2021.0.4</spring.cloud.version>
         <spring-cloud-alibaba-dependencies.version>2021.0.4.0</spring-cloud-alibaba-dependencies.version>
-        <spring.version>5.2.2.RELEASE</spring.version>
         <spring-boot-admin.version>2.2.0</spring-boot-admin.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
-        <mybatis.version>3.5.2</mybatis.version>
-        <mybatis.typehandlers.version>1.0.2</mybatis.typehandlers.version>
-        <mybatisplus.version>3.2.0</mybatisplus.version>
+        <mybatisplus.version>3.5.1</mybatisplus.version>
         <p6spy.version>3.8.7</p6spy.version>
         <fastjson.version>1.2.62</fastjson.version>
-        <druid.version>1.1.21</druid.version>
-        <mysql.version>6.0.6</mysql.version>
+        <druid.version>1.2.16</druid.version>
+        <mysql.version>5.1.49</mysql.version>
         <knife4j.version>2.0.1</knife4j.version>
         <springfox.swagger2.version>2.9.2</springfox.swagger2.version>
         <swagger.version>2.9.2</swagger.version>
         <dozer.version>6.5.0</dozer.version>
-        <lombok.version>1.18.10</lombok.version>
+        <lombok.version>1.18.22</lombok.version>
         <easy-captcha.version>1.6.2</easy-captcha.version>
         <guava.version>20.0</guava.version>
         <tobato-fastdfs-client.version>1.26.6</tobato-fastdfs-client.version>
@@ -101,14 +97,14 @@
         <commons-email.version>1.5</commons-email.version>
         <commons.collections4.version>4.4</commons.collections4.version>
         <commons-lang.version>2.6</commons-lang.version>
-        <commons-io.version>2.6</commons-io.version>
+        <commons-io.version>2.11.0</commons-io.version>
         <maven.test.skip>true</maven.test.skip>
         <asm.version>5.0.4</asm.version>
         <groovy-all.version>2.5.5</groovy-all.version>
         <jjwt.version>0.7.0</jjwt.version>
         <qcloudsms.version>1.0.6</qcloudsms.version>
         <bce-java-sdk.version>0.10.21</bce-java-sdk.version>
-        <hutool.version>5.1.0</hutool.version>
+        <hutool.version>5.8.14</hutool.version>
         <antisamy.version>1.5.7</antisamy.version>
         <caffeine.version>2.8.0</caffeine.version>
         <ip2region.version>1.7.2</ip2region.version>
@@ -253,9 +249,21 @@
             </dependency>
 
             <dependency>
-                <groupId>commons-lang</groupId>
-                <artifactId>commons-lang</artifactId>
-                <version>${commons-lang.version}</version>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.12.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>4.4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
 
             <dependency>
@@ -273,18 +281,13 @@
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>${hutool.version}</version>
-        </dependency>
-
         <!--Lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -302,7 +305,6 @@
             <artifactId>guava</artifactId>
             <version>${guava.version}</version>
         </dependency>
-
 
     </dependencies>
 
