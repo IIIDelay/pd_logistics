@@ -2,9 +2,9 @@ package org.iiidev.pinda.database.datasource;
 
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
-import com.baomidou.mybatisplus.core.parser.ISqlParser;
-import com.baomidou.mybatisplus.extension.parsers.BlockAttackSqlParser;
-import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
+import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import org.iiidev.pinda.base.id.IdGenerate;
 import org.iiidev.pinda.base.id.SnowflakeIdGenerate;
 import org.iiidev.pinda.database.mybatis.typehandler.FullLikeTypeHandler;
@@ -16,9 +16,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Mybatis 常用重用拦截器
@@ -34,18 +31,29 @@ public abstract class BaseMybatisConfiguration {
     /**
      * 分页插件，自动识别数据库类型
      */
-    @Bean
-    public PaginationInterceptor paginationInterceptor() {
-        PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+    /* @Bean
+    public PaginationInnerInterceptor paginationInterceptor() {
+        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor();
         List<ISqlParser> sqlParserList = new ArrayList<>();
 
         if (this.databaseProperties.getIsBlockAttack()) {
-            // 攻击 SQL 阻断解析器 加入解析链
+            // 攻击 SQL 阻断解析器 加入解析链, Mybatisplus新版分页插件已经不支持了，放到下面 MybatisPlus插件中
             sqlParserList.add(new BlockAttackSqlParser());
         }
 
-        paginationInterceptor.setSqlParserList(sqlParserList);
-        return paginationInterceptor;
+        paginationInnerInterceptor.setSqlParserList(sqlParserList);
+        return paginationInnerInterceptor;
+    } */
+
+    @Bean
+    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+        MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
+        if (this.databaseProperties.getIsBlockAttack()) {
+            // 攻击 SQL 阻断解析器 加入解析链, MybatisPlus新版分页插件已经不支持了，放到下面 MybatisPlus插件中
+            mybatisPlusInterceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
+            mybatisPlusInterceptor.addInnerInterceptor(new PaginationInnerInterceptor());
+        }
+        return mybatisPlusInterceptor;
     }
 
 

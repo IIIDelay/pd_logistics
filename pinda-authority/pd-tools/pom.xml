@@ -9,10 +9,12 @@
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pd-parent</relativePath>
     </parent>
+
     <artifactId>pd-tools</artifactId>
     <packaging>pom</packaging>
     <name>${project.artifactId}</name>
     <description>公共模块</description>
+
     <modules>
         <module>pd-tools-common</module>
         <module>pd-tools-core</module>
@@ -26,6 +28,7 @@
         <module>pd-tools-xss</module>
         <module>pd-tools-j2cache</module>
     </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -33,11 +36,13 @@
                 <artifactId>pd-tools-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.iiidev</groupId>
                 <artifactId>pd-tools-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.iiidev</groupId>
                 <artifactId>pd-tools-databases</artifactId>

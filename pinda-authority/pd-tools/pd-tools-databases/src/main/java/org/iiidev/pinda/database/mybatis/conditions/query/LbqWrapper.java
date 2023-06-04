@@ -55,11 +55,11 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
             T cloneT = (T) ((SuperEntity) entity).clone();
             super.setEntity(cloneT);
             super.initNeed();
-            this.entity = (T) replace(cloneT);
+            this.setEntity((T) replace(cloneT));
         } else {
             super.setEntity(entity);
             super.initNeed();
-            this.entity = (T) replace(entity);
+            this.setEntity((T) replace(entity));
         }
     }
 
@@ -74,7 +74,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
         this.paramNameValuePairs = paramNameValuePairs;
         this.expression = mergeSegments;
         this.sqlSelect = sqlSelect;
-        this.entityClass = entityClass;
+        this.setEntityClass(entityClass);
         this.lastSql = lastSql;
         this.sqlComment = sqlComment;
     }
@@ -232,7 +232,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
 
     @Override
     public LbqWrapper<T> select(Predicate<TableFieldInfo> predicate) {
-        return this.select(this.entityClass, predicate);
+        return this.select(this.getEntityClass(), predicate);
     }
 
     /**
@@ -248,9 +248,13 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
      */
     @Override
     public LbqWrapper<T> select(Class<T> entityClass, Predicate<TableFieldInfo> predicate) {
-        this.entityClass = entityClass;
+        this.setEntityClass(entityClass);
         this.sqlSelect.setStringValue(TableInfoHelper.getTableInfo(this.getCheckEntityClass()).chooseSelect(predicate));
         return this.typedThis;
+    }
+
+    private Class<?> getCheckEntityClass() {
+        return null;
     }
 
     @Override
@@ -264,7 +268,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
      */
     @Override
     protected LbqWrapper<T> instance() {
-        return new LbqWrapper<>(this.entity, this.entityClass, null, this.paramNameSeq, this.paramNameValuePairs,
+        return new LbqWrapper<>(this.getEntity(), this.getEntityClass(), null, this.paramNameSeq, this.paramNameValuePairs,
                 new MergeSegments(), SharedString.emptyString(), SharedString.emptyString());
     }
 
@@ -404,7 +408,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
      * @return
      */
     public <A extends Object> LbqWrapper<T> ignore(BiFunction<T, A, ?> setColumn) {
-        setColumn.apply(this.entity, null);
+        setColumn.apply(this.getEntity(), null);
         return this;
     }
 

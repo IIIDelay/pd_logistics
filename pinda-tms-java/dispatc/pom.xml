@@ -31,7 +31,7 @@
     <http-core.version>4.4.9</http-core.version>
     <httpclient.version>4.5.11</httpclient.version>
     <mybatis-spring-boot-starter.version>2.1.0</mybatis-spring-boot-starter.version>
-    <mybatis-plus.version>3.3.0</mybatis-plus.version>
+    <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
     <quartz.version>2.3.0</quartz.version>
   </properties>
   <dependencyManagement>

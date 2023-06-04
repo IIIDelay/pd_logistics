@@ -63,7 +63,7 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
     @Override
     public LbuWrapper<T> set(boolean condition, SFunction<T, ?> column, Object val) {
         if (condition) {
-            this.sqlSet.add(String.format("%s=%s", this.columnToString(column), this.formatSql("{0}", val)));
+            this.sqlSet.add(String.format("%s=%s", this.columnToString(column), this.formatParam("{0}", val)));
         }
         return this.typedThis;
     }
@@ -85,8 +85,13 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
     }
 
     @Override
+    public LbuWrapper<T> set(boolean condition, SFunction<T, ?> column, Object val, String mapping) {
+        return null;
+    }
+
+    @Override
     protected LbuWrapper<T> instance() {
-        return new LbuWrapper<>(this.entity, this.sqlSet, this.paramNameSeq, this.paramNameValuePairs, new MergeSegments(),
+        return new LbuWrapper<>(this.getEntity(), this.sqlSet, this.paramNameSeq, this.paramNameValuePairs, new MergeSegments(),
                 SharedString.emptyString(), SharedString.emptyString());
     }
 
