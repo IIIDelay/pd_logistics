@@ -5,7 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -26,7 +26,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
         }
 )
 @Import({BeanValidatorPluginsConfiguration.class})
-public class Swagger2Configuration implements WebMvcConfigurer {
+public class Swagger2Configuration extends WebMvcConfigurationSupport{
     /**
      * 这个地方要重新注入一下资源文件，不然不会注入资源的，也没有注入requestHandlerMappping,相当于xml配置的
      * <!--swagger资源配置-->
