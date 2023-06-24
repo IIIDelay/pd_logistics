@@ -27,11 +27,11 @@ public enum AuthorizeType implements BaseEnum {
      * MENU="菜单"
      */
     MENU("菜单"),
+
     /**
      * RESOURCE="资源"
      */
-    RESOURCE("资源"),
-    ;
+    RESOURCE("资源");
 
     @ApiModelProperty(value = "描述")
     private String desc;

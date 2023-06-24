@@ -35,12 +35,12 @@
             </activation>
             <properties>
                 <!--当前环境-->
-                <pom.profile.name>tms-dev</pom.profile.name>
+                <pom.profile.name>dev</pom.profile.name>
                 <!--Nacos配置中心地址-->
                 <pom.nacos.ip>192.168.81.111</pom.nacos.ip>
                 <pom.nacos.port>8848</pom.nacos.port>
                 <!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空-->
-                <pom.nacos.namespace>2052e878-9edb-45a0-a5f4-b56992396890</pom.nacos.namespace>
+                <pom.nacos.namespace>8d65a5c8-91e6-4b22-8938-bc1ad8c6335a</pom.nacos.namespace>
             </properties>
         </profile>
         <!-- docker 环境 -->
@@ -52,7 +52,7 @@
                 <pom.nacos.ip>192.168.81.111</pom.nacos.ip>
                 <pom.nacos.port>8848</pom.nacos.port>
                 <!--Nacos配置中心命名空间,用于支持多环境.这里必须使用ID，不能使用名称,默认为空-->
-                <pom.nacos.namespace>2052e878-9edb-45a0-a5f4-b56992396890</pom.nacos.namespace>
+                <pom.nacos.namespace>8d65a5c8-91e6-4b22-8938-bc1ad8c6335a</pom.nacos.namespace>
             </properties>
         </profile>
         <!-- 生产 -->

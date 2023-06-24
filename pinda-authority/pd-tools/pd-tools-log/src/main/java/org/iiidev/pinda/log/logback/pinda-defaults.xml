@@ -8,7 +8,7 @@
            输出代码中指定的消息
            %p
            输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL
-           %result
+           %r
            输出自应用启动到输出该log信息耗费的毫秒数
            %c
            输出所属的类目，通常就是所在类的全名
@@ -26,7 +26,7 @@
     <springProperty scope="context" name="spring.application.name" source="spring.application.name"/>
     <springProperty scope="context" name="spring.profiles.active" source="spring.profiles.active"/>
     <springProperty scope="context" name="common-pattern" source="logging.common-pattern"
-                    defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%result] [%logger{50}.%M:%L] --> %msg%n"/>
+                    defaultValue="%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%logger{50}.%M:%L] --> %msg%n"/>
     <springProperty scope="context" name="log.level.console" source="logging.level.console" defaultValue="INFO"/>
     <springProperty scope="context" name="log.level.controller" source="logging.level.controller" defaultValue="INFO"/>
     <springProperty scope="context" name="log.level.service" source="logging.level.service" defaultValue="INFO"/>
@@ -44,7 +44,7 @@
             <level>${log.level.console}</level>
         </filter>
         <encoder>
-            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%result] [%cyan(%logger{50}).%M:%L] --> %highlight(%msg) %n
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS}:[%5p] [%t:%r] [%cyan(%logger{50}).%M:%L] --> %highlight(%msg) %n
             </pattern>
         </encoder>
     </appender>
