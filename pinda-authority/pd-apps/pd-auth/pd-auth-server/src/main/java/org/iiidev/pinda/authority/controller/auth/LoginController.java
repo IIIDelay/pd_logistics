@@ -21,31 +21,31 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("/anno")
-@Api(tags = "登录控制器",value = "LoginController")
-public class LoginController extends BaseController{
+@Api(tags = "登录控制器", value = "LoginController")
+public class LoginController extends BaseController {
     @Autowired
     private ValidateCodeService validateCodeService;
     @Autowired
     private AuthManager authManager;
 
     //为前端系统生成验证码
-    @GetMapping(value = "/captcha",produces = "image/png")
-    @ApiOperation(notes = "验证码",value = "验证码")
+    @GetMapping(value = "/captcha", produces = "image/png")
+    @ApiOperation(notes = "验证码", value = "验证码")
     @SysLog("生成验证码")
-    public void captcha(@RequestParam(value = "key") String key, HttpServletResponse response) throws IOException{
-        validateCodeService.create(key,response);
+    public void captcha(@RequestParam(value = "key") String key, HttpServletResponse response) throws IOException {
+        validateCodeService.create(key, response);
     }
 
     //登录认证
     @PostMapping("/login")
-    @ApiOperation(notes = "登录",value = "登录")
+    @ApiOperation(notes = "登录", value = "登录")
     @SysLog("登录")
-    public Result<LoginDTO> login(@Validated @RequestBody LoginParamDTO loginParamDTO){
+    public Result<LoginDTO> login(@Validated @RequestBody LoginParamDTO loginParamDTO) {
         //校验验证码是否正确
         boolean check = validateCodeService.check(loginParamDTO.getKey(), loginParamDTO.getCode());
-        if(check){
+        if (check) {
             //验证码校验通过，执行具体的登录认证逻辑
-            Result<LoginDTO> result = authManager.login(loginParamDTO.getAccount(),loginParamDTO.getPassword());
+            Result<LoginDTO> result = authManager.login(loginParamDTO.getAccount(), loginParamDTO.getPassword());
             return result;
         }
         //验证码校验不通过，直接返回
@@ -54,9 +54,9 @@ public class LoginController extends BaseController{
 
     //校验验证码
     @PostMapping("/check")
-    @ApiOperation(notes = "校验验证码",value = "校验验证码")
-    public boolean check(@RequestBody LoginParamDTO loginParamDTO){
+    @ApiOperation(notes = "校验验证码", value = "校验验证码")
+    public boolean check(@RequestBody LoginParamDTO loginParamDTO) {
         //校验验证码是否正确
-        return validateCodeService.check(loginParamDTO.getKey(),loginParamDTO.getCode());
+        return validateCodeService.check(loginParamDTO.getKey(), loginParamDTO.getCode());
     }
 }

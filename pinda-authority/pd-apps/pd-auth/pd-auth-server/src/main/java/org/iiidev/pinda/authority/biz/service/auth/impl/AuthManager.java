@@ -1,6 +1,7 @@
 package org.iiidev.pinda.authority.biz.service.auth.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import lombok.RequiredArgsConstructor;
 import org.iiidev.pinda.auth.server.utils.JwtTokenServerUtils;
 import org.iiidev.pinda.auth.utils.JwtUserInfo;
 import org.iiidev.pinda.auth.utils.Token;
@@ -29,17 +30,18 @@ import java.util.stream.Collectors;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class AuthManager {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private DozerUtils dozerUtils;
-    @Autowired
-    private JwtTokenServerUtils jwtTokenServerUtils;
-    @Autowired
-    private ResourceService resourceService;
-    @Autowired
-    private CacheChannel cacheChannel;
+
+    private final UserService userService;
+
+    private final DozerUtils dozerUtils;
+
+    private final JwtTokenServerUtils jwtTokenServerUtils;
+
+    private final ResourceService resourceService;
+
+    private final CacheChannel cacheChannel;
 
     //登录认证
     public Result<LoginDTO> login(String account, String password) {
@@ -55,28 +57,36 @@ public class AuthManager {
         Token token = generateUserToken(user);
 
         //查询当前用户可以访问的资源权限
-        List<Resource> userResource = resourceService.findVisibleResource(ResourceQueryDTO.builder().userId(user.getId()).build());
+        List<Resource> userResource = resourceService.findVisibleResource(ResourceQueryDTO
+                .builder()
+                .userId(user.getId())
+                .build());
         log.info("当前用户拥有的资源权限为：" + userResource);
 
         List<String> permissionList =null;
         if(userResource != null && userResource.size() > 0){
             //用户对应的权限（给前端使用的）
-            permissionList = userResource.stream().map(Resource::getCode).collect(Collectors.toList());
+            permissionList = userResource
+                    .stream()
+                    .map(Resource::getCode)
+                    .collect(Collectors.toList());
 
             //将用户对应的权限（给后端网关使用的）进行缓存
-            List<String> visibleResource = userResource.stream().map((resource -> {
-                return resource.getMethod() + resource.getUrl();
-            })).collect(Collectors.toList());
+            List<String> visibleResource = userResource
+                    .stream()
+                    .map((resource -> resource.getMethod() + resource.getUrl()))
+                    .collect(Collectors.toList());
             //缓存权限数据
             cacheChannel.set(CacheKey.USER_RESOURCE,user.getId().toString(),visibleResource);
         }
 
         //封装返回结果
-        LoginDTO loginDTO = LoginDTO.builder().
-                            user(dozerUtils.map(userResult.getData(), UserDTO.class)).
-                            token(token).
-                            permissionsList(permissionList).
-                            build();
+        LoginDTO loginDTO = LoginDTO
+                .builder()
+                .user(dozerUtils.map(userResult.getData(), UserDTO.class))
+                .token(token)
+                .permissionsList(permissionList)
+                .build();
         return Result.success(loginDTO);
         //return null;
     }
