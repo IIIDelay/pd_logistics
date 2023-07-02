@@ -8,10 +8,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @EnableDiscoveryClient
 public class GatewayServerApplication {
     public static void main(String[] args) {
-        try {
-            SpringApplication.run(GatewayServerApplication.class,args);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        SpringApplication.run(GatewayServerApplication.class, args);
     }
 }

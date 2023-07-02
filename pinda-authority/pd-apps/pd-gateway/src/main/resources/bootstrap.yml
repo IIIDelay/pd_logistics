@@ -22,10 +22,14 @@ spring:
         shared-dataids: common.yml,redis.yml,mysql.yml
         refreshable-dataids: common.yml
         enabled: true
+        username: nacos
+        password: nacos
       discovery:
         server-addr: ${pinda.nacos.ip}:${pinda.nacos.port}
         namespace: ${pinda.nacos.namespace}
         metadata:
           management.context-path: ${server.servlet.context-path:}${spring.mvc.servlet.path:}${management.endpoints.web.base-path:}
           #http://localhost:8760/api/gate/actuator
-        group: pinda-tms
+        group: DEFAULT_GROUP
+        username: nacos
+        password: nacos
