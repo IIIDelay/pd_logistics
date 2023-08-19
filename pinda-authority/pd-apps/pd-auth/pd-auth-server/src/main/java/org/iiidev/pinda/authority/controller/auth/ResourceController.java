@@ -1,12 +1,16 @@
 package org.iiidev.pinda.authority.controller.auth;
-import java.util.List;
-import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.iiidev.pinda.authority.biz.service.auth.ResourceService;
 import org.iiidev.pinda.authority.dto.auth.ResourceQueryDTO;
 import org.iiidev.pinda.authority.dto.auth.ResourceSaveDTO;
 import org.iiidev.pinda.authority.dto.auth.ResourceUpdateDTO;
 import org.iiidev.pinda.authority.entity.auth.Resource;
-import org.iiidev.pinda.authority.biz.service.auth.ResourceService;
 import org.iiidev.pinda.base.BaseController;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.base.entity.SuperEntity;
@@ -14,11 +18,6 @@ import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.database.mybatis.conditions.query.LbqWrapper;
 import org.iiidev.pinda.dozer.DozerUtils;
 import org.iiidev.pinda.log.annotation.SysLog;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,12 +29,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
 /**
  * 前端控制器
  * 资源
  */
 @Slf4j
-@Validated
+// @Validated
 @RestController
 @RequestMapping("/resource")
 @Api(value = "Resource", tags = "资源")

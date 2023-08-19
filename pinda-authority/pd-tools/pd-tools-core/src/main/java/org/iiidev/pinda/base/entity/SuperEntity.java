@@ -1,17 +1,10 @@
 package org.iiidev.pinda.base.entity;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.groups.Default;
-
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-
-import org.iiidev.pinda.exception.BizException;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,10 +12,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import org.iiidev.pinda.exception.BizException;
+
+import javax.validation.constraints.NotNull;
+import javax.validation.groups.Default;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 超类基础实体
- *
  */
 @Getter
 @Setter
@@ -42,6 +40,7 @@ public class SuperEntity<T> implements Serializable, Cloneable {
 
     @ApiModelProperty(value = "创建时间")
     @TableField(value = "create_time", fill = FieldFill.INSERT)
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     protected LocalDateTime createTime;
 
     @ApiModelProperty(value = "创建人ID")
@@ -50,7 +49,7 @@ public class SuperEntity<T> implements Serializable, Cloneable {
 
     @Override
     public Object clone() {
-        //支持克隆  提高性能  仅仅是浅克隆
+        // 支持克隆  提高性能  仅仅是浅克隆
         try {
             return super.clone();
         } catch (CloneNotSupportedException e) {

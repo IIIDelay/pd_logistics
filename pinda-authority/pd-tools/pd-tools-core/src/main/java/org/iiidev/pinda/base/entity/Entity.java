@@ -1,21 +1,23 @@
 package org.iiidev.pinda.base.entity;
 
-import java.time.LocalDateTime;
-
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+
+import java.time.LocalDateTime;
 
 /**
  * 基础实体
  */
-@Getter
-@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Accessors(chain = true)
 @ToString(callSuper = true)
 public class Entity<T> extends SuperEntity<T> {
@@ -25,19 +27,11 @@ public class Entity<T> extends SuperEntity<T> {
 
     @ApiModelProperty(value = "最后修改时间")
     @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     protected LocalDateTime updateTime;
 
     @ApiModelProperty(value = "最后修改人ID")
     @TableField(value = "update_user", fill = FieldFill.INSERT_UPDATE)
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     protected T updateUser;
-
-    public Entity(T id, LocalDateTime createTime, T createUser, LocalDateTime updateTime, T updateUser) {
-        super(id, createTime, createUser);
-        this.updateTime = updateTime;
-        this.updateUser = updateUser;
-    }
-
-    public Entity() {
-    }
-
 }
