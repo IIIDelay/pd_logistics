@@ -1,7 +1,12 @@
 package org.iiidev.pinda.authority.controller.auth;
-import java.util.List;
-import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.authority.biz.service.auth.RoleAuthorityService;
 import org.iiidev.pinda.authority.biz.service.auth.RoleOrgService;
 import org.iiidev.pinda.authority.biz.service.auth.RoleService;
@@ -23,11 +28,6 @@ import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.database.mybatis.conditions.query.LbqWrapper;
 import org.iiidev.pinda.dozer.DozerUtils;
 import org.iiidev.pinda.log.annotation.SysLog;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,6 +39,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * 前端控制器
  * 角色
@@ -48,24 +52,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/role")
 @Api(value = "Role", tags = "角色")
+@RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class RoleController extends BaseController {
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private RoleAuthorityService roleAuthorityService;
-    @Autowired
-    private RoleOrgService roleOrgService;
-    @Autowired
-    private UserRoleService userRoleService;
-    @Autowired
-    private DozerUtils dozer;
+    private final RoleService roleService;
+    private final RoleAuthorityService roleAuthorityService;
+    private final RoleOrgService roleOrgService;
+    private final UserRoleService userRoleService;
+    private final DozerUtils dozer;
+
     /**
      * 分页查询角色
      */
     @ApiOperation(value = "分页查询角色", notes = "分页查询角色")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
+        @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
+        @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
     @SysLog("分页查询角色")
@@ -73,10 +74,11 @@ public class RoleController extends BaseController {
         IPage<Role> page = getPage();
         Role role = dozer.map(param, Role.class);
         // 构建值不为null的查询条件
-        LbqWrapper<Role> query = Wraps.lbQ(role)
-                .geHeader(Role::getCreateTime, param.getStartCreateTime())
-                .leFooter(Role::getCreateTime, param.getEndCreateTime())
-                .orderByDesc(Role::getId);
+        LbqWrapper<Role> query = Wraps
+            .lbQ(role)
+            .geHeader(Role::getCreateTime, param.getStartCreateTime())
+            .leFooter(Role::getCreateTime, param.getEndCreateTime())
+            .orderByDesc(Role::getId);
         roleService.page(page, query);
         return success(page);
     }
@@ -154,8 +156,14 @@ public class RoleController extends BaseController {
     @GetMapping("/user/{roleId}")
     @SysLog("查询角色的用户")
     public Result<List<Long>> findUserIdByRoleId(@PathVariable Long roleId) {
-        List<UserRole> list = userRoleService.list(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, roleId));
-        return success(list.stream().mapToLong(UserRole::getUserId).boxed().collect(Collectors.toList()));
+        List<UserRole> list = userRoleService.list(Wraps
+            .<UserRole>lbQ()
+            .eq(UserRole::getRoleId, roleId));
+        return success(list
+            .stream()
+            .mapToLong(UserRole::getUserId)
+            .boxed()
+            .collect(Collectors.toList()));
     }
 
     /**
@@ -165,12 +173,26 @@ public class RoleController extends BaseController {
     @GetMapping("/authority/{roleId}")
     @SysLog("查询角色拥有的资源")
     public Result<RoleAuthoritySaveDTO> findAuthorityIdByRoleId(@PathVariable Long roleId) {
-        List<RoleAuthority> list = roleAuthorityService.list(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, roleId));
-        List<Long> menuIdList = list.stream().filter(item -> AuthorizeType.MENU.eq(item.getAuthorityType())).mapToLong(RoleAuthority::getAuthorityId).boxed().collect(Collectors.toList());
-        List<Long> resourceIdList = list.stream().filter(item -> AuthorizeType.RESOURCE.eq(item.getAuthorityType())).mapToLong(RoleAuthority::getAuthorityId).boxed().collect(Collectors.toList());
-        RoleAuthoritySaveDTO roleAuthority = RoleAuthoritySaveDTO.builder()
-                .menuIdList(menuIdList).resourceIdList(resourceIdList)
-                .build();
+        List<RoleAuthority> list = roleAuthorityService.list(Wraps
+            .<RoleAuthority>lbQ()
+            .eq(RoleAuthority::getRoleId, roleId));
+        List<Long> menuIdList = list
+            .stream()
+            .filter(item -> AuthorizeType.MENU.eq(item.getAuthorityType()))
+            .mapToLong(RoleAuthority::getAuthorityId)
+            .boxed()
+            .collect(Collectors.toList());
+        List<Long> resourceIdList = list
+            .stream()
+            .filter(item -> AuthorizeType.RESOURCE.eq(item.getAuthorityType()))
+            .mapToLong(RoleAuthority::getAuthorityId)
+            .boxed()
+            .collect(Collectors.toList());
+        RoleAuthoritySaveDTO roleAuthority = RoleAuthoritySaveDTO
+            .builder()
+            .menuIdList(menuIdList)
+            .resourceIdList(resourceIdList)
+            .build();
         return success(roleAuthority);
     }
 

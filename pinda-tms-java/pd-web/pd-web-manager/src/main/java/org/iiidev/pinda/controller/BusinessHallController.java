@@ -2,6 +2,7 @@ package org.iiidev.pinda.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import lombok.RequiredArgsConstructor;
 import org.iiidev.pinda.DTO.base.GoodsTypeDto;
 import org.iiidev.pinda.DTO.truck.TruckTypeDto;
 import org.iiidev.pinda.DTO.user.CourierScopeDto;
@@ -47,21 +48,15 @@ import java.util.stream.Collectors;
 @RequestMapping("business-hall")
 @Api(tags = "网点管理")
 @Log
+@RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class BusinessHallController {
-    @Autowired
-    private GoodsTypeFeign goodsTypeFeign;
-    @Autowired
-    private TruckTypeFeign truckTypeFeign;
-    @Autowired
-    private OrgApi orgApi;
-    @Autowired
-    private CourierScopeFeign courierScopeFeign;
-    @Autowired
-    private AreaApi areaApi;
-    @Autowired
-    private AgencyScopeFeign agencyScopeFeign;
-    @Autowired
-    private UserApi userApi;
+    private final GoodsTypeFeign goodsTypeFeign;
+    private final TruckTypeFeign truckTypeFeign;
+    private final OrgApi orgApi;
+    private final CourierScopeFeign courierScopeFeign;
+    private final AreaApi areaApi;
+    private final AgencyScopeFeign agencyScopeFeign;
+    private final UserApi userApi;
 
     @ApiOperation(value = "添加货物类型")
     @PostMapping("/goodsType")

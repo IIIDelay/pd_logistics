@@ -1,17 +1,21 @@
 package org.iiidev.pinda.authority.controller.auth;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.auth.server.utils.JwtTokenServerUtils;
 import org.iiidev.pinda.auth.utils.JwtUserInfo;
+import org.iiidev.pinda.authority.biz.service.auth.MenuService;
 import org.iiidev.pinda.authority.dto.auth.MenuSaveDTO;
 import org.iiidev.pinda.authority.dto.auth.MenuTreeDTO;
 import org.iiidev.pinda.authority.dto.auth.MenuUpdateDTO;
 import org.iiidev.pinda.authority.dto.auth.RouterMeta;
 import org.iiidev.pinda.authority.dto.auth.VueRouter;
 import org.iiidev.pinda.authority.entity.auth.Menu;
-import org.iiidev.pinda.authority.biz.service.auth.MenuService;
 import org.iiidev.pinda.base.BaseController;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.base.entity.SuperEntity;
@@ -20,12 +24,6 @@ import org.iiidev.pinda.database.mybatis.conditions.query.LbqWrapper;
 import org.iiidev.pinda.dozer.DozerUtils;
 import org.iiidev.pinda.log.annotation.SysLog;
 import org.iiidev.pinda.utils.TreeUtil;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,6 +37,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 前端控制器
@@ -49,25 +49,27 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/menu")
 @Api(value = "Menu", tags = "菜单")
+@RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class MenuController extends BaseController {
-    @Autowired
-    private MenuService menuService;
-    @Autowired
-    private DozerUtils dozer;
+    private final MenuService menuService;
+    private final DozerUtils dozer;
+
     /**
      * 分页查询菜单
      */
     @ApiOperation(value = "分页查询菜单", notes = "分页查询菜单")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
+        @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
+        @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
     @SysLog("分页查询菜单")
     public Result<IPage<Menu>> page(Menu data) {
         IPage<Menu> page = getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<Menu> query = Wraps.lbQ(data).orderByDesc(Menu::getUpdateTime);
+        LbqWrapper<Menu> query = Wraps
+            .lbQ(data)
+            .orderByDesc(Menu::getUpdateTime);
         menuService.page(page, query);
         return success(page);
     }
@@ -119,12 +121,13 @@ public class MenuController extends BaseController {
 
     /**
      * 查询用户可用的所有资源
+     *
      * @param group  菜单分组
      * @param userId 指定用户id
      */
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "group", value = "菜单组", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "userId", value = "用户id", dataType = "long", paramType = "query"),
+        @ApiImplicitParam(name = "group", value = "菜单组", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "userId", value = "用户id", dataType = "long", paramType = "query"),
     })
     @ApiOperation(value = "查询用户可用的所有菜单", notes = "查询用户可用的所有菜单")
     @GetMapping
@@ -150,9 +153,12 @@ public class MenuController extends BaseController {
         defaults.setComponent("Layout");
         defaults.setHidden(false);
         defaults.setAlwaysShow(true);
-        defaults.setMeta(RouterMeta.builder()
-                .title("系统设置").icon("el-icon-coin").breadcrumb(true)
-                .build());
+        defaults.setMeta(RouterMeta
+            .builder()
+            .title("系统设置")
+            .icon("el-icon-coin")
+            .breadcrumb(true)
+            .build());
         defaults.setId(-1L);
         defaults.setChildren(children);
 
@@ -165,12 +171,13 @@ public class MenuController extends BaseController {
 
     /**
      * 查询用户可用的所有菜单路由树
+     *
      * @param group
      * @param userId
      */
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "group", value = "菜单组", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "userId", value = "用户id", dataType = "long", paramType = "query"),
+        @ApiImplicitParam(name = "group", value = "菜单组", dataType = "string", paramType = "query"),
+        @ApiImplicitParam(name = "userId", value = "用户id", dataType = "long", paramType = "query"),
     })
     @ApiOperation(value = "查询用户可用的所有菜单路由树", notes = "查询用户可用的所有菜单路由树")
     @GetMapping("/router")
@@ -179,7 +186,7 @@ public class MenuController extends BaseController {
         if (userId == null || userId <= 0) {
             userId = getUserId();
         }
-        if(userId == 0){
+        if (userId == 0) {
             String userToken = request.getHeader("token");
             JwtUserInfo userInfo = jwtTokenServerUtils.getUserInfo(userToken);
             userId = userInfo.getUserId();
@@ -202,7 +209,9 @@ public class MenuController extends BaseController {
     @GetMapping("/tree")
     @SysLog("查询系统所有的菜单")
     public Result<List<MenuTreeDTO>> allTree() {
-        List<Menu> list = menuService.list(Wraps.<Menu>lbQ().orderByAsc(Menu::getSortValue));
+        List<Menu> list = menuService.list(Wraps
+            .<Menu>lbQ()
+            .orderByAsc(Menu::getSortValue));
         List<MenuTreeDTO> treeList = dozer.mapList(list, MenuTreeDTO.class);
         return success(TreeUtil.build(treeList));
     }

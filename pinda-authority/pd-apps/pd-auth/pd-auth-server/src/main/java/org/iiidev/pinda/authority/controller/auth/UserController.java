@@ -1,5 +1,6 @@
 package org.iiidev.pinda.authority.controller.auth;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import lombok.RequiredArgsConstructor;
 import org.iiidev.pinda.authority.dto.auth.*;
 import org.iiidev.pinda.authority.entity.auth.Role;
 import org.iiidev.pinda.authority.entity.auth.User;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
 /**
  * 前端控制器
  * 用户
@@ -40,17 +42,15 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/user")
 @Api(value = "User", tags = "用户")
+@RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class UserController extends BaseController {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private OrgService orgService;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private StationService stationService;
-    @Autowired
-    private DozerUtils dozer;
+
+    private final UserService userService;
+    private final OrgService orgService;
+    private final RoleService roleService;
+    private final StationService stationService;
+    private final DozerUtils dozer;
+
     /**
      * 分页查询用户
      */
