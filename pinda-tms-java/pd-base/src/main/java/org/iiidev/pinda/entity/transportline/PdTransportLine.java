@@ -13,7 +13,6 @@ import lombok.Data;
  * 线路表
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 @Data

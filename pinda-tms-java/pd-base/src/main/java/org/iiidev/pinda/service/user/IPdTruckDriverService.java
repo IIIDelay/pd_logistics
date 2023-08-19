@@ -11,7 +11,6 @@ import java.util.List;
  * 司机表 服务类
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 public interface IPdTruckDriverService extends IService<PdTruckDriver> {

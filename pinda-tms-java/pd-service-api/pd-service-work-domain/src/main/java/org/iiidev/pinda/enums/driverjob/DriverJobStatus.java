@@ -7,7 +7,6 @@ import java.util.Map;
 /**
  * 运输任务状态
  *
- * @author itcast
  */
 
 public enum DriverJobStatus {

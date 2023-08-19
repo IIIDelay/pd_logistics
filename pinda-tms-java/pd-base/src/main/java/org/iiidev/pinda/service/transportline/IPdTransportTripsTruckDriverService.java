@@ -10,7 +10,6 @@ import java.util.List;
  * 车次与车辆关联信息表 服务类
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 public interface IPdTransportTripsTruckDriverService extends IService<PdTransportTripsTruckDriver> {

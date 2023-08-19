@@ -13,7 +13,6 @@ import lombok.Data;
  * 司机驾驶证表
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 @Data

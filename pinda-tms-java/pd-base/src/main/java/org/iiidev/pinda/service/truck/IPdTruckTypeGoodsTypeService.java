@@ -10,7 +10,6 @@ import java.util.List;
  * 车辆类型与货物类型关联表 服务类
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 public interface IPdTruckTypeGoodsTypeService extends IService<PdTruckTypeGoodsType> {

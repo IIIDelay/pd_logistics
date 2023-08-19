@@ -1,19 +1,22 @@
 package org.iiidev.pinda.authority.controller.common;
-import java.util.HashMap;
-import java.util.Map;
+
+import io.swagger.annotations.Api;
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.authority.biz.service.common.LoginLogService;
 import org.iiidev.pinda.base.BaseController;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.base.id.IdGenerate;
 import org.iiidev.pinda.user.annotation.LoginUser;
 import org.iiidev.pinda.user.model.SysUser;
-import io.swagger.annotations.Api;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
+
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 前端控制器
  * 首页
@@ -27,6 +30,7 @@ public class DashboardController extends BaseController {
     private LoginLogService loginLogService;
     @Autowired
     private IdGenerate<Long> idGenerate;
+
     /**
      * 最近10天访问记录
      */

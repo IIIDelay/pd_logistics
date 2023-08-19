@@ -7,7 +7,6 @@ import java.util.Map;
 /**
  * 身份证号验证状态
  *
- * @author itcast
  */
 
 public enum MemberIdCardVerifyStatus {

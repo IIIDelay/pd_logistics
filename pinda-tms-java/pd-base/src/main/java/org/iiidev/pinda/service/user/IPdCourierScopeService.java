@@ -10,7 +10,6 @@ import java.util.List;
  * 快递员业务范围表  服务类
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 public interface IPdCourierScopeService extends IService<PdCourierScope> {

@@ -13,7 +13,6 @@ import lombok.Data;
  * 车辆类型表
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 @Data

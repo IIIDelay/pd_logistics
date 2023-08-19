@@ -11,7 +11,6 @@ import org.iiidev.pinda.entity.agency.PdFleet;
  * 车队表 服务类
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 public interface IPdFleetService extends IService<PdFleet> {

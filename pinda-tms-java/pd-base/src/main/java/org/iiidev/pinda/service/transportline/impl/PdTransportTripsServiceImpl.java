@@ -19,7 +19,6 @@ import java.util.List;
  * 车次信息表 服务实现类
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 @Service

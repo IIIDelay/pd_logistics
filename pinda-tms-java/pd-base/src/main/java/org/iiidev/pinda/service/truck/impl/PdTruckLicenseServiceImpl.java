@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
  * 车辆行驶证表 服务实现类
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 @Service

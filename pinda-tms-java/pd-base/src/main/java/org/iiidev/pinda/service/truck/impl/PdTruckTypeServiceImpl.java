@@ -22,7 +22,6 @@ import org.apache.commons.lang.StringUtils;
  * 车辆类型表 服务实现类
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 @Service

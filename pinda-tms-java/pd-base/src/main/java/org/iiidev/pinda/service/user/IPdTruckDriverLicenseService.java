@@ -8,7 +8,6 @@ import org.iiidev.pinda.entity.user.PdTruckDriverLicense;
  * 司机驾驶证表  服务类
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 public interface IPdTruckDriverLicenseService extends IService<PdTruckDriverLicense> {

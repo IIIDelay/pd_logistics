@@ -12,7 +12,6 @@ import lombok.Data;
  * 快递员业务范围表
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 @Data

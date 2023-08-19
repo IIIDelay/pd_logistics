@@ -12,7 +12,6 @@ import lombok.Data;
  * 车队表
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 @Data

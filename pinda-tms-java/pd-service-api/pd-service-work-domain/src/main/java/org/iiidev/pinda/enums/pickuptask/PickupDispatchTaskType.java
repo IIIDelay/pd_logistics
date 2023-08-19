@@ -7,7 +7,6 @@ import java.util.Map;
 /**
  * 取派件任务类型
  *
- * @author itcast
  */
 
 public enum PickupDispatchTaskType {

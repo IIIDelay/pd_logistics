@@ -11,7 +11,6 @@ import java.util.List;
  * 线路表 服务类
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 public interface IPdTransportLineService extends IService<PdTransportLine> {

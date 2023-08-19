@@ -9,7 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
  * 车辆类型表  Mapper 接口
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 @Mapper

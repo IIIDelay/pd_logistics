@@ -9,7 +9,6 @@ import java.util.List;
 /**
  * 分页结果包装
  *
- * @author itcast
  */
 @Data
 @ApiModel(value = "分页数据消息体", description = "分页数据统一对象")

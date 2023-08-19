@@ -18,7 +18,6 @@ import java.util.List;
  * 车辆类型与货物类型关联表 服务实现类
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 @Service

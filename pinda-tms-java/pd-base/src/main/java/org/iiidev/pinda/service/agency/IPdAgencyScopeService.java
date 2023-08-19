@@ -10,7 +10,6 @@ import java.util.List;
  * 机构业务范围表  服务类
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 public interface IPdAgencyScopeService extends IService<PdAgencyScope> {

@@ -12,7 +12,6 @@ import java.io.Serializable;
  * 车次与车辆关联表
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 @Data

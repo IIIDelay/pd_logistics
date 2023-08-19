@@ -7,7 +7,6 @@ import java.util.Map;
 /**
  * 取派件任务分配状态
  *
- * @author itcast
  */
 
 public enum PickupDispatchTaskAssignedStatus {

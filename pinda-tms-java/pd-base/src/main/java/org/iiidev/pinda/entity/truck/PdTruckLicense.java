@@ -14,7 +14,6 @@ import lombok.Data;
  * 车辆行驶证表
  * </p>
  *
- * @author itcast
  * @since 2019-12-20
  */
 @Data

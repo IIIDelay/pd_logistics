@@ -6,7 +6,6 @@ import java.util.Map;
 
 /**
  * 订单状态枚举
- * @author itcast
  */
 public enum OrderEnum {
 
