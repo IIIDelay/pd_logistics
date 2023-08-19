@@ -25,7 +25,7 @@ public class JwtTokenServerUtils {
      * @return
      * @throws BizException
      */
-    public Token generateUserToken(JwtUserInfo jwtInfo, Integer expire) throws BizException {
+    public Token generateUserToken(JwtUserInfo jwtInfo, Integer expire) {
         AuthServerProperties.TokenInfo userTokenInfo = authServerProperties.getUser();
         if (expire == null || expire <= 0) {
             expire = userTokenInfo.getExpire();

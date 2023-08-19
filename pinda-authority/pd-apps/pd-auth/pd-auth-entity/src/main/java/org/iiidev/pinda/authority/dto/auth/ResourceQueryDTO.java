@@ -24,6 +24,7 @@ public class ResourceQueryDTO {
      */
     @ApiModelProperty(value = "菜单id", notes = "指定菜单id")
     private Long menuId;
+
     /**
      * 登录人用户id
      */

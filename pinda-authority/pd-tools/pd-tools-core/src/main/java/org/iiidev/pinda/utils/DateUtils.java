@@ -1,5 +1,8 @@
 package org.iiidev.pinda.utils;
 
+import lombok.extern.slf4j.Slf4j;
+import org.iiidev.pinda.exception.BizException;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
@@ -15,12 +18,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.iiidev.pinda.exception.BizException;
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * 描述：日期工具类
- *
  */
 @Slf4j
 public class DateUtils {
@@ -467,8 +466,8 @@ public class DateUtils {
         }
         String finalPattern = pattern;
         Stream.iterate(startDate, d -> d.plusDays(1)).
-                limit(distance + 1)
-                .forEach(f -> list.add(f.format(DateTimeFormatter.ofPattern(finalPattern))));
+            limit(distance + 1)
+            .forEach(f -> list.add(f.format(DateTimeFormatter.ofPattern(finalPattern))));
         return list;
     }
 
@@ -517,7 +516,7 @@ public class DateUtils {
             return list;
         }
         Stream.iterate(startDate, d -> d.plusWeeks(1)).
-                limit(distance + 1).forEach(f -> list.add(f.format(DateTimeFormatter.ofPattern(pattern))));
+            limit(distance + 1).forEach(f -> list.add(f.format(DateTimeFormatter.ofPattern(pattern))));
         return list;
     }
 
@@ -562,8 +561,8 @@ public class DateUtils {
         }
 
         Stream.iterate(startDate, d -> d.plusMonths(1))
-                .limit(distance + 1)
-                .forEach(f -> list.add(f.format(DateTimeFormatter.ofPattern(pattern))));
+            .limit(distance + 1)
+            .forEach(f -> list.add(f.format(DateTimeFormatter.ofPattern(pattern))));
         return list;
     }
 

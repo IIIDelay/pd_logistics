@@ -3,6 +3,7 @@ package org.iiidev.pinda.authority.biz.service.auth.impl;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.iiidev.pinda.authority.biz.dao.auth.UserMapper;
@@ -25,9 +26,9 @@ import java.util.List;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
-    @Autowired
-    private UserRoleService userRoleService;
+    private final UserRoleService userRoleService;
 
     @Override
     public IPage<User> findPage(IPage<User> page, LbqWrapper<User> wrapper) {

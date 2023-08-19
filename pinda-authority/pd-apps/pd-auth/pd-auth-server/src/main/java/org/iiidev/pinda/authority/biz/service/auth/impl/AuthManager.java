@@ -18,6 +18,7 @@ import org.iiidev.pinda.authority.entity.auth.User;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.common.constant.CacheKey;
 import org.iiidev.pinda.dozer.DozerUtils;
+import org.iiidev.pinda.exception.BizException;
 import org.iiidev.pinda.exception.code.ExceptionCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,45 +47,33 @@ public class AuthManager {
     // 登录认证
     public Result<LoginDTO> login(String account, String password) {
         // 校验账号、密码是否正确
-        Result<User> userResult = check(account, password);
-        Boolean isError = userResult.getIsError();
-        if (isError) {
-            return Result.fail("认证失败");
-        }
+        User user = check(account, password);
 
         // 为用户生成jwt令牌
-        User user = userResult.getData();
         Token token = generateUserToken(user);
 
         // 查询当前用户可以访问的资源权限
-        List<Resource> userResource = resourceService.findVisibleResource(ResourceQueryDTO
-            .builder()
+        ResourceQueryDTO resourceQueryDTO = ResourceQueryDTO.builder()
             .userId(user.getId())
-            .build());
+            .build();
+        List<Resource> userResource = resourceService.findVisibleResource(resourceQueryDTO);
         log.info("当前用户拥有的资源权限为：" + userResource);
 
         List<String> permissionList = null;
         if (userResource != null && userResource.size() > 0) {
             // 用户对应的权限（给前端使用的）
-            permissionList = userResource
-                .stream()
-                .map(Resource::getCode)
-                .collect(Collectors.toList());
+            permissionList = userResource.stream().map(Resource::getCode).collect(Collectors.toList());
 
             // 将用户对应的权限（给后端网关使用的）进行缓存
-            List<String> visibleResource = userResource
-                .stream()
+            List<String> visibleResource = userResource.stream()
                 .map((resource -> resource.getMethod() + resource.getUrl()))
                 .collect(Collectors.toList());
             // 缓存权限数据
-            cacheChannel.set(CacheKey.USER_RESOURCE, user
-                .getId()
-                .toString(), visibleResource);
+            cacheChannel.set(CacheKey.USER_RESOURCE, user.getId().toString(), visibleResource);
         }
 
         // 封装返回结果
-        LoginDTO loginDTO = LoginDTO
-            .builder()
+        LoginDTO loginDTO = LoginDTO.builder()
             .user(dozerUtils.map(userResult.getData(), UserDTO.class))
             .token(token)
             .permissionsList(permissionList)
@@ -94,22 +83,17 @@ public class AuthManager {
     }
 
     // 账号、密码校验
-    public Result<User> check(String account, String password) {
-        User user = userService.getOne(Wrappers
-            .<User>lambdaQuery()
-            .eq(User::getAccount, account));
+    public User check(String account, String password) {
+        User user = userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getAccount, account));
 
         // 将前端提交的密码进行md5加密
         String md5Hex = DigestUtils.md5Hex(password);
-
-        if (user == null || !user
-            .getPassword()
-            .equals(md5Hex)) {
+        if (user == null || !user.getPassword().equals(md5Hex)) {
             // 认证失败
-            return Result.fail(ExceptionCode.JWT_USER_INVALID);
+            throw BizException.wrap(ExceptionCode.JWT_USER_INVALID);
         }
         // 认证成功
-        return Result.success(user);
+        return user;
     }
 
     // 为当前登录用户生成对应的jwt令牌

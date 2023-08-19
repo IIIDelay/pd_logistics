@@ -1,17 +1,5 @@
 package org.iiidev.pinda.auth.utils;
 
-import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.time.LocalDateTime;
-
-import org.iiidev.pinda.context.BaseContextConstants;
-import org.iiidev.pinda.exception.BizException;
-import org.iiidev.pinda.exception.code.ExceptionCode;
-import org.iiidev.pinda.utils.DateUtils;
-import org.iiidev.pinda.utils.NumberHelper;
-import org.iiidev.pinda.utils.StrHelper;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -20,30 +8,45 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
+import org.iiidev.pinda.context.BaseContextConstants;
+import org.iiidev.pinda.exception.BizException;
+import org.iiidev.pinda.exception.code.ExceptionCode;
+import org.iiidev.pinda.utils.DateUtils;
+import org.iiidev.pinda.utils.NumberHelper;
+import org.iiidev.pinda.utils.StrHelper;
+
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
+import java.time.LocalDateTime;
+
 @Slf4j
 public class JwtHelper {
     private static final RsaKeyHelper RSA_KEY_HELPER = new RsaKeyHelper();
+
     /**
      * 生成用户token
+     *
      * @param jwtInfo
      * @param priKeyPath
      * @param expire
      * @return
      * @throws BizException
      */
-    public static Token generateUserToken(JwtUserInfo jwtInfo, String priKeyPath, int expire) throws BizException {
+    public static Token generateUserToken(JwtUserInfo jwtInfo, String priKeyPath, int expire) {
         JwtBuilder jwtBuilder = Jwts.builder()
-                //设置主题
-                .setSubject(String.valueOf(jwtInfo.getUserId()))
-                .claim(BaseContextConstants.JWT_KEY_ACCOUNT, jwtInfo.getAccount())
-                .claim(BaseContextConstants.JWT_KEY_NAME, jwtInfo.getName())
-                .claim(BaseContextConstants.JWT_KEY_ORG_ID, jwtInfo.getOrgId())
-                .claim(BaseContextConstants.JWT_KEY_STATION_ID, jwtInfo.getStationId());
+            // 设置主题
+            .setSubject(String.valueOf(jwtInfo.getUserId()))
+            .claim(BaseContextConstants.JWT_KEY_ACCOUNT, jwtInfo.getAccount())
+            .claim(BaseContextConstants.JWT_KEY_NAME, jwtInfo.getName())
+            .claim(BaseContextConstants.JWT_KEY_ORG_ID, jwtInfo.getOrgId())
+            .claim(BaseContextConstants.JWT_KEY_STATION_ID, jwtInfo.getStationId());
         return generateToken(jwtBuilder, priKeyPath, expire);
     }
 
     /**
      * 获取token中的用户信息
+     *
      * @param token      token
      * @param pubKeyPath 公钥路径
      * @return
@@ -66,19 +69,21 @@ public class JwtHelper {
 
     /**
      * 生成token
+     *
      * @param builder
      * @param priKeyPath
      * @param expire
      * @return
      * @throws BizException
      */
-    protected static Token generateToken(JwtBuilder builder, String priKeyPath, int expire) throws BizException {
+    protected static Token generateToken(JwtBuilder builder, String priKeyPath, int expire) {
         try {
-            //返回的字符串便是我们的jwt串了
-            String compactJws = builder.setExpiration(DateUtils.localDateTime2Date(LocalDateTime.now().plusSeconds(expire)))
-                    //设置算法（必须）
+            // 返回的字符串便是我们的jwt串了
+            String compactJws =
+                builder.setExpiration(DateUtils.localDateTime2Date(LocalDateTime.now().plusSeconds(expire)))
+                    // 设置算法（必须）
                     .signWith(SignatureAlgorithm.RS256, RSA_KEY_HELPER.getPrivateKey(priKeyPath))
-                    //这个是全部设置完成后拼成jwt串的方法
+                    // 这个是全部设置完成后拼成jwt串的方法
                     .compact();
             return new Token(compactJws, expire);
         } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
@@ -89,6 +94,7 @@ public class JwtHelper {
 
     /**
      * 公钥解析token
+     *
      * @param token
      * @param pubKeyPath 公钥路径
      * @return
@@ -98,17 +104,17 @@ public class JwtHelper {
         try {
             return Jwts.parser().setSigningKey(RSA_KEY_HELPER.getPublicKey(pubKeyPath)).parseClaimsJws(token);
         } catch (ExpiredJwtException ex) {
-            //过期
-            throw new BizException(ExceptionCode.JWT_TOKEN_EXPIRED.getCode(), ExceptionCode.JWT_TOKEN_EXPIRED.getMsg());
+            // 过期
+            throw BizException.unaryOf(ExceptionCode.JWT_TOKEN_EXPIRED);
         } catch (SignatureException ex) {
-            //签名错误
-            throw new BizException(ExceptionCode.JWT_SIGNATURE.getCode(), ExceptionCode.JWT_SIGNATURE.getMsg());
+            // 签名错误
+            throw BizException.unaryOf(ExceptionCode.JWT_SIGNATURE);
         } catch (IllegalArgumentException ex) {
-            //token 为空
-            throw new BizException(ExceptionCode.JWT_ILLEGAL_ARGUMENT.getCode(), ExceptionCode.JWT_ILLEGAL_ARGUMENT.getMsg());
+            // token 为空
+            throw BizException.unaryOf(ExceptionCode.JWT_ILLEGAL_ARGUMENT);
         } catch (Exception e) {
             log.error("errcode:{}, message:{}", ExceptionCode.JWT_PARSER_TOKEN_FAIL.getCode(), e.getMessage());
-            throw new BizException(ExceptionCode.JWT_PARSER_TOKEN_FAIL.getCode(), ExceptionCode.JWT_PARSER_TOKEN_FAIL.getMsg());
+            throw BizException.unaryOf(ExceptionCode.JWT_PARSER_TOKEN_FAIL);
         }
     }
 }

@@ -13,13 +13,13 @@ import com.baomidou.mybatisplus.core.incrementer.IKeyGenerator;
 import com.baomidou.mybatisplus.core.injector.ISqlInjector;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
 import com.google.common.collect.Lists;
-import org.iiidev.pinda.database.properties.DatabaseProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
 import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.TypeHandler;
+import org.iiidev.pinda.database.properties.DatabaseProperties;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.ClassFilter;
 import org.springframework.aop.MethodMatcher;
@@ -33,7 +33,12 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.interceptor.*;
+import org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource;
+import org.springframework.transaction.interceptor.RollbackRuleAttribute;
+import org.springframework.transaction.interceptor.RuleBasedTransactionAttribute;
+import org.springframework.transaction.interceptor.TransactionAttribute;
+import org.springframework.transaction.interceptor.TransactionAttributeSource;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -42,7 +47,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.sql.DataSource;
 import java.lang.annotation.Annotation;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * 数据库& 事务& MyBatis & Mp 配置
@@ -57,7 +67,7 @@ public abstract class BaseDatabaseConfiguration implements InitializingBean {
     private static final List<Class<? extends Annotation>> AOP_POINTCUT_ANNOTATIONS = new ArrayList<>(2);
 
     static {
-        //事务在controller层开启。
+        // 事务在controller层开启。
         AOP_POINTCUT_ANNOTATIONS.add(RestController.class);
         AOP_POINTCUT_ANNOTATIONS.add(Controller.class);
     }
@@ -110,7 +120,7 @@ public abstract class BaseDatabaseConfiguration implements InitializingBean {
         RuleBasedTransactionAttribute readOnlyTx = new RuleBasedTransactionAttribute();
         readOnlyTx.setReadOnly(true);
         readOnlyTx.setPropagationBehavior(TransactionDefinition.PROPAGATION_SUPPORTS);
-        //除了上面的事物以外，都走只读事物
+        // 除了上面的事物以外，都走只读事物
         txMap.put("*", readOnlyTx);
         NameMatchTransactionAttributeSource txTransactionAttributeSource = new NameMatchTransactionAttributeSource();
         txTransactionAttributeSource.setNameMap(txMap);
@@ -127,7 +137,8 @@ public abstract class BaseDatabaseConfiguration implements InitializingBean {
             @Override
             public ClassFilter getClassFilter() {
                 return (clazz) -> {
-                    if (!clazz.getName().startsWith(BaseDatabaseConfiguration.this.databaseProperties.getTransactionScanPackage())) {
+                    if (!clazz.getName()
+                        .startsWith(BaseDatabaseConfiguration.this.databaseProperties.getTransactionScanPackage())) {
                         return false;
                     }
                     for (Class<? extends Annotation> aop : AOP_POINTCUT_ANNOTATIONS) {

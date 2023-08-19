@@ -24,10 +24,12 @@ public class AuthServerProperties {
          * 过期时间
          */
         private Integer expire = 7200;
+
         /**
          * 加密 服务使用
          */
         private String priKey;
+
         /**
          * 解密
          */

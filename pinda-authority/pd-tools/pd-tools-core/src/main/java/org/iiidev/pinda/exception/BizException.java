@@ -47,6 +47,10 @@ public class BizException extends BaseUncheckedException {
         return new BizException(ex.getCode(), ex.getMsg());
     }
 
+    public static BizException unaryOf(BaseExceptionCode baseExceptionCode) {
+        return new BizException(baseExceptionCode.getCode(), baseExceptionCode.getMsg());
+    }
+
     @Override
     public String toString() {
         return "BizException [message=" + message + ", code=" + code + "]";
