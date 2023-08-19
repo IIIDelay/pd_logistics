@@ -5,9 +5,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.iiidev.pinda.authority.entity.core.Station;
-//import org.iiidev.pinda.database.mybatis.auth.DataScope;
 import org.apache.ibatis.annotations.Param;
+import org.iiidev.pinda.authority.entity.core.Station;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Repository;
  * Mapper 接口
  * 岗位
  * </p>
- *
  */
 @Repository
 public interface StationMapper extends BaseMapper<Station> {

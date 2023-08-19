@@ -5,8 +5,6 @@ import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceBuilder;
 import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
 import com.baomidou.mybatisplus.autoconfigure.MybatisPlusPropertiesCustomizer;
-import org.iiidev.pinda.database.datasource.BaseDatabaseConfiguration;
-import org.iiidev.pinda.database.properties.DatabaseProperties;
 import com.p6spy.engine.spy.P6DataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.mapping.DatabaseIdProvider;
@@ -15,6 +13,8 @@ import org.apache.ibatis.scripting.LanguageDriver;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.TypeHandler;
+import org.iiidev.pinda.database.datasource.BaseDatabaseConfiguration;
+import org.iiidev.pinda.database.properties.DatabaseProperties;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.aop.Advisor;
@@ -30,17 +30,19 @@ import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
+
 import javax.sql.DataSource;
 import java.util.List;
+
 /**
  * 数据库相关的配置
  */
 @Configuration
 @Slf4j
 @MapperScan(
-        basePackages = {"org.iiidev.pinda",},
-        annotationClass = Repository.class,
-        sqlSessionFactoryRef = AuthorityDatabaseAutoConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
+    basePackages = {"org.iiidev.pinda",},
+    annotationClass = Repository.class,
+    sqlSessionFactoryRef = AuthorityDatabaseAutoConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
 @EnableConfigurationProperties({MybatisPlusProperties.class, DatabaseProperties.class})
 public class AuthorityDatabaseAutoConfiguration extends BaseDatabaseConfiguration {
     /**
@@ -59,8 +61,8 @@ public class AuthorityDatabaseAutoConfiguration extends BaseDatabaseConfiguratio
                                               ObjectProvider<List<MybatisPlusPropertiesCustomizer>> mybatisPlusPropertiesCustomizerProvider,
                                               ApplicationContext applicationContext) {
         super(properties, databaseProperties, interceptorsProvider, typeHandlersProvider,
-                languageDriversProvider, resourceLoader, databaseIdProvider,
-                configurationCustomizersProvider, mybatisPlusPropertiesCustomizerProvider, applicationContext);
+            languageDriversProvider, resourceLoader, databaseIdProvider,
+            configurationCustomizersProvider, mybatisPlusPropertiesCustomizerProvider, applicationContext);
     }
 
     @Bean(DATABASE_PREFIX + "SqlSessionTemplate")
@@ -81,7 +83,9 @@ public class AuthorityDatabaseAutoConfiguration extends BaseDatabaseConfiguratio
     @Bean(name = DATABASE_PREFIX + "DruidDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.druid")
     public DataSource druidDataSource() {
-        return DruidDataSourceBuilder.create().build();
+        return DruidDataSourceBuilder
+            .create()
+            .build();
     }
 
     @Bean(name = DATABASE_PREFIX + "DataSource")

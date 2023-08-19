@@ -7,5 +7,5 @@ import org.springframework.context.annotation.Configuration;
  * 公共基础配置
  */
 @Configuration
-public class AuthorityWebConfiguration extends BaseConfig{
+public class AuthorityWebConfiguration extends BaseConfig {
 }

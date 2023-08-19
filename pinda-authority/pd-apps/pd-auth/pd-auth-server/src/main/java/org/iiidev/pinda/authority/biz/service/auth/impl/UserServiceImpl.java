@@ -1,8 +1,10 @@
 package org.iiidev.pinda.authority.biz.service.auth.impl;
-import java.time.LocalDateTime;
-import java.util.List;
+
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.iiidev.pinda.authority.biz.dao.auth.UserMapper;
 import org.iiidev.pinda.authority.biz.service.auth.UserRoleService;
 import org.iiidev.pinda.authority.biz.service.auth.UserService;
@@ -12,11 +14,12 @@ import org.iiidev.pinda.authority.entity.auth.UserRole;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.database.mybatis.conditions.query.LbqWrapper;
 import org.iiidev.pinda.utils.BizAssert;
-import cn.hutool.core.util.StrUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
 /**
  * 业务实现类
  */
@@ -45,14 +48,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String oldPassword = DigestUtils.md5Hex(data.getOldPassword());
         BizAssert.equals(user.getPassword(), oldPassword, "旧密码错误");
 
-        User build = User.builder().password(data.getPassword()).id(data.getId()).build();
+        User build = User
+            .builder()
+            .password(data.getPassword())
+            .id(data.getId())
+            .build();
         this.updateUser(build);
         return true;
     }
 
     @Override
     public User getByAccount(String account) {
-        return super.getOne(Wraps.<User>lbQ().eq(User::getAccount, account));
+        return super.getOne(Wraps
+            .<User>lbQ()
+            .eq(User::getAccount, account));
     }
 
     @Override
@@ -84,13 +93,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public boolean reset(List<Long> ids) {
         LocalDateTime passwordExpireTime = null;
-        String defPassword = "cea87ef1cb2e47570020bf7c014e1074";//pinda123
-        super.update(Wraps.<User>lbU()
-                .set(User::getPassword, defPassword)
-                .set(User::getPasswordErrorNum, 0L)
-                .set(User::getPasswordErrorLastTime, null)
-                .set(User::getPasswordExpireTime, passwordExpireTime)
-                .in(User::getId, ids)
+        String defPassword = "cea87ef1cb2e47570020bf7c014e1074";// pinda123
+        super.update(Wraps
+            .<User>lbU()
+            .set(User::getPassword, defPassword)
+            .set(User::getPasswordErrorNum, 0L)
+            .set(User::getPasswordErrorLastTime, null)
+            .set(User::getPasswordExpireTime, passwordExpireTime)
+            .in(User::getId, ids)
         );
         return true;
     }
@@ -109,8 +119,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Override
     public boolean remove(List<Long> ids) {
-        userRoleService.remove(Wraps.<UserRole>lbQ()
-                .in(UserRole::getUserId, ids)
+        userRoleService.remove(Wraps
+            .<UserRole>lbQ()
+            .in(UserRole::getUserId, ids)
         );
         return super.removeByIds(ids);
     }

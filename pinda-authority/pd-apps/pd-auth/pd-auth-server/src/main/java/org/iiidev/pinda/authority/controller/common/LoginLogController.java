@@ -1,26 +1,34 @@
 package org.iiidev.pinda.authority.controller.common;
+
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.servlet.ServletUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.iiidev.pinda.authority.entity.common.LoginLog;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.authority.biz.service.auth.UserService;
 import org.iiidev.pinda.authority.biz.service.common.LoginLogService;
+import org.iiidev.pinda.authority.entity.common.LoginLog;
 import org.iiidev.pinda.base.BaseController;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.database.mybatis.conditions.query.LbqWrapper;
 import org.iiidev.pinda.log.annotation.SysLog;
 import org.iiidev.pinda.log.util.AddressUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+
 /**
  * 前端控制器
  * 登录日志
@@ -35,26 +43,28 @@ public class LoginLogController extends BaseController {
     private LoginLogService loginLogService;
     @Autowired
     private UserService userService;
+
     /**
      * 分页查询登录日志
      */
     @ApiOperation(value = "分页查询登录日志", notes = "分页查询登录日志")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
+        @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
+        @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
     public Result<IPage<LoginLog>> page(LoginLog data) {
         IPage<LoginLog> page = this.getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<LoginLog> query = Wraps.<LoginLog>lbQ()
-                .eq(LoginLog::getUserId, data.getUserId())
-                .likeRight(LoginLog::getAccount, data.getAccount())
-                .likeRight(LoginLog::getRequestIp, data.getRequestIp())
-                .like(LoginLog::getLocation, data.getLocation())
-                .leFooter(LoginLog::getCreateTime, this.getEndCreateTime())
-                .geHeader(LoginLog::getCreateTime, this.getStartCreateTime())
-                .orderByDesc(LoginLog::getId);
+        LbqWrapper<LoginLog> query = Wraps
+            .<LoginLog>lbQ()
+            .eq(LoginLog::getUserId, data.getUserId())
+            .likeRight(LoginLog::getAccount, data.getAccount())
+            .likeRight(LoginLog::getRequestIp, data.getRequestIp())
+            .like(LoginLog::getLocation, data.getLocation())
+            .leFooter(LoginLog::getCreateTime, this.getEndCreateTime())
+            .geHeader(LoginLog::getCreateTime, this.getStartCreateTime())
+            .orderByDesc(LoginLog::getId);
         this.loginLogService.page(page, query);
         return this.success(page);
     }

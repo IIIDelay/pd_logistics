@@ -1,14 +1,25 @@
 package org.iiidev.pinda.authority.controller.auth;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.iiidev.pinda.authority.dto.auth.*;
-import org.iiidev.pinda.authority.entity.auth.Role;
-import org.iiidev.pinda.authority.entity.auth.User;
-import org.iiidev.pinda.authority.entity.core.Org;
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.authority.biz.service.auth.RoleService;
 import org.iiidev.pinda.authority.biz.service.auth.UserService;
 import org.iiidev.pinda.authority.biz.service.core.OrgService;
 import org.iiidev.pinda.authority.biz.service.core.StationService;
+import org.iiidev.pinda.authority.dto.auth.UserPageDTO;
+import org.iiidev.pinda.authority.dto.auth.UserRoleDTO;
+import org.iiidev.pinda.authority.dto.auth.UserSaveDTO;
+import org.iiidev.pinda.authority.dto.auth.UserUpdateAvatarDTO;
+import org.iiidev.pinda.authority.dto.auth.UserUpdateDTO;
+import org.iiidev.pinda.authority.dto.auth.UserUpdatePasswordDTO;
+import org.iiidev.pinda.authority.entity.auth.Role;
+import org.iiidev.pinda.authority.entity.auth.User;
+import org.iiidev.pinda.authority.entity.core.Org;
 import org.iiidev.pinda.base.BaseController;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.base.entity.SuperEntity;
@@ -21,14 +32,18 @@ import org.iiidev.pinda.user.model.SysOrg;
 import org.iiidev.pinda.user.model.SysRole;
 import org.iiidev.pinda.user.model.SysStation;
 import org.iiidev.pinda.user.model.SysUser;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -56,8 +71,8 @@ public class UserController extends BaseController {
      */
     @ApiOperation(value = "分页查询用户", notes = "分页查询用户")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
+        @ApiImplicitParam(name = "current", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
+        @ApiImplicitParam(name = "size", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
     @SysLog("分页查询用户")
@@ -71,17 +86,22 @@ public class UserController extends BaseController {
         LbqWrapper<User> wrapper = Wraps.lbQ(user);
         if (userPage.getOrgId() != null && userPage.getOrgId() >= 0) {
             List<Org> children = orgService.findChildren(Arrays.asList(userPage.getOrgId()));
-            wrapper.in(User::getOrgId, children.stream().mapToLong(Org::getId).boxed().collect(Collectors.toList()));
+            wrapper.in(User::getOrgId, children
+                .stream()
+                .mapToLong(Org::getId)
+                .boxed()
+                .collect(Collectors.toList()));
         }
-        wrapper.geHeader(User::getCreateTime, userPage.getStartCreateTime())
-                .leFooter(User::getCreateTime, userPage.getEndCreateTime())
-                .like(User::getName, userPage.getName())
-                .like(User::getAccount, userPage.getAccount())
-                .like(User::getEmail, userPage.getEmail())
-                .like(User::getMobile, userPage.getMobile())
-                .eq(User::getSex, userPage.getSex())
-                .eq(User::getStatus, userPage.getStatus())
-                .orderByDesc(User::getId);
+        wrapper
+            .geHeader(User::getCreateTime, userPage.getStartCreateTime())
+            .leFooter(User::getCreateTime, userPage.getEndCreateTime())
+            .like(User::getName, userPage.getName())
+            .like(User::getAccount, userPage.getAccount())
+            .like(User::getEmail, userPage.getEmail())
+            .like(User::getMobile, userPage.getMobile())
+            .eq(User::getSex, userPage.getSex())
+            .eq(User::getStatus, userPage.getStatus())
+            .orderByDesc(User::getId);
 //        userService.page(page, wrapper);
 
         userService.findPage(page, wrapper);
@@ -102,7 +122,12 @@ public class UserController extends BaseController {
     @GetMapping("/find")
     @SysLog("查询所有用户")
     public Result<List<Long>> findAllUserId() {
-        return success(userService.list().stream().mapToLong(User::getId).boxed().collect(Collectors.toList()));
+        return success(userService
+            .list()
+            .stream()
+            .mapToLong(User::getId)
+            .boxed()
+            .collect(Collectors.toList()));
     }
 
     /**
@@ -194,6 +219,7 @@ public class UserController extends BaseController {
 
     /**
      * 查询角色的已关联用户
+     *
      * @param roleId  角色id
      * @param keyword 账号account或名称name
      */
@@ -201,7 +227,15 @@ public class UserController extends BaseController {
     @GetMapping(value = "/role/{roleId}")
     public Result<UserRoleDTO> findUserByRoleId(@PathVariable("roleId") Long roleId, @RequestParam(value = "keyword", required = false) String keyword) {
         List<User> list = userService.findUserByRoleId(roleId, keyword);
-        List<Long> idList = list.stream().mapToLong(User::getId).boxed().collect(Collectors.toList());
-        return success(UserRoleDTO.builder().idList(idList).userList(list).build());
+        List<Long> idList = list
+            .stream()
+            .mapToLong(User::getId)
+            .boxed()
+            .collect(Collectors.toList());
+        return success(UserRoleDTO
+            .builder()
+            .idList(idList)
+            .userList(list)
+            .build());
     }
 }

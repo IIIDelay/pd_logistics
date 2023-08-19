@@ -1,8 +1,8 @@
 package org.iiidev.pinda.authority.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.database.datasource.BaseMybatisConfiguration;
 import org.iiidev.pinda.database.properties.DatabaseProperties;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 
 /**

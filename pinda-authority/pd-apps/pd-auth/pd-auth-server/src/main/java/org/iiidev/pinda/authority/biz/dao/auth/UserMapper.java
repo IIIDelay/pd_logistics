@@ -1,23 +1,21 @@
 package org.iiidev.pinda.authority.biz.dao.auth;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
-import org.iiidev.pinda.authority.entity.auth.User;
-//import org.iiidev.pinda.database.mybatis.auth.DataScope;
 import org.apache.ibatis.annotations.Param;
+import org.iiidev.pinda.authority.entity.auth.User;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
  * Mapper 接口
  * 账号
  * </p>
- *
  */
 @Repository
 public interface UserMapper extends BaseMapper<User> {

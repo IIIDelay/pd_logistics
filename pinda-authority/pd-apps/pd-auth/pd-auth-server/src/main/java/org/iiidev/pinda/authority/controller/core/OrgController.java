@@ -1,5 +1,12 @@
 package org.iiidev.pinda.authority.controller.core;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.authority.biz.service.core.OrgService;
 import org.iiidev.pinda.authority.dto.core.OrgSaveDTO;
 import org.iiidev.pinda.authority.dto.core.OrgTreeDTO;
@@ -14,20 +21,24 @@ import org.iiidev.pinda.dozer.DozerUtils;
 import org.iiidev.pinda.log.annotation.SysLog;
 import org.iiidev.pinda.utils.BizAssert;
 import org.iiidev.pinda.utils.TreeUtil;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.iiidev.pinda.utils.StrPool.DEF_PARENT_ID;
 import static org.iiidev.pinda.utils.StrPool.DEF_ROOT_PATH;
+
 /**
  * 前端控制器
  * 组织
@@ -41,13 +52,14 @@ public class OrgController extends BaseController {
     private OrgService orgService;
     @Autowired
     private DozerUtils dozer;
+
     /**
      * 分页查询组织
      */
     @ApiOperation(value = "分页查询组织", notes = "分页查询组织")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
+        @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
+        @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
     @SysLog("分页查询组织")
@@ -123,26 +135,30 @@ public class OrgController extends BaseController {
     @SysLog("查询系统所有的组织树")
     public Result<List<OrgTreeDTO>> tree(@RequestParam(value = "name", required = false) String name,
                                          @RequestParam(value = "status", required = false) Boolean status) {
-        List<Org> list = this.orgService.list(Wraps.<Org>lbQ().like(Org::getName, name)
-                .eq(Org::getStatus, status).orderByAsc(Org::getSortValue));
+        List<Org> list = this.orgService.list(Wraps
+            .<Org>lbQ()
+            .like(Org::getName, name)
+            .eq(Org::getStatus, status)
+            .orderByAsc(Org::getSortValue));
         List<OrgTreeDTO> treeList = this.dozer.mapList(list, OrgTreeDTO.class);
         return this.success(TreeUtil.build(treeList));
     }
     //    @GetMapping
 //    Result<List<Org>> list(@RequestParam(name = "orgType",required = false) Integer orgType, @RequestParam(name = "ids",required = false) List<Long> ids, @RequestParam(name = "countyId",required = false) Long countyId, @RequestParam(name = "pid",required = false) Long pid, @RequestParam(name = "pids",required = false) List<Long> pids);
+
     /**
-     *  查询所属机构信息列表
+     * 查询所属机构信息列表
      */
     @ApiOperation(value = "查询所属机构信息列表", notes = "查询所属机构信息列表")
     @GetMapping
     @SysLog("查询所属机构信息列表")
-    public Result<List<Org>> list(@RequestParam(name = "orgType",required = false) Integer orgType,
-                                  @RequestParam(name = "ids",required = false) List<Long> ids,
-                                  @RequestParam(name = "countyId",required = false) Long countyId,
-                                  @RequestParam(name = "pid",required = false) Long pid,
-                                  @RequestParam(name = "pids",required = false) List<Long> pids) {
+    public Result<List<Org>> list(@RequestParam(name = "orgType", required = false) Integer orgType,
+                                  @RequestParam(name = "ids", required = false) List<Long> ids,
+                                  @RequestParam(name = "countyId", required = false) Long countyId,
+                                  @RequestParam(name = "pid", required = false) Long pid,
+                                  @RequestParam(name = "pids", required = false) List<Long> pids) {
 
-        List<Org> list=new ArrayList<>();
+        List<Org> list = new ArrayList<>();
         for (Long id : ids) {
             Org org = this.orgService.getById(id);
             list.add(org);

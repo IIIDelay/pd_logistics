@@ -13,5 +13,5 @@ import org.springframework.web.bind.annotation.RestController;
 @Configuration
 @ControllerAdvice(annotations = {RestController.class, Controller.class})
 @ResponseBody
-public class ExceptionConfiguration extends DefaultGlobalExceptionHandler{
+public class ExceptionConfiguration extends DefaultGlobalExceptionHandler {
 }

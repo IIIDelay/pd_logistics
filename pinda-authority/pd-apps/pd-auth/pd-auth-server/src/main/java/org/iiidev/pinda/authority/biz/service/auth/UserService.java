@@ -1,10 +1,13 @@
 package org.iiidev.pinda.authority.biz.service.auth;
-import java.util.List;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.iiidev.pinda.authority.dto.auth.UserUpdatePasswordDTO;
 import org.iiidev.pinda.authority.entity.auth.User;
 import org.iiidev.pinda.database.mybatis.conditions.query.LbqWrapper;
+
+import java.util.List;
+
 /**
  * 业务接口
  * 账号
@@ -13,6 +16,7 @@ public interface UserService extends IService<User> {
     /**
      * 根据角色id 和 账号或名称 查询角色关联的用户
      * 注意，该接口只返回 id，账号，姓名，手机，性别
+     *
      * @param roleId  角色id
      * @param keyword 账号或名称
      */

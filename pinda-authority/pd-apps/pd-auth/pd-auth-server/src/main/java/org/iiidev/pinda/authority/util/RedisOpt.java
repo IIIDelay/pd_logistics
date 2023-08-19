@@ -13,6 +13,10 @@ public class RedisOpt {
     private final static ValueOperations<String, String> VALUE_OPERATIONS = REDIS_TEMPLATE.opsForValue();
 
     public static <IN> void save(String key, IN in) {
+        VALUE_OPERATIONS.set(key, JSONObject.toJSONString(in));
+    }
+
+    public static <IN> void saveIfAbsent(String key, IN in) {
         VALUE_OPERATIONS.setIfAbsent(key, JSONObject.toJSONString(in));
     }
 

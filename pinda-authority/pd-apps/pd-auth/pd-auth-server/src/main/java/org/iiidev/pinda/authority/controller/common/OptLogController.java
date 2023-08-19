@@ -1,6 +1,11 @@
 package org.iiidev.pinda.authority.controller.common;
-import java.util.List;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.authority.biz.service.common.OptLogService;
 import org.iiidev.pinda.authority.entity.common.OptLog;
 import org.iiidev.pinda.base.BaseController;
@@ -8,11 +13,6 @@ import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.database.mybatis.conditions.query.LbqWrapper;
 import org.iiidev.pinda.log.annotation.SysLog;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,6 +21,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
 /**
  * 前端控制器
  * 系统操作日志
@@ -33,22 +36,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class OptLogController extends BaseController {
     @Autowired
     private OptLogService optLogService;
+
     /**
      * 分页查询系统操作日志
      */
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
+        @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
+        @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @ApiOperation(value = "分页查询系统操作日志", notes = "分页查询系统操作日志")
     @GetMapping("/page")
     public Result<IPage<OptLog>> page(OptLog data) {
         IPage<OptLog> page = getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<OptLog> query = Wraps.lbQ(data)
-                .leFooter(OptLog::getCreateTime, getEndCreateTime())
-                .geHeader(OptLog::getCreateTime, getStartCreateTime())
-                .orderByDesc(OptLog::getId);
+        LbqWrapper<OptLog> query = Wraps
+            .lbQ(data)
+            .leFooter(OptLog::getCreateTime, getEndCreateTime())
+            .geHeader(OptLog::getCreateTime, getStartCreateTime())
+            .orderByDesc(OptLog::getId);
         optLogService.page(page, query);
         return success(page);
     }

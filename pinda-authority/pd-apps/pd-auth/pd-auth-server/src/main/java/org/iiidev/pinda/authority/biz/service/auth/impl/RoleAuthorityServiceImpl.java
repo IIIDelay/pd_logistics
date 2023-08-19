@@ -1,10 +1,12 @@
 package org.iiidev.pinda.authority.biz.service.auth.impl;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.extern.slf4j.Slf4j;
+import net.oschina.j2cache.CacheChannel;
+import org.iiidev.pinda.authority.biz.dao.auth.RoleAuthorityMapper;
 import org.iiidev.pinda.authority.biz.service.auth.ResourceService;
+import org.iiidev.pinda.authority.biz.service.auth.RoleAuthorityService;
+import org.iiidev.pinda.authority.biz.service.auth.UserRoleService;
 import org.iiidev.pinda.authority.dto.auth.RoleAuthoritySaveDTO;
 import org.iiidev.pinda.authority.dto.auth.UserRoleSaveDTO;
 import org.iiidev.pinda.authority.entity.auth.RoleAuthority;
@@ -13,13 +15,14 @@ import org.iiidev.pinda.authority.enumeration.auth.AuthorizeType;
 import org.iiidev.pinda.common.constant.CacheKey;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.utils.NumberHelper;
-import org.iiidev.pinda.authority.biz.dao.auth.RoleAuthorityMapper;
-import org.iiidev.pinda.authority.biz.service.auth.RoleAuthorityService;
-import org.iiidev.pinda.authority.biz.service.auth.UserRoleService;
-import lombok.extern.slf4j.Slf4j;
-import net.oschina.j2cache.CacheChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * 业务实现类
  * 角色的资源
@@ -36,70 +39,94 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
 
     @Override
     public boolean saveUserRole(UserRoleSaveDTO userRole) {
-        userRoleService.remove(Wraps.<UserRole>lbQ().eq(UserRole::getRoleId, userRole.getRoleId()));
-        List<UserRole> list = userRole.getUserIdList()
-                .stream()
-                .map((userId) -> UserRole.builder()
-                        .userId(userId)
-                        .roleId(userRole.getRoleId())
-                        .build())
-                .collect(Collectors.toList());
+        userRoleService.remove(Wraps
+            .<UserRole>lbQ()
+            .eq(UserRole::getRoleId, userRole.getRoleId()));
+        List<UserRole> list = userRole
+            .getUserIdList()
+            .stream()
+            .map((userId) -> UserRole
+                .builder()
+                .userId(userId)
+                .roleId(userRole.getRoleId())
+                .build())
+            .collect(Collectors.toList());
         userRoleService.saveBatch(list);
 
-        //清除 用户拥有的资源列表
-        userRole.getUserIdList().forEach((userId) -> {
-            String key = CacheKey.buildKey(userId);
-            cache.evict(CacheKey.USER_RESOURCE, key);
-        });
+        // 清除 用户拥有的资源列表
+        userRole
+            .getUserIdList()
+            .forEach((userId) -> {
+                String key = CacheKey.buildKey(userId);
+                cache.evict(CacheKey.USER_RESOURCE, key);
+            });
         return true;
     }
 
     @Override
     public boolean saveRoleAuthority(RoleAuthoritySaveDTO dto) {
-        //删除角色和资源的关联
-        super.remove(Wraps.<RoleAuthority>lbQ().eq(RoleAuthority::getRoleId, dto.getRoleId()));
+        // 删除角色和资源的关联
+        super.remove(Wraps
+            .<RoleAuthority>lbQ()
+            .eq(RoleAuthority::getRoleId, dto.getRoleId()));
 
         List<RoleAuthority> list = new ArrayList<>();
-        if (dto.getResourceIdList() != null && !dto.getResourceIdList().isEmpty()) {
+        if (dto.getResourceIdList() != null && !dto
+            .getResourceIdList()
+            .isEmpty()) {
             List<Long> menuIdList = resourceService.findMenuIdByResourceId(dto.getResourceIdList());
-            if (dto.getMenuIdList() == null || dto.getMenuIdList().isEmpty()) {
+            if (dto.getMenuIdList() == null || dto
+                .getMenuIdList()
+                .isEmpty()) {
                 dto.setMenuIdList(menuIdList);
             } else {
-                dto.getMenuIdList().addAll(menuIdList);
+                dto
+                    .getMenuIdList()
+                    .addAll(menuIdList);
             }
 
-            //保存授予的资源
+            // 保存授予的资源
             List<RoleAuthority> resourceList = new HashSet<>(dto.getResourceIdList())
-                    .stream()
-                    .map((resourceId) -> RoleAuthority.builder()
-                            .authorityType(AuthorizeType.RESOURCE)
-                            .authorityId(resourceId)
-                            .roleId(dto.getRoleId())
-                            .build())
-                    .collect(Collectors.toList());
+                .stream()
+                .map((resourceId) -> RoleAuthority
+                    .builder()
+                    .authorityType(AuthorizeType.RESOURCE)
+                    .authorityId(resourceId)
+                    .roleId(dto.getRoleId())
+                    .build())
+                .collect(Collectors.toList());
             list.addAll(resourceList);
         }
-        if (dto.getMenuIdList() != null && !dto.getMenuIdList().isEmpty()) {
-            //保存授予的菜单
+        if (dto.getMenuIdList() != null && !dto
+            .getMenuIdList()
+            .isEmpty()) {
+            // 保存授予的菜单
             List<RoleAuthority> menuList = new HashSet<>(dto.getMenuIdList())
-                    .stream()
-                    .map((menuId) -> RoleAuthority.builder()
-                            .authorityType(AuthorizeType.MENU)
-                            .authorityId(menuId)
-                            .roleId(dto.getRoleId())
-                            .build())
-                    .collect(Collectors.toList());
+                .stream()
+                .map((menuId) -> RoleAuthority
+                    .builder()
+                    .authorityType(AuthorizeType.MENU)
+                    .authorityId(menuId)
+                    .roleId(dto.getRoleId())
+                    .build())
+                .collect(Collectors.toList());
             list.addAll(menuList);
         }
         super.saveBatch(list);
 
         // 清理
-        List<Long> userIdList = userRoleService.listObjs(Wraps.<UserRole>lbQ().select(UserRole::getUserId).eq(UserRole::getRoleId, dto.getRoleId()),
-                (userId) -> NumberHelper.longValueOf0(userId));
-        userIdList.stream().collect(Collectors.toSet()).forEach((userId) -> {
-            log.info("清理了 {} 的菜单/资源", userId);
-            cache.evict(CacheKey.USER_RESOURCE, String.valueOf(userId));
-        });
+        List<Long> userIdList = userRoleService.listObjs(Wraps
+                .<UserRole>lbQ()
+                .select(UserRole::getUserId)
+                .eq(UserRole::getRoleId, dto.getRoleId()),
+            (userId) -> NumberHelper.longValueOf0(userId));
+        userIdList
+            .stream()
+            .collect(Collectors.toSet())
+            .forEach((userId) -> {
+                log.info("清理了 {} 的菜单/资源", userId);
+                cache.evict(CacheKey.USER_RESOURCE, String.valueOf(userId));
+            });
 
         return true;
     }

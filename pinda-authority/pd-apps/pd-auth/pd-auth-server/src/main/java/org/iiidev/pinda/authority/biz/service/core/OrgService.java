@@ -1,7 +1,10 @@
 package org.iiidev.pinda.authority.biz.service.core;
-import java.util.List;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.iiidev.pinda.authority.entity.core.Org;
+
+import java.util.List;
+
 /**
  * 业务接口
  * 组织

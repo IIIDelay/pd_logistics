@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
  * @create : 2022/9/6 14:33
  */
 @Repository
-public interface AreaMapper  extends BaseMapper<Area> {
+public interface AreaMapper extends BaseMapper<Area> {
 }

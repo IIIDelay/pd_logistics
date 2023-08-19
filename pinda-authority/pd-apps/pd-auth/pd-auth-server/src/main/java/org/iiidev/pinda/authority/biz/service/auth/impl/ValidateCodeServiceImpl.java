@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
 /**
  * 验证码服务
  */
@@ -41,7 +42,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
         response.setHeader(HttpHeaders.CACHE_CONTROL, "No-cache");
         response.setDateHeader(HttpHeaders.EXPIRES, 0L);
 
-        LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(115, 42);
+        LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(120, 45, 4, 5);
         RedisOpt.save(CacheKey.CAPTCHA + key, StringUtils.lowerCase(lineCaptcha.getCode()));
         lineCaptcha.write(response.getOutputStream());
     }
@@ -59,7 +60,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
             throw BizException.validFail("验证码不正确");
         }
         // 验证通过，立即从缓存中删除验证码
-        RedisOpt.remove(CacheKey.CAPTCHA+key);
+        RedisOpt.remove(CacheKey.CAPTCHA + key);
         return true;
     }
 

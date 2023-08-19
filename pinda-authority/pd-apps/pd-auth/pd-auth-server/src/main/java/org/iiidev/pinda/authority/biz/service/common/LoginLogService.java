@@ -1,8 +1,11 @@
 package org.iiidev.pinda.authority.biz.service.common;
+
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.iiidev.pinda.authority.entity.common.LoginLog;
+
 import java.util.List;
 import java.util.Map;
+
 /**
  * 业务接口
  * 登录日志
@@ -10,6 +13,7 @@ import java.util.Map;
 public interface LoginLogService extends IService<LoginLog> {
     /**
      * 记录登录日志
+     *
      * @param account     账号
      * @param ua          浏览器
      * @param ip          客户端IP

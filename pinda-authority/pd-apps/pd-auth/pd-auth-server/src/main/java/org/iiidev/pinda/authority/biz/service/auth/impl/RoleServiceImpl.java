@@ -1,21 +1,32 @@
 package org.iiidev.pinda.authority.biz.service.auth.impl;
-import java.util.List;
-import java.util.stream.Collectors;
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.iiidev.pinda.authority.biz.service.auth.*;
+import lombok.extern.slf4j.Slf4j;
+import net.oschina.j2cache.CacheChannel;
+import org.iiidev.pinda.authority.biz.dao.auth.RoleMapper;
+import org.iiidev.pinda.authority.biz.service.auth.RoleAuthorityService;
+import org.iiidev.pinda.authority.biz.service.auth.RoleOrgService;
+import org.iiidev.pinda.authority.biz.service.auth.RoleService;
+import org.iiidev.pinda.authority.biz.service.auth.UserRoleService;
+import org.iiidev.pinda.authority.biz.service.auth.UserService;
 import org.iiidev.pinda.authority.dto.auth.RoleSaveDTO;
 import org.iiidev.pinda.authority.dto.auth.RoleUpdateDTO;
-import org.iiidev.pinda.authority.entity.auth.*;
+import org.iiidev.pinda.authority.entity.auth.Role;
+import org.iiidev.pinda.authority.entity.auth.RoleAuthority;
+import org.iiidev.pinda.authority.entity.auth.RoleOrg;
+import org.iiidev.pinda.authority.entity.auth.User;
+import org.iiidev.pinda.authority.entity.auth.UserRole;
 import org.iiidev.pinda.base.id.CodeGenerate;
 import org.iiidev.pinda.common.constant.CacheKey;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.dozer.DozerUtils;
 import org.iiidev.pinda.utils.StrHelper;
-import org.iiidev.pinda.authority.biz.dao.auth.RoleMapper;
-import lombok.extern.slf4j.Slf4j;
-import net.oschina.j2cache.CacheChannel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * 业务实现类
  * 角色
@@ -45,21 +56,29 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         }
         ids.forEach(roleId -> {
             List<User> userList = userService.findUserByRoleId(roleId, null);
-            if(userList != null && userList.size() > 0){
+            if (userList != null && userList.size() > 0) {
                 userList.forEach(user -> {
-                    cache.evict(CacheKey.USER_RESOURCE, user.getId().toString());
+                    cache.evict(CacheKey.USER_RESOURCE, user
+                        .getId()
+                        .toString());
                 });
             }
         });
 
-        //删除主表pd_auth_role数据
+        // 删除主表pd_auth_role数据
         super.removeByIds(ids);
-        //删除pd_auth_role_org关系表数据
-        roleOrgService.remove(Wraps.<RoleOrg>lbQ().in(RoleOrg::getRoleId, ids));
-        //删除pd_auth_role_authority关系表数据
-        roleAuthorityService.remove(Wraps.<RoleAuthority>lbQ().in(RoleAuthority::getRoleId, ids));
-        //删除pd_auth_user_role关系表数据
-        userRoleService.remove(Wraps.<UserRole>lbQ().in(UserRole::getRoleId,ids));
+        // 删除pd_auth_role_org关系表数据
+        roleOrgService.remove(Wraps
+            .<RoleOrg>lbQ()
+            .in(RoleOrg::getRoleId, ids));
+        // 删除pd_auth_role_authority关系表数据
+        roleAuthorityService.remove(Wraps
+            .<RoleAuthority>lbQ()
+            .in(RoleAuthority::getRoleId, ids));
+        // 删除pd_auth_user_role关系表数据
+        userRoleService.remove(Wraps
+            .<UserRole>lbQ()
+            .in(UserRole::getRoleId, ids));
 
         return true;
     }
@@ -87,17 +106,24 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         Role role = dozer.map(data, Role.class);
         super.updateById(role);
 
-        roleOrgService.remove(Wraps.<RoleOrg>lbQ().eq(RoleOrg::getRoleId, data.getId()));
+        roleOrgService.remove(Wraps
+            .<RoleOrg>lbQ()
+            .eq(RoleOrg::getRoleId, data.getId()));
         saveRoleOrg(userId, role, data.getOrgList());
     }
 
     private void saveRoleOrg(Long userId, Role role, List<Long> orgList) {
         if (orgList != null && !orgList.isEmpty()) {
-            List<RoleOrg> list = orgList.stream().map((orgId) ->
-                    RoleOrg.builder()
-                            .orgId(orgId).roleId(role.getId())
-                            .build()
-            ).collect(Collectors.toList());
+            List<RoleOrg> list = orgList
+                .stream()
+                .map((orgId) ->
+                    RoleOrg
+                        .builder()
+                        .orgId(orgId)
+                        .roleId(role.getId())
+                        .build()
+                )
+                .collect(Collectors.toList());
             roleOrgService.saveBatch(list);
         }
     }
@@ -109,6 +135,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public Boolean check(String code) {
-        return super.count(Wraps.<Role>lbQ().eq(Role::getCode, code)) > 0;
+        return super.count(Wraps
+            .<Role>lbQ()
+            .eq(Role::getCode, code)) > 0;
     }
 }

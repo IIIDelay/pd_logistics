@@ -1,19 +1,17 @@
 package org.iiidev.pinda.authority.biz.dao.auth;
 
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.iiidev.pinda.authority.entity.auth.Role;
-
 import org.apache.ibatis.annotations.Param;
+import org.iiidev.pinda.authority.entity.auth.Role;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * <p>
  * Mapper 接口
  * 角色
  * </p>
- *
  */
 @Repository
 public interface RoleMapper extends BaseMapper<Role> {
