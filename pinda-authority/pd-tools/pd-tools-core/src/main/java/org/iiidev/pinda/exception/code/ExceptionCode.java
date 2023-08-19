@@ -22,11 +22,10 @@ package org.iiidev.pinda.exception.code;
  * 运维服务平台 异常编码 范围：  105000-109999
  * 统一监管平台异常 编码 范围：  110000-114999
  * 认证方面的异常编码  范围：115000-115999
- *
  */
 public enum ExceptionCode implements BaseExceptionCode {
 
-    //系统相关 start
+    // 系统相关 start
     SUCCESS(0, "成功"),
     SYSTEM_BUSY(-1, "系统繁忙~请稍后再试~"),
     SYSTEM_TIMEOUT(-2, "系统维护中~请稍后再试~"),
@@ -60,10 +59,10 @@ public enum ExceptionCode implements BaseExceptionCode {
     INTERNAL_SERVER_ERROR(500, "内部服务错误"),
     BAD_GATEWAY(502, "网关错误"),
     GATEWAY_TIMEOUT(504, "网关超时"),
-    //系统相关 end
+    // 系统相关 end
 
     REQUIRED_FILE_PARAM_EX(1001, "请求中必须至少包含一个有效文件"),
-    //jwt token 相关 start
+    // jwt token 相关 start
 
     JWT_TOKEN_EXPIRED(40001, "会话超时，请重新登录"),
     JWT_SIGNATURE(40002, "不合法的token，请认真比对 token 的签名"),
@@ -72,7 +71,7 @@ public enum ExceptionCode implements BaseExceptionCode {
     JWT_PARSER_TOKEN_FAIL(40005, "解析token失败"),
     JWT_USER_INVALID(40006, "用户名或密码错误"),
     JWT_USER_ENABLED(40007, "用户已经被禁用！"),
-    //jwt token 相关 end
+    // jwt token 相关 end
 
     ;
 

@@ -74,12 +74,11 @@ public class AuthManager {
 
         // 封装返回结果
         LoginDTO loginDTO = LoginDTO.builder()
-            .user(dozerUtils.map(userResult.getData(), UserDTO.class))
+            .user(dozerUtils.map(user, UserDTO.class))
             .token(token)
             .permissionsList(permissionList)
             .build();
         return Result.success(loginDTO);
-        // return null;
     }
 
     // 账号、密码校验

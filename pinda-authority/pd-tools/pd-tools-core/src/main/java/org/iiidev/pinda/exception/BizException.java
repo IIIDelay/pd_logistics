@@ -1,5 +1,6 @@
 package org.iiidev.pinda.exception;
 
+import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.exception.code.BaseExceptionCode;
 
 /**
@@ -47,8 +48,9 @@ public class BizException extends BaseUncheckedException {
         return new BizException(ex.getCode(), ex.getMsg());
     }
 
-    public static BizException unaryOf(BaseExceptionCode baseExceptionCode) {
-        return new BizException(baseExceptionCode.getCode(), baseExceptionCode.getMsg());
+    public static BizException unaryOf(BaseExceptionCode baseExceptionCode, String... prefix) {
+        return new BizException(baseExceptionCode.getCode(),
+            StringUtils.join(prefix, " ") + baseExceptionCode.getMsg());
     }
 
     @Override
