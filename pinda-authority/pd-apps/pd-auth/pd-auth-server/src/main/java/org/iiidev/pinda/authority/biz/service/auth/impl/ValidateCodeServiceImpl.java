@@ -1,45 +1,49 @@
 package org.iiidev.pinda.authority.biz.service.auth.impl;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
-import org.iiidev.pinda.authority.biz.service.auth.ValidateCodeService;
-import org.iiidev.pinda.common.constant.CacheKey;
-import org.iiidev.pinda.exception.BizException;
+
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.captcha.LineCaptcha;
+import cn.hutool.core.lang.Assert;
 import com.wf.captcha.ArithmeticCaptcha;
 import com.wf.captcha.ChineseCaptcha;
 import com.wf.captcha.GifCaptcha;
 import com.wf.captcha.SpecCaptcha;
 import com.wf.captcha.base.Captcha;
-import net.oschina.j2cache.CacheChannel;
-import net.oschina.j2cache.CacheObject;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.iiidev.pinda.authority.biz.service.auth.ValidateCodeService;
+import org.iiidev.pinda.authority.util.RedisOpt;
+import org.iiidev.pinda.common.constant.CacheKey;
+import org.iiidev.pinda.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 /**
  * 验证码服务
  */
+@Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class ValidateCodeServiceImpl implements ValidateCodeService {
-    @Autowired
-    private CacheChannel cache;
 
     @Override
     public void create(String key, HttpServletResponse response) throws IOException {
         if (StringUtils.isBlank(key)) {
             throw BizException.validFail("验证码key不能为空");
         }
-        //setHeader(response, "arithmetic");
+        // setHeader(response, "arithmetic");
         response.setContentType(MediaType.IMAGE_PNG_VALUE);
         response.setHeader(HttpHeaders.PRAGMA, "No-cache");
         response.setHeader(HttpHeaders.CACHE_CONTROL, "No-cache");
         response.setDateHeader(HttpHeaders.EXPIRES, 0L);
 
-        Captcha captcha = new ArithmeticCaptcha(115, 42);
-        captcha.setCharType(2);
-
-        cache.set(CacheKey.CAPTCHA, key, StringUtils.lowerCase(captcha.text()));
-        captcha.out(response.getOutputStream());
+        LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(115, 42);
+        RedisOpt.save(CacheKey.CAPTCHA + key, StringUtils.lowerCase(lineCaptcha.getCode()));
+        lineCaptcha.write(response.getOutputStream());
     }
 
     @Override
@@ -47,15 +51,15 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
         if (StringUtils.isBlank(value)) {
             throw BizException.validFail("请输入验证码");
         }
-        CacheObject cacheObject = cache.get(CacheKey.CAPTCHA, key);
-        if (cacheObject.getValue() == null) {
-            throw BizException.validFail("验证码已过期");
-        }
-        if (!StringUtils.equalsIgnoreCase(value, String.valueOf(cacheObject.getValue()))) {
+
+        String code = RedisOpt.getValue(CacheKey.CAPTCHA + key);
+        Assert.notEmpty(code, () -> BizException.validFail("验证码已过期"));
+
+        if (!StringUtils.equalsIgnoreCase(value, String.valueOf(code))) {
             throw BizException.validFail("验证码不正确");
         }
-        //验证通过，立即从缓存中删除验证码
-        cache.evict(CacheKey.CAPTCHA, key);
+        // 验证通过，立即从缓存中删除验证码
+        RedisOpt.remove(CacheKey.CAPTCHA+key);
         return true;
     }
 

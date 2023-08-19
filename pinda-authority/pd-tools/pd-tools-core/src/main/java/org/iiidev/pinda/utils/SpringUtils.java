@@ -1,23 +1,17 @@
 package org.iiidev.pinda.utils;
 
-import java.util.Map;
-
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.util.Assert;
 
-/**
- *
- */
-@SuppressWarnings("squid:S1166")
-public class SpringUtils {
+import java.util.Map;
+
+public class SpringUtils implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
     private static ApplicationContext parentApplicationContext;
 
-    public static ApplicationContext getApplicationContext() {
-        return applicationContext;
-    }
-
-    public static void setApplicationContext(ApplicationContext ctx) {
+    @Override
+    public void setApplicationContext(ApplicationContext ctx) {
         Assert.notNull(ctx, "SpringUtil injection ApplicationContext is null");
         applicationContext = ctx;
         parentApplicationContext = ctx.getParent();

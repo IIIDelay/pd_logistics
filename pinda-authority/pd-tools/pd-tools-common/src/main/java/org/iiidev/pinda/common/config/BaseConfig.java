@@ -1,16 +1,5 @@
 package org.iiidev.pinda.common.config;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
-
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,6 +12,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import io.undertow.Undertow;
 import org.iiidev.pinda.base.id.CodeGenerate;
 import org.iiidev.pinda.common.converter.EnumDeserializer;
 import org.iiidev.pinda.common.converter.String2DateConverter;
@@ -30,19 +20,27 @@ import org.iiidev.pinda.common.converter.String2LocalDateConverter;
 import org.iiidev.pinda.common.converter.String2LocalDateTimeConverter;
 import org.iiidev.pinda.common.converter.String2LocalTimeConverter;
 import org.iiidev.pinda.common.undertow.UndertowServerFactoryCustomizer;
-import org.iiidev.pinda.utils.SpringUtils;
-
 import org.iiidev.pinda.utils.DateUtils;
-import io.undertow.Undertow;
+import org.iiidev.pinda.utils.SpringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * 基础配置类
@@ -172,13 +170,9 @@ public abstract class BaseConfig {
 
     /**
      * Spring 工具类
-     *
-     * @param applicationContext
-     * @return
      */
     @Bean
-    public SpringUtils getSpringUtils(ApplicationContext applicationContext) {
-        SpringUtils.setApplicationContext(applicationContext);
+    public SpringUtils getSpringUtils() {
         return new SpringUtils();
     }
 

@@ -5,7 +5,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.authority.biz.service.auth.ResourceService;
 import org.iiidev.pinda.authority.dto.auth.ResourceQueryDTO;
 import org.iiidev.pinda.authority.dto.auth.ResourceSaveDTO;
@@ -32,27 +34,29 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 /**
  * 前端控制器
  * 资源
  */
 @Slf4j
-// @Validated
+@Validated
 @RestController
 @RequestMapping("/resource")
 @Api(value = "Resource", tags = "资源")
+@RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class ResourceController extends BaseController {
-    @Autowired
-    private ResourceService resourceService;
-    @Autowired
-    private DozerUtils dozer;
+
+    private final ResourceService resourceService;
+    private final DozerUtils dozer;
+
     /**
      * 分页查询资源
      */
     @ApiOperation(value = "分页查询资源", notes = "分页查询资源")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
-            @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
+        @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
+        @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
     @SysLog("分页查询资源")
@@ -135,9 +139,10 @@ public class ResourceController extends BaseController {
     @SysLog("查询所有资源")
     public Result<List> list() {
         List<Resource> list = resourceService.list();
-        List<String> resourceList = list.stream().map((Resource r) -> {
-            return r.getMethod() + r.getUrl();
-        }).collect(Collectors.toList());
+        List<String> resourceList = list
+            .stream()
+            .map((Resource r) -> StringUtils.join(r.getMethod(), r.getUrl()))
+            .collect(Collectors.toList());
         return success(resourceList);
     }
 }
