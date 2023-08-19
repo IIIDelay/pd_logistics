@@ -1,20 +1,19 @@
 package org.iiidev.pinda.service.agency.impl;
 
-import java.util.List;
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.apache.commons.lang.StringUtils;
 import org.iiidev.pinda.common.CustomIdGenerator;
 import org.iiidev.pinda.common.utils.Constant;
-import org.iiidev.pinda.mapper.agency.PdFleetMapper;
 import org.iiidev.pinda.entity.agency.PdFleet;
+import org.iiidev.pinda.mapper.agency.PdFleetMapper;
 import org.iiidev.pinda.service.agency.IPdFleetService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.apache.commons.lang.StringUtils;
+
+import java.util.List;
 
 /**
  * <p>
@@ -73,6 +72,8 @@ public class PdFleetServiceImpl extends ServiceImpl<PdFleetMapper, PdFleet> impl
         PdFleet fleet = new PdFleet();
         fleet.setId(id);
         fleet.setStatus(Constant.DATA_DISABLE_STATUS);
+
+
         baseMapper.updateById(fleet);
     }
 
