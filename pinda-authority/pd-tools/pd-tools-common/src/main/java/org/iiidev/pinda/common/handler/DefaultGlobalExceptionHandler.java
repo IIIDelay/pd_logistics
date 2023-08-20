@@ -41,13 +41,13 @@ import java.util.stream.Collectors;
 public abstract class DefaultGlobalExceptionHandler {
     @ExceptionHandler(BizException.class)
     public Result<String> bizException(BizException ex, HttpServletRequest request) {
-        log.warn("BizException:", ex);
+        log.error("BizException:", ex);
         return Result.result(ex.getCode(), StrPool.EMPTY, ex.getMessage()).setPath(request.getRequestURI());
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public Result httpMessageNotReadableException(HttpMessageNotReadableException ex, HttpServletRequest request) {
-        log.warn("HttpMessageNotReadableException:", ex);
+        log.error("HttpMessageNotReadableException:", ex);
         String message = ex.getMessage();
         if (StrUtil.containsAny(message, "Could not read document:")) {
             String msg = String.format("无法正确的解析json类型的参数：%s", StrUtil.subBetween(message, "Could not read document:", " at "));
@@ -58,7 +58,7 @@ public abstract class DefaultGlobalExceptionHandler {
 
     @ExceptionHandler(BindException.class)
     public Result bindException(BindException ex, HttpServletRequest request) {
-        log.warn("BindException:", ex);
+        log.error("BindException:", ex);
         try {
             String msgs = ex.getBindingResult().getFieldError().getDefaultMessage();
             if (StrUtil.isNotEmpty(msgs)) {
@@ -79,7 +79,7 @@ public abstract class DefaultGlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public Result methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
-        log.warn("MethodArgumentTypeMismatchException:", ex);
+        log.error("MethodArgumentTypeMismatchException:", ex);
         MethodArgumentTypeMismatchException eee = (MethodArgumentTypeMismatchException) ex;
         StringBuilder msg = new StringBuilder("参数：[").append(eee.getName())
                 .append("]的传入值：[").append(eee.getValue())
@@ -89,13 +89,13 @@ public abstract class DefaultGlobalExceptionHandler {
 
     @ExceptionHandler(IllegalStateException.class)
     public Result illegalStateException(IllegalStateException ex, HttpServletRequest request) {
-        log.warn("IllegalStateException:", ex);
+        log.error("IllegalStateException:", ex);
         return Result.result(ExceptionCode.ILLEGALA_ARGUMENT_EX.getCode(), StrPool.EMPTY, ExceptionCode.ILLEGALA_ARGUMENT_EX.getMsg()).setPath(request.getRequestURI());
     }
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     public Result missingServletRequestParameterException(MissingServletRequestParameterException ex, HttpServletRequest request) {
-        log.warn("MissingServletRequestParameterException:", ex);
+        log.error("MissingServletRequestParameterException:", ex);
         StringBuilder msg = new StringBuilder();
         msg.append("缺少必须的[").append(ex.getParameterType()).append("]类型的参数[").append(ex.getParameterName()).append("]");
         return Result.result(ExceptionCode.ILLEGALA_ARGUMENT_EX.getCode(), StrPool.EMPTY, msg.toString()).setPath(request.getRequestURI());
@@ -103,19 +103,19 @@ public abstract class DefaultGlobalExceptionHandler {
 
     @ExceptionHandler(NullPointerException.class)
     public Result nullPointerException(NullPointerException ex, HttpServletRequest request) {
-        log.warn("NullPointerException:", ex);
+        log.error("NullPointerException:", ex);
         return Result.result(ExceptionCode.NULL_POINT_EX.getCode(), StrPool.EMPTY, ExceptionCode.NULL_POINT_EX.getMsg()).setPath(request.getRequestURI());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public Result illegalArgumentException(IllegalArgumentException ex, HttpServletRequest request) {
-        log.warn("IllegalArgumentException:", ex);
+        log.error("IllegalArgumentException:", ex);
         return Result.result(ExceptionCode.ILLEGALA_ARGUMENT_EX.getCode(), StrPool.EMPTY, ExceptionCode.ILLEGALA_ARGUMENT_EX.getMsg()).setPath(request.getRequestURI());
     }
 
     @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
     public Result httpMediaTypeNotSupportedException(HttpMediaTypeNotSupportedException ex, HttpServletRequest request) {
-        log.warn("HttpMediaTypeNotSupportedException:", ex);
+        log.error("HttpMediaTypeNotSupportedException:", ex);
         MediaType contentType = ex.getContentType();
         if (contentType != null) {
             StringBuilder msg = new StringBuilder();
@@ -127,13 +127,13 @@ public abstract class DefaultGlobalExceptionHandler {
 
     @ExceptionHandler(MissingServletRequestPartException.class)
     public Result missingServletRequestPartException(MissingServletRequestPartException ex, HttpServletRequest request) {
-        log.warn("MissingServletRequestPartException:", ex);
+        log.error("MissingServletRequestPartException:", ex);
         return Result.result(ExceptionCode.REQUIRED_FILE_PARAM_EX.getCode(), StrPool.EMPTY, ExceptionCode.REQUIRED_FILE_PARAM_EX.getMsg()).setPath(request.getRequestURI());
     }
 
     @ExceptionHandler(ServletException.class)
     public Result servletException(ServletException ex, HttpServletRequest request) {
-        log.warn("ServletException:", ex);
+        log.error("ServletException:", ex);
         String msg = "UT010016: Not a multi part request";
         if (msg.equalsIgnoreCase(ex.getMessage())) {
             return Result.result(ExceptionCode.REQUIRED_FILE_PARAM_EX.getCode(), StrPool.EMPTY, ExceptionCode.REQUIRED_FILE_PARAM_EX.getMsg());
@@ -143,7 +143,7 @@ public abstract class DefaultGlobalExceptionHandler {
 
     @ExceptionHandler(MultipartException.class)
     public Result multipartException(MultipartException ex, HttpServletRequest request) {
-        log.warn("MultipartException:", ex);
+        log.error("MultipartException:", ex);
         return Result.result(ExceptionCode.REQUIRED_FILE_PARAM_EX.getCode(), StrPool.EMPTY, ExceptionCode.REQUIRED_FILE_PARAM_EX.getMsg()).setPath(request.getRequestURI());
     }
 
@@ -155,7 +155,7 @@ public abstract class DefaultGlobalExceptionHandler {
      */
     @ExceptionHandler(ConstraintViolationException.class)
     public Result<String> constraintViolationException(ConstraintViolationException ex, HttpServletRequest request) {
-        log.warn("ConstraintViolationException:", ex);
+        log.error("ConstraintViolationException:", ex);
         Set<ConstraintViolation<?>> violations = ex.getConstraintViolations();
         String message = violations.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(";"));
         return Result.result(ExceptionCode.BASE_VALID_PARAM.getCode(), StrPool.EMPTY, message).setPath(request.getRequestURI());
@@ -169,7 +169,7 @@ public abstract class DefaultGlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Object methodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request) {
-        log.warn("MethodArgumentNotValidException:", ex);
+        log.error("MethodArgumentNotValidException:", ex);
         return Result.result(ExceptionCode.BASE_VALID_PARAM.getCode(), StrPool.EMPTY, ex.getBindingResult().getFieldError().getDefaultMessage()).setPath(request.getRequestURI());
     }
 
@@ -181,7 +181,7 @@ public abstract class DefaultGlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public Result<String> otherExceptionHandler(Exception ex, HttpServletRequest request) {
-        log.warn("Exception:", ex);
+        log.error("Exception:", ex);
         if (ex.getCause() instanceof BizException) {
             return this.bizException((BizException) ex.getCause(), request);
         }
@@ -194,14 +194,14 @@ public abstract class DefaultGlobalExceptionHandler {
      */
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public Result<String> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex, HttpServletRequest request) {
-        log.warn("HttpRequestMethodNotSupportedException:", ex);
+        log.error("HttpRequestMethodNotSupportedException:", ex);
         return Result.result(ExceptionCode.METHOD_NOT_ALLOWED.getCode(), StrPool.EMPTY, ExceptionCode.METHOD_NOT_ALLOWED.getMsg()).setPath(request.getRequestURI());
     }
 
 
     @ExceptionHandler(PersistenceException.class)
     public Result<String> persistenceException(PersistenceException ex, HttpServletRequest request) {
-        log.warn("PersistenceException:", ex);
+        log.error("PersistenceException:", ex);
         if (ex.getCause() instanceof BizException) {
             BizException cause = (BizException) ex.getCause();
             return Result.result(cause.getCode(), StrPool.EMPTY, cause.getMessage());
@@ -211,7 +211,7 @@ public abstract class DefaultGlobalExceptionHandler {
 
     @ExceptionHandler(MyBatisSystemException.class)
     public Result<String> myBatisSystemException(MyBatisSystemException ex, HttpServletRequest request) {
-        log.warn("PersistenceException:", ex);
+        log.error("PersistenceException:", ex);
         if (ex.getCause() instanceof PersistenceException) {
             return this.persistenceException((PersistenceException) ex.getCause(), request);
         }
@@ -220,13 +220,13 @@ public abstract class DefaultGlobalExceptionHandler {
 
     @ExceptionHandler(SQLException.class)
     public Result sqlException(SQLException ex, HttpServletRequest request) {
-        log.warn("SQLException:", ex);
+        log.error("SQLException:", ex);
         return Result.result(ExceptionCode.SQL_EX.getCode(), StrPool.EMPTY, ExceptionCode.SQL_EX.getMsg()).setPath(request.getRequestURI());
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public Result dataIntegrityViolationException(DataIntegrityViolationException ex, HttpServletRequest request) {
-        log.warn("DataIntegrityViolationException:", ex);
+        log.error("DataIntegrityViolationException:", ex);
         return Result.result(ExceptionCode.SQL_EX.getCode(), StrPool.EMPTY, ExceptionCode.SQL_EX.getMsg()).setPath(request.getRequestURI());
     }
 
