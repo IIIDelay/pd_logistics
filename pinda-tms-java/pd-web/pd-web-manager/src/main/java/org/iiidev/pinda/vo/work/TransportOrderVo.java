@@ -27,9 +27,7 @@ public class TransportOrderVo implements Serializable {
     private Integer schedulingStatus;
 
     @ApiModelProperty(value = "创建时间")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "页码")

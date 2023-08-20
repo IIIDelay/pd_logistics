@@ -40,7 +40,7 @@ public class RsaKeyHelper {
      * @throws Exception
      */
     public PrivateKey getPrivateKey(String filename) throws IOException, NoSuchAlgorithmException, InvalidKeySpecException {
-        InputStream resourceAsStream = this.getClass().getClassLoader().getResourceAsStream(filename);
+        InputStream resourceAsStream = RsaKeyHelper.class.getClassLoader().getResourceAsStream(filename);
         try (DataInputStream dis = new DataInputStream(resourceAsStream)) {
             byte[] keyBytes = new byte[resourceAsStream.available()];
             dis.readFully(keyBytes);

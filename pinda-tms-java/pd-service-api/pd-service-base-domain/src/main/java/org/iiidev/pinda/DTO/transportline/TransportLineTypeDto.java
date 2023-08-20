@@ -35,9 +35,7 @@ public class TransportLineTypeDto implements Serializable {
     /**
      * 最后更新时间
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime lastUpdateTime;
     /**
      * 最后更新人id

@@ -65,7 +65,7 @@ public class AuthManager {
                 .map((resource -> resource.getMethod() + resource.getUrl()))
                 .collect(Collectors.toList());
             // 缓存权限数据
-            RedisOpt.save(CacheKey.USER_RESOURCE+ user.getId(), visibleResource);
+            RedisOpt.save(visibleResource, CacheKey.USER_RESOURCE, String.valueOf(user.getId()));
         }
 
         // 封装返回结果

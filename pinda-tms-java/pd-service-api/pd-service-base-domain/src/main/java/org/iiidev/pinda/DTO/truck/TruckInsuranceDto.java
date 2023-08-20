@@ -32,9 +32,7 @@ public class TruckInsuranceDto implements Serializable{
     /**
      * 三责有效期
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDate threeLiabilityExpiration;
     /**
      * 被保险人
@@ -47,9 +45,7 @@ public class TruckInsuranceDto implements Serializable{
     /**
      * 交强险有效期
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDate compulsoryInsuranceExpiration;
     /**
      * 交强险

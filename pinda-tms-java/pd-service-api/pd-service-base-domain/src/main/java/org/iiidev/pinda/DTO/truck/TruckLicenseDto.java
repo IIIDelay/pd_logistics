@@ -28,23 +28,17 @@ public class TruckLicenseDto implements Serializable {
     /**
      * 注册时间
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDate registrationDate;
     /**
      * 国家强制报废日期
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDate mandatoryScrap;
     /**
      * 检验有效期
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDate expirationDate;
     /**
      * 整备质量
@@ -61,9 +55,7 @@ public class TruckLicenseDto implements Serializable {
     /**
      * 行驶证有效期
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDate validityPeriod;
     /**
      * 道路运输证号

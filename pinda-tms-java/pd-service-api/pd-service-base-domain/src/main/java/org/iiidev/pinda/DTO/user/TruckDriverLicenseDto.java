@@ -29,9 +29,7 @@ public class TruckDriverLicenseDto implements Serializable {
     /**
      * 初次领证日期
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDate initialCertificateDate;
 
     /**

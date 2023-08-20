@@ -1,12 +1,6 @@
 package org.iiidev.pinda.authority.dto.auth;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
-
-import org.iiidev.pinda.authority.enumeration.auth.Sex;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -17,6 +11,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+import org.iiidev.pinda.authority.enumeration.auth.Sex;
+
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * 用户
@@ -110,6 +109,7 @@ public class UserDTO implements Serializable {
      * 最后登录时间
      */
     @ApiModelProperty(value = "最后登录时间")
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime lastLoginTime;
 
 }

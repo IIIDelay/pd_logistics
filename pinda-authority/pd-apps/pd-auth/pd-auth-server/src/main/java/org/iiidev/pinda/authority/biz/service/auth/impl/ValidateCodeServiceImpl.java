@@ -44,7 +44,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
         response.setDateHeader(HttpHeaders.EXPIRES, 0L);
 
         LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(120, 45, 4, 10);
-        RedisOpt.save(CacheKey.CAPTCHA + key, StringUtils.lowerCase(lineCaptcha.getCode()), Duration.ofSeconds(60));
+        RedisOpt.save(StringUtils.lowerCase(lineCaptcha.getCode()), Duration.ofSeconds(60), CacheKey.CAPTCHA, key);
         lineCaptcha.write(response.getOutputStream());
     }
 
@@ -54,14 +54,12 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
             throw BizException.validFail("请输入验证码");
         }
 
-        String code = RedisOpt.getValue(CacheKey.CAPTCHA + key);
+        String code = RedisOpt.getValue(CacheKey.CAPTCHA, key);
         Assert.notEmpty(code, () -> BizException.validFail("验证码已过期"));
+        Assert.isFalse(!StringUtils.equalsIgnoreCase(value, code), () -> BizException.validFail("验证码不正确"));
 
-        if (!StringUtils.equalsIgnoreCase(value, String.valueOf(code))) {
-            throw BizException.validFail("验证码不正确");
-        }
         // 验证通过，立即从缓存中删除验证码
-        RedisOpt.remove(CacheKey.CAPTCHA + key);
+        RedisOpt.remove(CacheKey.CAPTCHA, key);
         return true;
     }
 

@@ -39,33 +39,23 @@ public class DriverJobVo implements Serializable {
     private String finishHandover;
 
     @ApiModelProperty(value = "计划发车时间")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime planDepartureTime;
 
     @ApiModelProperty(value = "实际发车时间")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime actualDepartureTime;
 
     @ApiModelProperty(value = "计划到达时间")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime planArrivalTime;
 
     @ApiModelProperty(value = "实际到达时间")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime actualArrivalTime;
 
     @ApiModelProperty(value = "创建时间")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "页码")

@@ -54,49 +54,37 @@ public class TaskPickupDispatchDTO implements Serializable {
     /**
      * 预计开始时间
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime estimatedStartTime;
 
     /**
      * 实际开始时间
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime actualStartTime;
 
     /**
      * 预计完成时间
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime estimatedEndTime;
 
     /**
      * 实际完成时间
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime actualEndTime;
 
     /**
      * 确认时间
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime confirmTime;
 
     /**
      * 取消时间
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime cancelTime;
 
     /**
@@ -112,9 +100,7 @@ public class TaskPickupDispatchDTO implements Serializable {
     /**
      * 任务创建时间
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime createTime;
 
     /**

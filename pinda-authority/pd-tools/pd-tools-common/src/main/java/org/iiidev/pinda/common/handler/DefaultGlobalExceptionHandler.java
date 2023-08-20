@@ -31,12 +31,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-
 /**
- *
+ * 通过继承此类, 进行全局异常控制
  */
-//@ControllerAdvice(annotations = {RestController.class, Controller.class})
-//@ResponseBody
 @Slf4j
 public abstract class DefaultGlobalExceptionHandler {
     @ExceptionHandler(BizException.class)
@@ -119,7 +116,7 @@ public abstract class DefaultGlobalExceptionHandler {
         MediaType contentType = ex.getContentType();
         if (contentType != null) {
             StringBuilder msg = new StringBuilder();
-            msg.append("请求类型(Content-Type)[").append(contentType.toString()).append("] 与实际接口的请求类型不匹配");
+            msg.append("请求类型(Content-Type)[").append(contentType).append("] 与实际接口的请求类型不匹配");
             return Result.result(ExceptionCode.MEDIA_TYPE_EX.getCode(), StrPool.EMPTY, msg.toString()).setPath(request.getRequestURI());
         }
         return Result.result(ExceptionCode.MEDIA_TYPE_EX.getCode(), StrPool.EMPTY, "无效的Content-Type类型").setPath(request.getRequestURI());
@@ -131,6 +128,13 @@ public abstract class DefaultGlobalExceptionHandler {
         return Result.result(ExceptionCode.REQUIRED_FILE_PARAM_EX.getCode(), StrPool.EMPTY, ExceptionCode.REQUIRED_FILE_PARAM_EX.getMsg()).setPath(request.getRequestURI());
     }
 
+    /**
+     * servlet异常
+     *
+     * @param ex      ex
+     * @param request request
+     * @return Result
+     */
     @ExceptionHandler(ServletException.class)
     public Result servletException(ServletException ex, HttpServletRequest request) {
         log.error("ServletException:", ex);
@@ -141,6 +145,13 @@ public abstract class DefaultGlobalExceptionHandler {
         return Result.result(ExceptionCode.SYSTEM_BUSY.getCode(), StrPool.EMPTY, ex.getMessage()).setPath(request.getRequestURI());
     }
 
+    /**
+     * 文件上传异常
+     *
+     * @param ex      ex
+     * @param request request
+     * @return Result
+     */
     @ExceptionHandler(MultipartException.class)
     public Result multipartException(MultipartException ex, HttpServletRequest request) {
         log.error("MultipartException:", ex);
@@ -148,10 +159,11 @@ public abstract class DefaultGlobalExceptionHandler {
     }
 
     /**
-     * jsr 规范中的验证异常
+     * constraintViolationException jsr 规范中的验证异常
      *
-     * @param ex
-     * @return
+     * @param ex      ex
+     * @param request request
+     * @return Result<String>
      */
     @ExceptionHandler(ConstraintViolationException.class)
     public Result<String> constraintViolationException(ConstraintViolationException ex, HttpServletRequest request) {
@@ -162,10 +174,11 @@ public abstract class DefaultGlobalExceptionHandler {
     }
 
     /**
-     * spring 封装的参数验证异常， 在conttoller中没有写result参数时，会进入
+     * methodArgumentNotValidException spring 封装的参数验证异常， 在controller中没有写result参数时，会进入
      *
-     * @param ex
-     * @return
+     * @param ex      ex
+     * @param request request
+     * @return Object
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Object methodArgumentNotValidException(MethodArgumentNotValidException ex, HttpServletRequest request) {
@@ -176,8 +189,9 @@ public abstract class DefaultGlobalExceptionHandler {
     /**
      * 其他异常
      *
-     * @param ex
-     * @return
+     * @param ex      ex
+     * @param request request
+     * @return Result<String>
      */
     @ExceptionHandler(Exception.class)
     public Result<String> otherExceptionHandler(Exception ex, HttpServletRequest request) {

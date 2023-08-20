@@ -35,8 +35,6 @@ public class TransportOrderDTO implements Serializable {
     /**
      * 创建时间
      */
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime createTime;
 }

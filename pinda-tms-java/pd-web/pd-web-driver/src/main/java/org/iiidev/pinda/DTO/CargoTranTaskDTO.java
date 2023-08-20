@@ -120,9 +120,7 @@ public class CargoTranTaskDTO implements Serializable {
      */
     @ApiModelProperty("计划发车时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime planDepartureTime;
 
     /**
@@ -130,9 +128,7 @@ public class CargoTranTaskDTO implements Serializable {
      */
     @ApiModelProperty("实际发车时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime actualDepartureTime;
 
     /**
@@ -140,9 +136,7 @@ public class CargoTranTaskDTO implements Serializable {
      */
     @ApiModelProperty("计划到达时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime planArrivalTime;
 
     /**
@@ -150,9 +144,7 @@ public class CargoTranTaskDTO implements Serializable {
      */
     @ApiModelProperty("实际到达时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime actualArrivalTime;
 
     /**
@@ -160,9 +152,7 @@ public class CargoTranTaskDTO implements Serializable {
      */
     @ApiModelProperty("计划提货时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime planPickUpGoodsTime;
 
     /**
@@ -170,9 +160,7 @@ public class CargoTranTaskDTO implements Serializable {
      */
     @ApiModelProperty("实际提货时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime actualPickUpGoodsTime;
 
     /**
@@ -180,9 +168,7 @@ public class CargoTranTaskDTO implements Serializable {
      */
     @ApiModelProperty("计划交付时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime planDeliveryTime;
 
     /**
@@ -190,9 +176,7 @@ public class CargoTranTaskDTO implements Serializable {
      */
     @ApiModelProperty("实际交付时间")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime actualDeliveryTime;
 
     @ApiModelProperty("是否显示")

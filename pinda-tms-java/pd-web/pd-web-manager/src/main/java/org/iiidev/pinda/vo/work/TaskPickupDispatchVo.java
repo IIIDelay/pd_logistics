@@ -38,39 +38,27 @@ public class TaskPickupDispatchVo implements Serializable {
     private SysUserVo courier;
 
     @ApiModelProperty(value = "预计开始时间")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime estimatedStartTime;
 
     @ApiModelProperty(value = "实际开始时间")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime actualStartTime;
 
     @ApiModelProperty(value = "预计完成时间")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime estimatedEndTime;
 
     @ApiModelProperty(value = "实际完成时间")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime actualEndTime;
 
     @ApiModelProperty(value = "确认时间")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime confirmTime;
 
     @ApiModelProperty(value = "取消时间")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime cancelTime;
 
     @ApiModelProperty(value = "任务分配状态(1未分配2已分配3待人工分配)")
@@ -80,9 +68,7 @@ public class TaskPickupDispatchVo implements Serializable {
     private String mark;
 
     @ApiModelProperty(value = "任务创建时间")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime createTime;
 
     @ApiModelProperty(value = "页码")

@@ -87,7 +87,7 @@ public class JwtHelper {
                     .compact();
             return new Token(compactJws, expire);
         } catch (IOException | NoSuchAlgorithmException | InvalidKeySpecException e) {
-            log.error("errcode:{}, message:{}", ExceptionCode.JWT_GEN_TOKEN_FAIL.getCode(), e.getMessage());
+            log.error("errcode:{}, message:{}", ExceptionCode.JWT_GEN_TOKEN_FAIL.getCode(), e.getMessage(), e);
             throw new BizException(ExceptionCode.JWT_GEN_TOKEN_FAIL.getCode(), ExceptionCode.JWT_GEN_TOKEN_FAIL.getMsg());
         }
     }

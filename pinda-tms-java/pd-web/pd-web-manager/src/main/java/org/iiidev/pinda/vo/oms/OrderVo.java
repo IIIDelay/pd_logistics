@@ -26,9 +26,7 @@ public class OrderVo implements Serializable {
     private Integer pickupType;
 
     @ApiModelProperty(value = "下单时间")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime createTime;
 
     // TODO: 2020/4/1 此处应修改为客户模型
@@ -81,9 +79,7 @@ public class OrderVo implements Serializable {
     private BigDecimal amount;
 
     @ApiModelProperty(value = "预计到达时间")
-    @JsonFormat(
-            pattern = "yyyy-MM-dd HH:mm:ss"
-    )
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime estimatedArrivalTime;
 
     @ApiModelProperty(value = "距离，单位：公里")
