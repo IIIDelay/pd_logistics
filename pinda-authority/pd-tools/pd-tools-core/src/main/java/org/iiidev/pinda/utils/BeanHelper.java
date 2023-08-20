@@ -16,7 +16,7 @@ public class BeanHelper {
      * @return OUT
      */
     public static <IN, OUT> OUT copyCopier(IN source, OUT target, boolean existAccessorsAnno) {
-        if (existAccessors) {
+        if (existAccessorsAnno) {
             return copyProperties(source, target);
         }
         Assert.notNull(source, () -> BizException.unaryOf(ExceptionCode.ILLEGALA_ARGUMENT_EX, "input source param"));

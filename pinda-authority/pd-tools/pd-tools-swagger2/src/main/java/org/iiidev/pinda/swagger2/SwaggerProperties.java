@@ -1,10 +1,5 @@
 package org.iiidev.pinda.swagger2;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -12,10 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * swagger2 属性配置
  * 必须配置 prefix ，才能有提示
- *
  */
 @Data
 //@RefreshScope

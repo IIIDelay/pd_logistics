@@ -7,6 +7,8 @@ import org.iiidev.pinda.utils.SpringUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
+import java.time.Duration;
+
 @Slf4j
 public class RedisOpt {
     private final static StringRedisTemplate REDIS_TEMPLATE = SpringUtils.getBean(StringRedisTemplate.class);
@@ -14,6 +16,10 @@ public class RedisOpt {
 
     public static <IN> void save(String key, IN in) {
         VALUE_OPERATIONS.set(key, JSONObject.toJSONString(in));
+    }
+
+    public static <IN> void save(String key, IN in, Duration expir) {
+        VALUE_OPERATIONS.set(key, JSONObject.toJSONString(in), expir);
     }
 
     public static <IN> void saveIfAbsent(String key, IN in) {

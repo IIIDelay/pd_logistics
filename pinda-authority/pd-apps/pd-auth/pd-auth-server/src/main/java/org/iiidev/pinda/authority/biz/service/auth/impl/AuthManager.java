@@ -3,7 +3,6 @@ package org.iiidev.pinda.authority.biz.service.auth.impl;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.oschina.j2cache.CacheChannel;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.iiidev.pinda.auth.server.utils.JwtTokenServerUtils;
 import org.iiidev.pinda.auth.utils.JwtUserInfo;
@@ -15,11 +14,12 @@ import org.iiidev.pinda.authority.dto.auth.ResourceQueryDTO;
 import org.iiidev.pinda.authority.dto.auth.UserDTO;
 import org.iiidev.pinda.authority.entity.auth.Resource;
 import org.iiidev.pinda.authority.entity.auth.User;
+import org.iiidev.pinda.authority.util.RedisOpt;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.common.constant.CacheKey;
-import org.iiidev.pinda.dozer.DozerUtils;
 import org.iiidev.pinda.exception.BizException;
 import org.iiidev.pinda.exception.code.ExceptionCode;
+import org.iiidev.pinda.utils.BeanHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -36,13 +36,9 @@ public class AuthManager {
 
     private final UserService userService;
 
-    private final DozerUtils dozerUtils;
-
     private final JwtTokenServerUtils jwtTokenServerUtils;
 
     private final ResourceService resourceService;
-
-    private final CacheChannel cacheChannel;
 
     // 登录认证
     public Result<LoginDTO> login(String account, String password) {
@@ -69,12 +65,12 @@ public class AuthManager {
                 .map((resource -> resource.getMethod() + resource.getUrl()))
                 .collect(Collectors.toList());
             // 缓存权限数据
-            cacheChannel.set(CacheKey.USER_RESOURCE, user.getId().toString(), visibleResource);
+            RedisOpt.save(CacheKey.USER_RESOURCE+ user.getId(), visibleResource);
         }
 
         // 封装返回结果
         LoginDTO loginDTO = LoginDTO.builder()
-            .user(dozerUtils.map(user, UserDTO.class))
+            .user(BeanHelper.copyCopier(user, new UserDTO(), true))
             .token(token)
             .permissionsList(permissionList)
             .build();

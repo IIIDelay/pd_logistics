@@ -37,8 +37,7 @@ public class AuthorityApplication {
         String hostAddress = InetAddress
             .getLocalHost()
             .getHostAddress();
-        // 启动完成后在控制台提示项目启动成功，并且输出当前服务对应的swagger接口文档访问地址
-        // http://localhost:8080/doc.html
-        log.info("应用{}启动成功!swagger地址：http://{}:{}/doc.html", appName, hostAddress, port);
+        log.info("应用{}启动成功!knife4j地址：http://{}:{}/doc.html", appName, hostAddress, port);
+        log.info("应用{}启动成功!swagger2地址：http://{}:{}/swagger-ui.html", appName, hostAddress, port);
     }
 }

@@ -48,10 +48,8 @@ public class TenantWebMvcConfigurer implements WebMvcConfigurer {
                 "/v2/api-docs-ext",
                 "/swagger-resources/**",
                 "/webjars/**",
-
                 "/",
                 "/csrf",
-
                 "/META-INF/resources/**",
                 "/resources/**",
                 "/static/**",
@@ -60,7 +58,6 @@ public class TenantWebMvcConfigurer implements WebMvcConfigurer {
                 "classpath:/resources/**",
                 "classpath:/static/**",
                 "classpath:/public/**",
-
                 "/cache/**",
                 "/swagger-ui.html**",
                 "/doc.html**"

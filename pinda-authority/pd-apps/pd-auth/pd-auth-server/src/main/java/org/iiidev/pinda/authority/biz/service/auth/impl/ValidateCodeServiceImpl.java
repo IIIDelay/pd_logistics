@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.Duration;
 
 /**
  * 验证码服务
@@ -42,8 +43,8 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
         response.setHeader(HttpHeaders.CACHE_CONTROL, "No-cache");
         response.setDateHeader(HttpHeaders.EXPIRES, 0L);
 
-        LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(120, 45, 4, 5);
-        RedisOpt.save(CacheKey.CAPTCHA + key, StringUtils.lowerCase(lineCaptcha.getCode()));
+        LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(120, 45, 4, 10);
+        RedisOpt.save(CacheKey.CAPTCHA + key, StringUtils.lowerCase(lineCaptcha.getCode()), Duration.ofSeconds(60));
         lineCaptcha.write(response.getOutputStream());
     }
 

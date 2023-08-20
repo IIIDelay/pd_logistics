@@ -17,25 +17,26 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig extends WebMvcConfigurationSupport {
     // 定义分隔符
     private static final String splitor = ";";
+
     @Bean
     public Docket createRestApi() {
         // 文档类型
         return new Docket(DocumentationType.SWAGGER_2)
-                // 创建api的基本信息
-                .apiInfo(apiInfo())
-                // 选择哪些接口去暴露
-                .select()
-                // 扫描的包
-                .apis(RequestHandlerSelectors.basePackage("org.iiidev.pinda.controller"))
-                .paths(PathSelectors.any())
-                .build();
+            // 创建api的基本信息
+            .apiInfo(apiInfo())
+            // 选择哪些接口去暴露
+            .select()
+            // 扫描的包
+            .apis(RequestHandlerSelectors.basePackage("org.iiidev.pinda.controller"))
+            .paths(PathSelectors.any())
+            .build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("品达物流订单模块--Swagger文档")
-                .version("1.0")
-                .build();
+            .title("品达物流订单模块--Swagger文档")
+            .version("1.0")
+            .build();
     }
 
     /**
@@ -44,14 +45,15 @@ public class SwaggerConfig extends WebMvcConfigurationSupport {
      * @param registry
      */
     @Override
-    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 解决静态资源无法访问
         registry.addResourceHandler("/**").addResourceLocations("classpath:/static/");
+        registry.addResourceHandler("doc.html").addResourceLocations("classpath:/META-INF/resources/");
+
         // 解决swagger无法访问
         registry.addResourceHandler("/swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
         // 解决swagger的js文件无法访问
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
-
     }
 
 }
