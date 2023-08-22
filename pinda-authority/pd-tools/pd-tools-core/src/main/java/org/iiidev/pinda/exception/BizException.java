@@ -16,8 +16,16 @@ public class BizException extends BaseUncheckedException {
         super(-1, message);
     }
 
+    public BizException(String message, Throwable throwable) {
+        super(-1, message, throwable);
+    }
+
     public BizException(int code, String message) {
         super(code, message);
+    }
+
+    public BizException(int code, String message, Throwable throwable) {
+        super(code, message, throwable);
     }
 
     public BizException(int code, String message, Object... args) {
@@ -40,8 +48,8 @@ public class BizException extends BaseUncheckedException {
         return new BizException(-1, message, args);
     }
 
-    public static BizException validFail(String message, Object... args) {
-        return new BizException(-9, message, args);
+    public static BizException validFail(String msgTemplate, Object... args) {
+        return new BizException(-9, msgTemplate, args);
     }
 
     public static BizException wrap(BaseExceptionCode ex) {

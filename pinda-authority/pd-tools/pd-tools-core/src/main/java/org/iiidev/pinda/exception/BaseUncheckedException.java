@@ -24,6 +24,12 @@ public class BaseUncheckedException extends RuntimeException implements BaseExce
         this.message = message;
     }
 
+    public BaseUncheckedException(int code, String message, Throwable throwable) {
+        super(message, throwable);
+        this.code = code;
+        this.message = message;
+    }
+
     public BaseUncheckedException(int code, String format, Object... args) {
         super(String.format(format, args));
         this.code = code;
