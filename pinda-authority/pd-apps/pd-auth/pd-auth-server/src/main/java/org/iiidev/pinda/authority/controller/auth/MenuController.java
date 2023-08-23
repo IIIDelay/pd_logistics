@@ -21,8 +21,8 @@ import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.base.entity.SuperEntity;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.database.mybatis.conditions.query.LbqWrapper;
-import org.iiidev.pinda.dozer.DozerUtils;
 import org.iiidev.pinda.log.annotation.SysLog;
+import org.iiidev.pinda.utils.BeanHelper;
 import org.iiidev.pinda.utils.TreeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -36,7 +36,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +51,6 @@ import java.util.List;
 @RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class MenuController extends BaseController {
     private final MenuService menuService;
-    private final DozerUtils dozer;
 
     /**
      * 分页查询菜单
@@ -91,7 +89,7 @@ public class MenuController extends BaseController {
     @PostMapping
     @SysLog("新增菜单")
     public Result<Menu> save(@RequestBody @Validated MenuSaveDTO data) {
-        Menu menu = dozer.map(data, Menu.class);
+        Menu menu = BeanHelper.copyCopier(data, new Menu(), true);
         menuService.save(menu);
         return success(menu);
     }
@@ -103,7 +101,7 @@ public class MenuController extends BaseController {
     @PutMapping
     @SysLog("修改菜单")
     public Result<Menu> update(@RequestBody @Validated(SuperEntity.Update.class) MenuUpdateDTO data) {
-        Menu menu = dozer.map(data, Menu.class);
+        Menu menu = BeanHelper.copyCopier(data, new Menu(), true);
         menuService.updateById(menu);
         return success(menu);
     }
@@ -137,8 +135,8 @@ public class MenuController extends BaseController {
         if (userId == null || userId <= 0) {
             userId = getUserId();
         }
-        List<Menu> list = menuService.findVisibleMenu(group, userId);
-        List<MenuTreeDTO> treeList = dozer.mapList(list, MenuTreeDTO.class);
+        List<Menu> menuList = menuService.findVisibleMenu(group, userId);
+        List<MenuTreeDTO> treeList = BeanHelper.mapList(menuList, MenuTreeDTO.class, true);
 
         List<MenuTreeDTO> tree = TreeUtil.build(treeList);
         return success(tree);
@@ -182,7 +180,7 @@ public class MenuController extends BaseController {
     @ApiOperation(value = "查询用户可用的所有菜单路由树", notes = "查询用户可用的所有菜单路由树")
     @GetMapping("/router")
     public Result<List<VueRouter>> myRouter(@RequestParam(value = "group", required = false) String group,
-                                            @RequestParam(value = "userId", required = false) Long userId, HttpServletRequest request) {
+                                            @RequestParam(value = "userId", required = false) Long userId) {
         if (userId == null || userId <= 0) {
             userId = getUserId();
         }
@@ -192,7 +190,7 @@ public class MenuController extends BaseController {
             userId = userInfo.getUserId();
         }
         List<Menu> list = menuService.findVisibleMenu(group, userId);
-        List<VueRouter> treeList = dozer.mapList(list, VueRouter.class);
+        List<VueRouter> treeList = BeanHelper.mapList(list, VueRouter.class, true);
         return success(TreeUtil.build(treeList));
     }
 
@@ -212,7 +210,7 @@ public class MenuController extends BaseController {
         List<Menu> list = menuService.list(Wraps
             .<Menu>lbQ()
             .orderByAsc(Menu::getSortValue));
-        List<MenuTreeDTO> treeList = dozer.mapList(list, MenuTreeDTO.class);
+        List<MenuTreeDTO> treeList = BeanHelper.mapList(list, MenuTreeDTO.class, true);
         return success(TreeUtil.build(treeList));
     }
 }

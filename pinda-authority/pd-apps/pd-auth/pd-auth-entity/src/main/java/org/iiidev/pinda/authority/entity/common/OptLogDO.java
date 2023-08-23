@@ -1,13 +1,7 @@
 package org.iiidev.pinda.authority.entity.common;
 
-import java.time.LocalDateTime;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import org.iiidev.pinda.authority.enumeration.common.LogType;
-import org.iiidev.pinda.base.entity.SuperEntity;
-import org.iiidev.pinda.common.enums.HttpMethod;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -18,6 +12,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+import org.iiidev.pinda.authority.enumeration.common.LogType;
+import org.iiidev.pinda.base.entity.SuperEntity;
+import org.iiidev.pinda.common.enums.HttpMethod;
+
+import java.time.LocalDateTime;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -36,7 +35,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Accessors(chain = true)
 @TableName("pd_common_opt_log")
 @ApiModel(value = "OptLog", description = "系统日志")
-public class OptLog extends SuperEntity<Long> {
+public class OptLogDO extends SuperEntity<Long> {
 
     private static final long serialVersionUID = 1L;
 
@@ -167,10 +166,10 @@ public class OptLog extends SuperEntity<Long> {
 
 
     @Builder
-    public OptLog(Long id, LocalDateTime createTime, Long createUser,
-                  String requestIp, LogType type, String userName, String description, String classPath,
-                  String actionMethod, String requestUri, HttpMethod httpMethod, String params, String result, String exDesc,
-                  String exDetail, LocalDateTime startTime, LocalDateTime finishTime, Long consumingTime, String ua) {
+    public OptLogDO(Long id, LocalDateTime createTime, Long createUser,
+                    String requestIp, LogType type, String userName, String description, String classPath,
+                    String actionMethod, String requestUri, HttpMethod httpMethod, String params, String result, String exDesc,
+                    String exDetail, LocalDateTime startTime, LocalDateTime finishTime, Long consumingTime, String ua) {
         this.id = id;
         this.createTime = createTime;
         this.createUser = createUser;

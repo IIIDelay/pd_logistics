@@ -26,8 +26,8 @@ import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.base.entity.SuperEntity;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.database.mybatis.conditions.query.LbqWrapper;
-import org.iiidev.pinda.dozer.DozerUtils;
 import org.iiidev.pinda.log.annotation.SysLog;
+import org.iiidev.pinda.utils.BeanHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -58,7 +58,6 @@ public class RoleController extends BaseController {
     private final RoleAuthorityService roleAuthorityService;
     private final RoleOrgService roleOrgService;
     private final UserRoleService userRoleService;
-    private final DozerUtils dozer;
 
     /**
      * 分页查询角色
@@ -72,7 +71,7 @@ public class RoleController extends BaseController {
     @SysLog("分页查询角色")
     public Result<IPage<Role>> page(RolePageDTO param) {
         IPage<Role> page = getPage();
-        Role role = dozer.map(param, Role.class);
+        Role role = BeanHelper.copyCopier(param, new Role(), true);
         // 构建值不为null的查询条件
         LbqWrapper<Role> query = Wraps
             .lbQ(role)
@@ -91,8 +90,7 @@ public class RoleController extends BaseController {
     @SysLog("查询角色")
     public Result<RoleQueryDTO> get(@PathVariable Long id) {
         Role role = roleService.getById(id);
-
-        RoleQueryDTO roleQueryDTO = dozer.map(role, RoleQueryDTO.class);
+        RoleQueryDTO roleQueryDTO = BeanHelper.copyCopier(role, new RoleQueryDTO(), true);
         List<Long> orgList = roleOrgService.listOrgByRoleId(role.getId());
         roleQueryDTO.setOrgList(orgList);
 

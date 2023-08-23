@@ -11,7 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 import org.iiidev.pinda.exception.BizException;
 
 import javax.validation.constraints.NotNull;
@@ -24,7 +23,6 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-@Accessors(chain = true)
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)

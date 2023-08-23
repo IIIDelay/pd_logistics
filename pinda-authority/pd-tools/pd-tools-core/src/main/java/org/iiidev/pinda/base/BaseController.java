@@ -23,11 +23,11 @@ import static org.iiidev.pinda.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 
 /**
  * SuperController
- *
  */
 public abstract class BaseController {
     @Resource
     protected HttpServletRequest request;
+
     @Resource
     protected HttpServletResponse response;
 
@@ -35,25 +35,31 @@ public abstract class BaseController {
      * 当前页
      */
     protected static final String CURRENT = "current";
+
     /**
      * 每页显示条数
      */
     protected static final String SIZE = "size";
+
     /**
      * 排序字段 ASC
      */
     protected static final String PAGE_ASCS = "ascs";
+
     /**
      * 排序字段 DESC
      */
     protected static final String PAGE_DESCS = "descs";
 
     protected static final String START_CREATE_TIME = "startCreateTime";
+
     protected static final String END_CREATE_TIME = "endCreateTime";
+
     /**
      * 默认每页条目20,最大条目数100
      */
     int DEFAULT_LIMIT = 20;
+
     int MAX_LIMIT = 10000;
 
     /**
@@ -171,12 +177,11 @@ public abstract class BaseController {
         pageSize = pageSize > MAX_LIMIT ? MAX_LIMIT : pageSize;
         Page<T> page = new Page<>(pageNo, pageSize);
         if (openSort) {
-            List<OrderItem> orderItems = Stream.concat(Arrays.stream(getParameterSafeValues(PAGE_ASCS)).map(str -> new OrderItem(str, true)),
-                Arrays.stream(getParameterSafeValues(PAGE_DESCS)).map(str -> new OrderItem(str, true))).collect(Collectors.toList());
+            List<OrderItem> orderItems = Stream.concat(
+                    Arrays.stream(getParameterSafeValues(PAGE_ASCS)).map(str -> new OrderItem(str, true)),
+                    Arrays.stream(getParameterSafeValues(PAGE_DESCS)).map(str -> new OrderItem(str, true))
+                ).collect(Collectors.toList());
             page.setOrders(orderItems);
-            // addOrder方法替代setAsc()与setDesc(), 已经废弃了
-            // page.setAsc(getParameterSafeValues(PAGE_ASCS));
-            // page.setDesc(getParameterSafeValues(PAGE_DESCS));
         }
         return page;
     }

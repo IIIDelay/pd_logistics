@@ -4,10 +4,9 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.authority.biz.dao.common.OptLogMapper;
 import org.iiidev.pinda.authority.biz.service.common.OptLogService;
-import org.iiidev.pinda.authority.entity.common.OptLog;
-import org.iiidev.pinda.dozer.DozerUtils;
+import org.iiidev.pinda.authority.entity.common.OptLogDO;
 import org.iiidev.pinda.log.entity.OptLogDTO;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.iiidev.pinda.utils.BeanHelper;
 import org.springframework.stereotype.Service;
 
 /**
@@ -16,12 +15,11 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class OptLogServiceImpl extends ServiceImpl<OptLogMapper, OptLog> implements OptLogService {
-    @Autowired
-    DozerUtils dozer;
+public class OptLogServiceImpl extends ServiceImpl<OptLogMapper, OptLogDO> implements OptLogService {
 
     @Override
-    public boolean save(OptLogDTO entity) {
-        return super.save(dozer.map(entity, OptLog.class));
+    public boolean save(OptLogDTO optLogDTO) {
+        OptLogDO optLogDO = BeanHelper.copyCopier(optLogDTO, new OptLogDO(), true);
+        return save(optLogDO);
     }
 }

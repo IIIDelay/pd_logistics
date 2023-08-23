@@ -1,5 +1,6 @@
 package org.iiidev.pinda.authority.biz.service.auth.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,7 @@ import org.iiidev.pinda.authority.dto.auth.ResourceQueryDTO;
 import org.iiidev.pinda.authority.dto.auth.UserDTO;
 import org.iiidev.pinda.authority.entity.auth.Resource;
 import org.iiidev.pinda.authority.entity.auth.User;
-import org.iiidev.pinda.authority.util.RedisOpt;
+import org.iiidev.pinda.authority.util.RedisHelper;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.common.constant.CacheKey;
 import org.iiidev.pinda.exception.BizException;
@@ -53,7 +54,7 @@ public class AuthManager {
             .userId(user.getId())
             .build();
         List<Resource> userResource = resourceService.findVisibleResource(resourceQueryDTO);
-        log.info("当前用户拥有的资源权限为：" + userResource);
+        log.info("当前用户拥有的资源权限为：{}", JSON.toJSONString(userResource));
 
         List<String> permissionList = null;
         if (userResource != null && userResource.size() > 0) {
@@ -65,7 +66,7 @@ public class AuthManager {
                 .map((resource -> resource.getMethod() + resource.getUrl()))
                 .collect(Collectors.toList());
             // 缓存权限数据
-            RedisOpt.save(visibleResource, CacheKey.USER_RESOURCE, String.valueOf(user.getId()));
+            RedisHelper.save(visibleResource, CacheKey.USER_RESOURCE, String.valueOf(user.getId()));
         }
 
         // 封装返回结果

@@ -1,23 +1,18 @@
 package org.iiidev.pinda.authority.entity.auth;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import org.iiidev.pinda.base.entity.Entity;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+import org.iiidev.pinda.base.entity.Entity;
+
+import javax.validation.constraints.NotEmpty;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -33,7 +28,6 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Accessors(chain = true)
 @TableName("pd_auth_resource")
 @ApiModel(value = "Resource", description = "资源")
 public class Resource extends Entity<Long> {
@@ -86,21 +80,4 @@ public class Resource extends Entity<Long> {
     //@Length(max = 255, message = "接口描述长度不能超过255")
     @TableField(value = "url")
     private String url;
-
-    @Builder
-    public Resource(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                    String code, String name, Long menuId, String describe,String method,String url) {
-        this.id = id;
-        this.createUser = createUser;
-        this.createTime = createTime;
-        this.updateUser = updateUser;
-        this.updateTime = updateTime;
-        this.code = code;
-        this.name = name;
-        this.menuId = menuId;
-        this.describe = describe;
-        this.method = method;
-        this.url = url;
-    }
-
 }

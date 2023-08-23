@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.authority.biz.service.common.OptLogService;
-import org.iiidev.pinda.authority.entity.common.OptLog;
+import org.iiidev.pinda.authority.entity.common.OptLogDO;
 import org.iiidev.pinda.base.BaseController;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
@@ -46,14 +46,14 @@ public class OptLogController extends BaseController {
     })
     @ApiOperation(value = "分页查询系统操作日志", notes = "分页查询系统操作日志")
     @GetMapping("/page")
-    public Result<IPage<OptLog>> page(OptLog data) {
-        IPage<OptLog> page = getPage();
+    public Result<IPage<OptLogDO>> page(OptLogDO data) {
+        IPage<OptLogDO> page = getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<OptLog> query = Wraps
+        LbqWrapper<OptLogDO> query = Wraps
             .lbQ(data)
-            .leFooter(OptLog::getCreateTime, getEndCreateTime())
-            .geHeader(OptLog::getCreateTime, getStartCreateTime())
-            .orderByDesc(OptLog::getId);
+            .leFooter(OptLogDO::getCreateTime, getEndCreateTime())
+            .geHeader(OptLogDO::getCreateTime, getStartCreateTime())
+            .orderByDesc(OptLogDO::getId);
         optLogService.page(page, query);
         return success(page);
     }
@@ -63,7 +63,7 @@ public class OptLogController extends BaseController {
      */
     @ApiOperation(value = "查询系统操作日志", notes = "查询系统操作日志")
     @GetMapping("/{id}")
-    public Result<OptLog> get(@PathVariable Long id) {
+    public Result<OptLogDO> get(@PathVariable Long id) {
         return success(optLogService.getById(id));
     }
 

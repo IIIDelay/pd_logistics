@@ -18,8 +18,8 @@ import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.base.entity.SuperEntity;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.database.mybatis.conditions.query.LbqWrapper;
-import org.iiidev.pinda.dozer.DozerUtils;
 import org.iiidev.pinda.log.annotation.SysLog;
+import org.iiidev.pinda.utils.BeanHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,7 +48,6 @@ import java.util.stream.Collectors;
 public class ResourceController extends BaseController {
 
     private final ResourceService resourceService;
-    private final DozerUtils dozer;
 
     /**
      * 分页查询资源
@@ -58,7 +57,7 @@ public class ResourceController extends BaseController {
         @ApiImplicitParam(name = "current", value = "当前页", dataType = "long", paramType = "query", defaultValue = "1"),
         @ApiImplicitParam(name = "size", value = "每页显示几条", dataType = "long", paramType = "query", defaultValue = "10"),
     })
-    @GetMapping("/page")
+    @GetMapping("page")
     @SysLog("分页查询资源")
     public Result<IPage<Resource>> page(Resource data) {
         IPage<Resource> page = getPage();
@@ -72,7 +71,7 @@ public class ResourceController extends BaseController {
      * 查询资源
      */
     @ApiOperation(value = "查询资源", notes = "查询资源")
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     @SysLog("查询资源")
     public Result<Resource> get(@PathVariable Long id) {
         return success(resourceService.getById(id));
@@ -85,7 +84,7 @@ public class ResourceController extends BaseController {
     @PostMapping
     @SysLog("新增资源")
     public Result<Resource> save(@RequestBody @Validated ResourceSaveDTO data) {
-        Resource resource = dozer.map(data, Resource.class);
+        Resource resource = BeanHelper.copyCopier(data, new Resource(), false);
         resourceService.save(resource);
         return success(resource);
     }
@@ -97,7 +96,7 @@ public class ResourceController extends BaseController {
     @PutMapping
     @SysLog("修改资源")
     public Result<Resource> update(@RequestBody @Validated(SuperEntity.Update.class) ResourceUpdateDTO data) {
-        Resource resource = dozer.map(data, Resource.class);
+        Resource resource = BeanHelper.copyCopier(data, new Resource(), false);
         resourceService.updateById(resource);
         return success(resource);
     }
@@ -135,7 +134,7 @@ public class ResourceController extends BaseController {
      * 查询所有资源
      */
     @ApiOperation(value = "查询所有资源", notes = "查询所有资源")
-    @GetMapping("/list")
+    @GetMapping("list")
     @SysLog("查询所有资源")
     public Result<List> list() {
         List<Resource> list = resourceService.list();

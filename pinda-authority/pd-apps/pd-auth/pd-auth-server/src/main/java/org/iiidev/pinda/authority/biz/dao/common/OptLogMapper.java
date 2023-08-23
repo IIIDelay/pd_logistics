@@ -1,7 +1,7 @@
 package org.iiidev.pinda.authority.biz.dao.common;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.iiidev.pinda.authority.entity.common.OptLog;
+import org.iiidev.pinda.authority.entity.common.OptLogDO;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,6 +11,6 @@ import org.springframework.stereotype.Repository;
  * </p>
  */
 @Repository
-public interface OptLogMapper extends BaseMapper<OptLog> {
+public interface OptLogMapper extends BaseMapper<OptLogDO> {
 
 }

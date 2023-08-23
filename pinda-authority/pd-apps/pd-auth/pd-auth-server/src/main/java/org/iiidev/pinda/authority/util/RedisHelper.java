@@ -14,7 +14,7 @@ import java.time.Duration;
 import java.util.function.Consumer;
 
 @Slf4j
-public class RedisOpt {
+public class RedisHelper {
     private final static StringRedisTemplate REDIS_TEMPLATE = SpringUtils.getBean(StringRedisTemplate.class);
     private final static ValueOperations<String, String> VALUE_OPERATIONS = REDIS_TEMPLATE.opsForValue();
 

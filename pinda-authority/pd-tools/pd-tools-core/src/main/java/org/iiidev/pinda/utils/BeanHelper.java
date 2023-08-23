@@ -1,11 +1,18 @@
 package org.iiidev.pinda.utils;
 
 import cn.hutool.core.lang.Assert;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.iiidev.pinda.exception.BizException;
 import org.iiidev.pinda.exception.code.ExceptionCode;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cglib.beans.BeanCopier;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+@Slf4j
 public class BeanHelper {
 
     /**
@@ -32,5 +39,31 @@ public class BeanHelper {
         Assert.notNull(target, () -> BizException.unaryOf(ExceptionCode.ILLEGALA_ARGUMENT_EX, "input target param"));
         BeanUtils.copyProperties(source, target, ignoreProperties);
         return target;
+    }
+
+    /**
+     * mapList
+     *
+     * @param source             source
+     * @param target             target
+     * @param existAccessorsAnno existAccessorsAnno
+     * @return List<OUT>
+     */
+    public static <IN, OUT> List<OUT> mapList(List<IN> source, Class<OUT> target, boolean existAccessorsAnno) {
+        if (CollectionUtils.isEmpty(source)) {
+            return Collections.emptyList();
+        }
+
+        try {
+            List<OUT> outList = new ArrayList<>();
+            for (IN in : source) {
+                OUT out = copyCopier(in, target.newInstance(), existAccessorsAnno);
+                outList.add(out);
+            }
+            return outList;
+        } catch (Exception ex) {
+            log.error("实体类属性转换映射异常", ex);
+            throw new BizException("实体类属性转换映射异常", ex);
+        }
     }
 }

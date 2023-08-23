@@ -59,9 +59,7 @@ public class RedisConfig {
         // redis连接池配置
         GenericObjectPoolConfig pool = new GenericObjectPoolConfig();
         pool.setMaxIdle(10);
-        pool.setTimeBetweenEvictionRunsMillis(Duration
-            .ofSeconds(10)
-            .getSeconds());
+        pool.setTimeBetweenEvictionRuns(Duration.ofSeconds(10));
         pool.setMinIdle(10);
 
         // LettucePoolingClientConfiguration配置

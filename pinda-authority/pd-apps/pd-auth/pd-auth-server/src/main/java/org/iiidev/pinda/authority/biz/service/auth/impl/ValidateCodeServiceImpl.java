@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.authority.biz.service.auth.ValidateCodeService;
-import org.iiidev.pinda.authority.util.RedisOpt;
+import org.iiidev.pinda.authority.util.RedisHelper;
 import org.iiidev.pinda.common.constant.CacheKey;
 import org.iiidev.pinda.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +44,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
         response.setDateHeader(HttpHeaders.EXPIRES, 0L);
 
         LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(120, 45, 4, 10);
-        RedisOpt.save(StringUtils.lowerCase(lineCaptcha.getCode()), Duration.ofSeconds(60), CacheKey.CAPTCHA, key);
+        RedisHelper.save(StringUtils.lowerCase(lineCaptcha.getCode()), Duration.ofSeconds(60), CacheKey.CAPTCHA, key);
         lineCaptcha.write(response.getOutputStream());
     }
 
@@ -54,12 +54,12 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
             throw BizException.validFail("请输入验证码");
         }
 
-        String code = RedisOpt.getValue(CacheKey.CAPTCHA, key);
+        String code = RedisHelper.getValue(CacheKey.CAPTCHA, key);
         Assert.notEmpty(code, () -> BizException.validFail("验证码已过期"));
         Assert.isFalse(!StringUtils.equalsIgnoreCase(value, code), () -> BizException.validFail("验证码不正确"));
 
         // 验证通过，立即从缓存中删除验证码
-        RedisOpt.remove(CacheKey.CAPTCHA, key);
+        RedisHelper.remove(CacheKey.CAPTCHA, key);
         return true;
     }
 

@@ -25,13 +25,13 @@ import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.base.entity.SuperEntity;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.database.mybatis.conditions.query.LbqWrapper;
-import org.iiidev.pinda.dozer.DozerUtils;
 import org.iiidev.pinda.log.annotation.SysLog;
 import org.iiidev.pinda.user.feign.UserQuery;
 import org.iiidev.pinda.user.model.SysOrg;
 import org.iiidev.pinda.user.model.SysRole;
 import org.iiidev.pinda.user.model.SysStation;
 import org.iiidev.pinda.user.model.SysUser;
+import org.iiidev.pinda.utils.BeanHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -59,12 +59,10 @@ import java.util.stream.Collectors;
 @Api(value = "User", tags = "用户")
 @RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class UserController extends BaseController {
-
     private final UserService userService;
     private final OrgService orgService;
     private final RoleService roleService;
     private final StationService stationService;
-    private final DozerUtils dozer;
 
     /**
      * 分页查询用户
@@ -78,8 +76,7 @@ public class UserController extends BaseController {
     @SysLog("分页查询用户")
     public Result<IPage<User>> page(UserPageDTO userPage) {
         IPage<User> page = getPage();
-
-        User user = dozer.map2(userPage, User.class);
+        User user = BeanHelper.copyCopier(userPage, new User(), true);
         if (userPage.getOrgId() != null && userPage.getOrgId() >= 0) {
             user.setOrgId(null);
         }
@@ -137,7 +134,7 @@ public class UserController extends BaseController {
     @PostMapping
     @SysLog("新增用户")
     public Result<User> save(@RequestBody @Validated UserSaveDTO data) {
-        User user = dozer.map(data, User.class);
+        User user = BeanHelper.copyCopier(data, new User(), true);
         userService.saveUser(user);
         return success(user);
     }
@@ -149,7 +146,7 @@ public class UserController extends BaseController {
     @PutMapping
     @SysLog("修改用户")
     public Result<User> update(@RequestBody @Validated(SuperEntity.Update.class) UserUpdateDTO data) {
-        User user = dozer.map(data, User.class);
+        User user = BeanHelper.copyCopier(data, new User(), true);
         userService.updateUser(user);
         return success(user);
     }
@@ -158,7 +155,7 @@ public class UserController extends BaseController {
     @PutMapping("/avatar")
     @SysLog("修改头像")
     public Result<User> avatar(@RequestBody @Validated(SuperEntity.Update.class) UserUpdateAvatarDTO data) {
-        User user = dozer.map(data, User.class);
+        User user = BeanHelper.copyCopier(data, new User(), true);
         userService.updateUser(user);
         return success(user);
     }
@@ -200,18 +197,21 @@ public class UserController extends BaseController {
         if (user == null) {
             return success(null);
         }
-        SysUser sysUser = dozer.map(user, SysUser.class);
+        SysUser sysUser = BeanHelper.copyCopier(user, new SysUser(), true);
 
         if (query.getFull() || query.getOrg()) {
-            sysUser.setOrg(dozer.map(orgService.getById(user.getOrgId()), SysOrg.class));
+            SysOrg sysOrg = BeanHelper.copyCopier(orgService.getById(user.getOrgId()), new SysOrg(), true);
+            sysUser.setOrg(sysOrg);
         }
+
         if (query.getFull() || query.getStation()) {
-            sysUser.setStation(dozer.map(stationService.getById(user.getStationId()), SysStation.class));
+            SysStation sysStation = BeanHelper.copyCopier(stationService.getById(user.getStationId()), new SysStation(), true);
+            sysUser.setStation(sysStation);
         }
 
         if (query.getFull() || query.getRoles()) {
             List<Role> list = roleService.findRoleByUserId(id);
-            sysUser.setRoles(dozer.mapList(list, SysRole.class));
+            sysUser.setRoles(BeanHelper.mapList(list, SysRole.class, true));
         }
 
         return success(sysUser);

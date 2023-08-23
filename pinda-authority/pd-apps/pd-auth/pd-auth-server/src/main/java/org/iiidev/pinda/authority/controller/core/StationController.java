@@ -15,8 +15,8 @@ import org.iiidev.pinda.authority.entity.core.Station;
 import org.iiidev.pinda.base.BaseController;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.base.entity.SuperEntity;
-import org.iiidev.pinda.dozer.DozerUtils;
 import org.iiidev.pinda.log.annotation.SysLog;
+import org.iiidev.pinda.utils.BeanHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -42,8 +42,6 @@ import java.util.List;
 public class StationController extends BaseController {
     @Autowired
     private StationService stationService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询岗位
@@ -78,7 +76,7 @@ public class StationController extends BaseController {
     @PostMapping
     @SysLog("新增岗位")
     public Result<Station> save(@RequestBody @Validated StationSaveDTO data) {
-        Station station = dozer.map(data, Station.class);
+        Station station = BeanHelper.copyCopier(data, new Station(), true);
         stationService.save(station);
         return success(station);
     }
@@ -90,7 +88,7 @@ public class StationController extends BaseController {
     @PutMapping
     @SysLog("修改岗位")
     public Result<Station> update(@RequestBody @Validated(SuperEntity.Update.class) StationUpdateDTO data) {
-        Station station = dozer.map(data, Station.class);
+        Station station = BeanHelper.copyCopier(data, new Station(), true);
         stationService.updateById(station);
         return success(station);
     }

@@ -3,7 +3,7 @@
 <mapper namespace="org.iiidev.pinda.authority.biz.dao.common.OptLogMapper">
 
     <!-- 通用查询映射结果 -->
-    <resultMap id="BaseResultMap" type="org.iiidev.pinda.authority.entity.common.OptLog">
+    <resultMap id="BaseResultMap" type="org.iiidev.pinda.authority.entity.common.OptLogDO">
         <id column="id" jdbcType="BIGINT" property="id"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
         <result column="create_user" jdbcType="BIGINT" property="createUser"/>

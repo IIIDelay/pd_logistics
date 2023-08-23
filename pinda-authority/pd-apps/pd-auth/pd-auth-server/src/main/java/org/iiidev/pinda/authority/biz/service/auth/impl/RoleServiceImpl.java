@@ -1,8 +1,8 @@
 package org.iiidev.pinda.authority.biz.service.auth.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.oschina.j2cache.CacheChannel;
 import org.iiidev.pinda.authority.biz.dao.auth.RoleMapper;
 import org.iiidev.pinda.authority.biz.service.auth.RoleAuthorityService;
 import org.iiidev.pinda.authority.biz.service.auth.RoleOrgService;
@@ -16,12 +16,12 @@ import org.iiidev.pinda.authority.entity.auth.RoleAuthority;
 import org.iiidev.pinda.authority.entity.auth.RoleOrg;
 import org.iiidev.pinda.authority.entity.auth.User;
 import org.iiidev.pinda.authority.entity.auth.UserRole;
+import org.iiidev.pinda.authority.util.RedisHelper;
 import org.iiidev.pinda.base.id.CodeGenerate;
 import org.iiidev.pinda.common.constant.CacheKey;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
-import org.iiidev.pinda.dozer.DozerUtils;
+import org.iiidev.pinda.utils.BeanHelper;
 import org.iiidev.pinda.utils.StrHelper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,21 +33,18 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements RoleService {
-    @Autowired
-    private CacheChannel cache;
-    @Autowired
-    private DozerUtils dozer;
-    @Autowired
-    private RoleOrgService roleOrgService;
-    @Autowired
-    private RoleAuthorityService roleAuthorityService;
-    @Autowired
-    private UserRoleService userRoleService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private CodeGenerate codeGenerate;
+
+    private final RoleOrgService roleOrgService;
+
+    private final RoleAuthorityService roleAuthorityService;
+
+    private final UserRoleService userRoleService;
+
+    private final UserService userService;
+
+    private final CodeGenerate codeGenerate;
 
     @Override
     public boolean removeById(List<Long> ids) {
@@ -57,11 +54,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         ids.forEach(roleId -> {
             List<User> userList = userService.findUserByRoleId(roleId, null);
             if (userList != null && userList.size() > 0) {
-                userList.forEach(user -> {
-                    cache.evict(CacheKey.USER_RESOURCE, user
-                        .getId()
-                        .toString());
-                });
+                userList.forEach(user ->
+                    RedisHelper.remove(CacheKey.USER_RESOURCE, String.valueOf(user.getId())));
             }
         });
 
@@ -94,7 +88,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
      */
     @Override
     public void saveRole(RoleSaveDTO data, Long userId) {
-        Role role = dozer.map(data, Role.class);
+        Role role = BeanHelper.copyCopier(data, new Role(), true);
         role.setCode(StrHelper.getOrDef(data.getCode(), codeGenerate.next()));
         role.setReadonly(false);
         super.save(role);
@@ -103,7 +97,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
 
     @Override
     public void updateRole(RoleUpdateDTO data, Long userId) {
-        Role role = dozer.map(data, Role.class);
+        Role role = BeanHelper.copyCopier(data, new Role(), true);
         super.updateById(role);
 
         roleOrgService.remove(Wraps
@@ -116,14 +110,12 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         if (orgList != null && !orgList.isEmpty()) {
             List<RoleOrg> list = orgList
                 .stream()
-                .map((orgId) ->
-                    RoleOrg
-                        .builder()
+                .map(orgId ->
+                    RoleOrg.builder()
                         .orgId(orgId)
                         .roleId(role.getId())
                         .build()
-                )
-                .collect(Collectors.toList());
+                ).collect(Collectors.toList());
             roleOrgService.saveBatch(list);
         }
     }

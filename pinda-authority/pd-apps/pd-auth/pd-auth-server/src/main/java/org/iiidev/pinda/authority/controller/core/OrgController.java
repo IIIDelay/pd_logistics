@@ -17,8 +17,8 @@ import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.base.entity.SuperEntity;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.database.mybatis.conditions.query.LbqWrapper;
-import org.iiidev.pinda.dozer.DozerUtils;
 import org.iiidev.pinda.log.annotation.SysLog;
+import org.iiidev.pinda.utils.BeanHelper;
 import org.iiidev.pinda.utils.BizAssert;
 import org.iiidev.pinda.utils.TreeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,8 +50,6 @@ import static org.iiidev.pinda.utils.StrPool.DEF_ROOT_PATH;
 public class OrgController extends BaseController {
     @Autowired
     private OrgService orgService;
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询组织
@@ -88,9 +86,8 @@ public class OrgController extends BaseController {
     @PostMapping
     @SysLog("新增组织")
     public Result<Org> save(@RequestBody @Validated OrgSaveDTO data) {
+        Org org = BeanHelper.copyCopier(data, new Org(), true);
 
-
-        Org org = this.dozer.map(data, Org.class);
         if (org.getParentId() == null || org.getParentId() <= 0) {
             org.setParentId(DEF_PARENT_ID);
             org.setTreePath(DEF_ROOT_PATH);
@@ -111,7 +108,7 @@ public class OrgController extends BaseController {
     @PutMapping
     @SysLog("修改组织")
     public Result<Org> update(@RequestBody @Validated(SuperEntity.Update.class) OrgUpdateDTO data) {
-        Org org = this.dozer.map(data, Org.class);
+        Org org = BeanHelper.copyCopier(data, new Org(), true);
         this.orgService.updateById(org);
         return this.success(org);
     }
@@ -140,11 +137,9 @@ public class OrgController extends BaseController {
             .like(Org::getName, name)
             .eq(Org::getStatus, status)
             .orderByAsc(Org::getSortValue));
-        List<OrgTreeDTO> treeList = this.dozer.mapList(list, OrgTreeDTO.class);
+        List<OrgTreeDTO> treeList = BeanHelper.mapList(list, OrgTreeDTO.class, true);
         return this.success(TreeUtil.build(treeList));
     }
-    //    @GetMapping
-//    Result<List<Org>> list(@RequestParam(name = "orgType",required = false) Integer orgType, @RequestParam(name = "ids",required = false) List<Long> ids, @RequestParam(name = "countyId",required = false) Long countyId, @RequestParam(name = "pid",required = false) Long pid, @RequestParam(name = "pids",required = false) List<Long> pids);
 
     /**
      * 查询所属机构信息列表

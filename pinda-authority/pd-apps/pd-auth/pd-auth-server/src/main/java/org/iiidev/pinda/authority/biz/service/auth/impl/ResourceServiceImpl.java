@@ -1,8 +1,8 @@
 package org.iiidev.pinda.authority.biz.service.auth.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.oschina.j2cache.CacheChannel;
 import org.iiidev.pinda.authority.biz.dao.auth.ResourceMapper;
 import org.iiidev.pinda.authority.biz.service.auth.ResourceService;
 import org.iiidev.pinda.authority.dto.auth.ResourceQueryDTO;
@@ -23,11 +23,9 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class ResourceServiceImpl extends ServiceImpl<ResourceMapper, Resource> implements ResourceService {
-    @Autowired
-    private CacheChannel cache;
-    @Autowired
-    private CodeGenerate codeGenerate;
+    private final CodeGenerate codeGenerate;
 
     /**
      * 查询用户的可用资源

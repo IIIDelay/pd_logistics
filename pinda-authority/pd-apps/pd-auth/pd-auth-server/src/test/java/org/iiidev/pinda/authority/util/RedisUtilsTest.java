@@ -17,7 +17,7 @@ class RedisUtilsTest {
         RedisUtilsTest redisUtilsTest = new RedisUtilsTest();
         UserDTO dto2 = RedisUtilsTest.dto;
         System.out.println("dto2 = " + dto2); */
-        String name1 = RedisOpt.getValue("name");
+        String name1 = RedisHelper.getValue("name");
         System.out.println("name1 = " + name1);
     }
 

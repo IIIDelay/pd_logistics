@@ -35,11 +35,11 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <dependency>
+            <!-- <dependency>
                 <groupId>org.iiidev</groupId>
                 <artifactId>pd-tools-j2cache</artifactId>
                 <version>${project.version}</version>
-            </dependency>
+            </dependency> -->
 
             <dependency>
                 <groupId>org.iiidev</groupId>
@@ -65,11 +65,11 @@
                 <version>${project.version}</version>
             </dependency>
 
-            <dependency>
+            <!-- <dependency>
                 <groupId>org.iiidev</groupId>
                 <artifactId>pd-tools-dozer</artifactId>
                 <version>${project.version}</version>
-            </dependency>
+            </dependency> -->
 
             <dependency>
                 <groupId>org.iiidev</groupId>

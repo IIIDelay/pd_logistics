@@ -1,8 +1,8 @@
 package org.iiidev.pinda.authority.biz.service.auth.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.oschina.j2cache.CacheChannel;
 import org.iiidev.pinda.authority.biz.dao.auth.RoleAuthorityMapper;
 import org.iiidev.pinda.authority.biz.service.auth.ResourceService;
 import org.iiidev.pinda.authority.biz.service.auth.RoleAuthorityService;
@@ -12,6 +12,7 @@ import org.iiidev.pinda.authority.dto.auth.UserRoleSaveDTO;
 import org.iiidev.pinda.authority.entity.auth.RoleAuthority;
 import org.iiidev.pinda.authority.entity.auth.UserRole;
 import org.iiidev.pinda.authority.enumeration.auth.AuthorizeType;
+import org.iiidev.pinda.authority.util.RedisHelper;
 import org.iiidev.pinda.common.constant.CacheKey;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.utils.NumberHelper;
@@ -29,13 +30,12 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, RoleAuthority> implements RoleAuthorityService {
-    @Autowired
-    private UserRoleService userRoleService;
-    @Autowired
-    private ResourceService resourceService;
-    @Autowired
-    private CacheChannel cache;
+
+    private final UserRoleService userRoleService;
+
+    private final ResourceService resourceService;
 
     @Override
     public boolean saveUserRole(UserRoleSaveDTO userRole) {
@@ -54,11 +54,10 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
         userRoleService.saveBatch(list);
 
         // 清除 用户拥有的资源列表
-        userRole
-            .getUserIdList()
-            .forEach((userId) -> {
+        userRole.getUserIdList()
+            .forEach(userId -> {
                 String key = CacheKey.buildKey(userId);
-                cache.evict(CacheKey.USER_RESOURCE, key);
+                RedisHelper.remove(CacheKey.USER_RESOURCE, key);
             });
         return true;
     }
@@ -120,12 +119,10 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
                 .select(UserRole::getUserId)
                 .eq(UserRole::getRoleId, dto.getRoleId()),
             (userId) -> NumberHelper.longValueOf0(userId));
-        userIdList
-            .stream()
-            .collect(Collectors.toSet())
-            .forEach((userId) -> {
+        userIdList.stream().distinct()
+            .forEach(userId -> {
                 log.info("清理了 {} 的菜单/资源", userId);
-                cache.evict(CacheKey.USER_RESOURCE, String.valueOf(userId));
+                RedisHelper.remove(CacheKey.USER_RESOURCE, String.valueOf(userId));
             });
 
         return true;

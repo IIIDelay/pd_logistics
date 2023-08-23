@@ -1,7 +1,8 @@
 package org.iiidev.controller;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.concurrent.TimeUnit;
 
+@Slf4j
 @RestController
+@RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class StockController {
 
-    @Autowired
-    private StringRedisTemplate redisTemplate;
+    private final StringRedisTemplate redisTemplate;
+
+    private final RedissonClient redissonClient;
+
+    private final CuratorFramework curatorFramework;
 //
 //    @GetMapping("/stock")
 //    public String stock(){
@@ -30,9 +36,6 @@ public class StockController {
 //        return "OK";
 //    }
 
-
-    @Autowired
-    private CuratorFramework curatorFramework;
 
 //    @GetMapping("/stock")
 //    public String stock() {
@@ -62,29 +65,26 @@ public class StockController {
 //        return "OK";
 //    }
 
-    @Autowired
-    private RedissonClient redissonClient;
-
     @GetMapping("/stock")
     public String stock() {
-        //获得分布式锁对象，注意，此时还没有加锁成功
+        // 获得分布式锁对象，注意，此时还没有加锁成功
         RLock lock = redissonClient.getLock("mylock");
         try {
-            //尝试加锁，如果加锁成功则后续程序继续执行，如果加锁不成功则阻塞等待
-            lock.lock(5000,TimeUnit.MILLISECONDS);
+            // 尝试加锁，如果加锁成功则后续程序继续执行，如果加锁不成功则阻塞等待
+            lock.lock(5000, TimeUnit.MILLISECONDS);
 
             int stock = Integer.parseInt(redisTemplate.opsForValue().get("stock"));
-            if(stock > 0){
-                stock --;
-                redisTemplate.opsForValue().set("stock",stock+"");
+            if (stock > 0) {
+                stock--;
+                redisTemplate.opsForValue().set("stock", stock + "");
                 System.out.println("库存扣减成功，剩余库存：" + stock);
-            }else {
+            } else {
                 System.out.println("库存不足！！！");
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println("出现异常！！！");
-        }finally {
-            //解锁
+        } finally {
+            // 解锁
             lock.unlock();
         }
 
