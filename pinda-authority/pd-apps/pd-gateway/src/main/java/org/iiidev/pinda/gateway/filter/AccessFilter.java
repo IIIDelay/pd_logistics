@@ -48,10 +48,12 @@ public class AccessFilter extends BaseFilter {
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
 
+        log.info("验证信息过滤器接受url: {}", request.getURI().getPath());
+
         // 第1步：判断当前请求uri是否需要忽略
         if (isIgnoreToken(request)) {
             // 当前请求需要忽略，直接放行
-            chain.filter(exchange);
+            return chain.filter(exchange);
         }
         // 第2步：获取当前请求的请求方式和uri，拼接成GET/user/page这种形式，称为权限标识符
         String method = request.getMethod().name();

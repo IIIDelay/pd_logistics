@@ -74,7 +74,7 @@ const httpServer = (opts) => {
   // 生产环境： http://IP:PORT/api   // 生产环境中 代理失效， 故需要配置绝对路径
   const httpDefaultOpts = {
     method,
-    baseURL: process.env.VUE_APP_PROD_REQUEST_DOMAIN_PREFIX + process.env.VUE_APP_BASE_API,
+    baseURL: process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX + process.env.VUE_APP_BASE_API,
     url: opts.url,
     responseType: opts.responseType || '',
     timeout: 20000

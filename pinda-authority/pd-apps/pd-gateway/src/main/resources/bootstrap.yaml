@@ -37,9 +37,11 @@ spring:
       discovery:
         locator:
           enabled: true
-        routes:
-          - id: pd-auth-server
-            uri: lb://pd-auth-server
-            predicates:
-              # 路径匹配，url中包含 product 关键字则满足路由条件
-              - Path=/*/authority/**
+      routes:
+        - id: pd-auth-server
+          uri: lb://pd-auth-server
+          predicates:
+            - Path=/api/authority/**
+          filters:
+            # 路径重写, uri中/api/authority 移除 -> 即正确服务地址
+            - RewritePath=/api/authority(?<segment>/?.*), $\{segment}
