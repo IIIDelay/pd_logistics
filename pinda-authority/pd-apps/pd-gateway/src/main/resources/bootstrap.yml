@@ -33,3 +33,13 @@ spring:
         group: DEFAULT_GROUP
         username: nacos
         password: nacos
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+        routes:
+          - id: pd-auth-server
+            uri: lb://pd-auth-server
+            predicates:
+              # 路径匹配，url中包含 product 关键字则满足路由条件
+              - Path=/*/authority/**

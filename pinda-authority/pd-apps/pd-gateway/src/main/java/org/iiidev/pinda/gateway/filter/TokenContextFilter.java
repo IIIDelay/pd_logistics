@@ -1,97 +1,76 @@
 package org.iiidev.pinda.gateway.filter;
 
-import com.netflix.zuul.context.RequestContext;
-import com.netflix.zuul.exception.ZuulException;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.ObjectUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.auth.client.properties.AuthClientProperties;
 import org.iiidev.pinda.auth.client.utils.JwtTokenClientUtils;
 import org.iiidev.pinda.auth.utils.JwtUserInfo;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.context.BaseContextConstants;
 import org.iiidev.pinda.exception.BizException;
-import org.iiidev.pinda.utils.StrHelper;
-import org.springframework.cloud.netflix.zuul.filters.support.FilterConstants;
+import org.springframework.cloud.gateway.filter.GatewayFilterChain;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
 /**
  * 当前过滤器负责解析请求头中的jwt令牌并且将解析出的用户信息放入zuul的header中
- */
+ *
+ * @Author IIIDelay
+ * @Date 2023/8/26 18:27
+ **/
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class TokenContextFilter extends BaseFilter {
-
     private final AuthClientProperties authClientProperties;
 
     private final JwtTokenClientUtils jwtTokenClientUtils;
 
-    // 前置过滤器
     @Override
-    public String filterType() {
-        return FilterConstants.PRE_TYPE;
-    }
-
-    // 设置过滤器执行顺序，数值越大优先级越低
-    @Override
-    public int filterOrder() {
-        return FilterConstants.PRE_DECORATION_FILTER_ORDER + 1;
-    }
-
-    // 是否执行当前过滤器
-    @Override
-    public boolean shouldFilter() {
-        return true;
-    }
-
-    // 过滤逻辑
-    @Override
-    public Object run() throws ZuulException {
-        if (isIgnoreToken()) {
+    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+        ServerHttpRequest request = exchange.getRequest();
+        ServerHttpResponse response = exchange.getResponse();
+        if (isIgnoreToken(request)) {
             // 直接放行
-            return null;
+            return chain.filter(exchange);
         }
 
-        RequestContext ctx = RequestContext.getCurrentContext();
-        HttpServletRequest request = ctx.getRequest();
-
         // 从请求头中获取前端提交的jwt令牌
-        String userToken = request.getHeader(authClientProperties.getUser().getHeaderName());
+        String userToken = request.getHeaders()
+            .get(authClientProperties.getUser().getHeaderName())
+            .stream()
+            .findFirst()
+            .orElse("");
 
         JwtUserInfo userInfo = null;
         // 解析jwt令牌
         try {
             userInfo = jwtTokenClientUtils.getUserInfo(userToken);
         } catch (BizException e) {
-            errorResponse(e.getMessage(), e.getCode(), 200);
-            return null;
+            return errorResponse(response, e.getMessage(), e.getCode(), 200);
         } catch (Exception e) {
-            errorResponse("解析jwt令牌出错", Result.FAIL_CODE, 200);
-            return null;
+            return errorResponse(response, "解析jwt令牌出错", Result.FAIL_CODE, 200);
         }
 
         // 将信息放入header
-        if (userInfo != null) {
-            addHeader(ctx, BaseContextConstants.JWT_KEY_ACCOUNT,
-                userInfo.getAccount());
-            addHeader(ctx, BaseContextConstants.JWT_KEY_USER_ID,
-                userInfo.getUserId());
-            addHeader(ctx, BaseContextConstants.JWT_KEY_NAME,
-                userInfo.getName());
-            addHeader(ctx, BaseContextConstants.JWT_KEY_ORG_ID,
-                userInfo.getOrgId());
-            addHeader(ctx, BaseContextConstants.JWT_KEY_STATION_ID,
-                userInfo.getStationId());
+        HttpHeaders headers = request.getHeaders();
+        if (userInfo != null && headers != null) {
+            headers.add(BaseContextConstants.JWT_KEY_ACCOUNT, userInfo.getAccount());
+            headers.add(BaseContextConstants.JWT_KEY_USER_ID, String.valueOf(userInfo.getUserId()));
+            headers.add(BaseContextConstants.JWT_KEY_NAME, userInfo.getName());
+            headers.add(BaseContextConstants.JWT_KEY_ORG_ID, String.valueOf(userInfo.getOrgId()));
+            headers.add(BaseContextConstants.JWT_KEY_STATION_ID, String.valueOf(userInfo.getStationId()));
         }
-        return null;
+        return chain.filter(exchange);
+
     }
 
-    // 将指定信息放入zuul的header中
-    private void addHeader(RequestContext ctx, String name, Object value) {
-        if (ObjectUtils.isEmpty(value)) {
-            return;
-        }
-        ctx.addZuulRequestHeader(name, StrHelper.encode(value.toString()));
+    @Override
+    public int getOrder() {
+        return 0;
     }
 }
