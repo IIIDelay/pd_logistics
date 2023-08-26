@@ -16,11 +16,11 @@ import java.util.List;
 @Repository
 public interface MenuMapper extends BaseMapper<Menu> {
     /**
-     * 查询用户可用菜单
+     * findVisibleMenu 查询用户可用菜单
      *
-     * @param group
-     * @param userId
-     * @return
+     * @param group  group
+     * @param userId userId
+     * @return List<Menu>
      */
     List<Menu> findVisibleMenu(@Param("group") String group, @Param("userId") Long userId);
 }

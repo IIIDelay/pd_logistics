@@ -52,6 +52,8 @@ import java.util.List;
 public class MenuController extends BaseController {
     private final MenuService menuService;
 
+    private final JwtTokenServerUtils jwtTokenServerUtils;
+
     /**
      * 分页查询菜单
      */
@@ -163,9 +165,6 @@ public class MenuController extends BaseController {
         tree.add(defaults);
         return tree;
     }
-
-    @Autowired
-    private JwtTokenServerUtils jwtTokenServerUtils;
 
     /**
      * 查询用户可用的所有菜单路由树

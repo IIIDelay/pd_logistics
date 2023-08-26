@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.authority.biz.service.auth.ValidateCodeService;
-import org.iiidev.pinda.authority.util.RedisHelper;
+import org.iiidev.pinda.common.utils.RedisHelper;
 import org.iiidev.pinda.common.constant.CacheKey;
 import org.iiidev.pinda.exception.BizException;
 import org.springframework.beans.factory.annotation.Autowired;

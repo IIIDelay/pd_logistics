@@ -12,7 +12,7 @@ import org.iiidev.pinda.authority.dto.auth.UserRoleSaveDTO;
 import org.iiidev.pinda.authority.entity.auth.RoleAuthority;
 import org.iiidev.pinda.authority.entity.auth.UserRole;
 import org.iiidev.pinda.authority.enumeration.auth.AuthorizeType;
-import org.iiidev.pinda.authority.util.RedisHelper;
+import org.iiidev.pinda.common.utils.RedisHelper;
 import org.iiidev.pinda.common.constant.CacheKey;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.utils.NumberHelper;

@@ -1,5 +1,6 @@
 package org.iiidev.pinda.auth.client.utils;
 
+import lombok.NoArgsConstructor;
 import org.iiidev.pinda.auth.client.properties.AuthClientProperties;
 import org.iiidev.pinda.auth.utils.JwtHelper;
 import org.iiidev.pinda.auth.utils.JwtUserInfo;
@@ -12,6 +13,7 @@ import lombok.AllArgsConstructor;
  *
  */
 @AllArgsConstructor
+@NoArgsConstructor
 public class JwtTokenClientUtils {
     /**
      * 用于 认证服务的 客户端使用（如 网关） ， 在网关获取到token后，

@@ -1,4 +1,4 @@
-package org.iiidev.pinda.authority.config;
+package org.iiidev.pinda.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;

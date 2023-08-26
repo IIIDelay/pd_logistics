@@ -16,7 +16,7 @@ import org.iiidev.pinda.authority.entity.auth.RoleAuthority;
 import org.iiidev.pinda.authority.entity.auth.RoleOrg;
 import org.iiidev.pinda.authority.entity.auth.User;
 import org.iiidev.pinda.authority.entity.auth.UserRole;
-import org.iiidev.pinda.authority.util.RedisHelper;
+import org.iiidev.pinda.common.utils.RedisHelper;
 import org.iiidev.pinda.base.id.CodeGenerate;
 import org.iiidev.pinda.common.constant.CacheKey;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;

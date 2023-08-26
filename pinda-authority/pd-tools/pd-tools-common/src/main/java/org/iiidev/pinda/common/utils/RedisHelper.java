@@ -1,4 +1,4 @@
-package org.iiidev.pinda.authority.util;
+package org.iiidev.pinda.common.utils;
 
 import cn.hutool.core.text.StrPool;
 import com.alibaba.fastjson.JSONObject;

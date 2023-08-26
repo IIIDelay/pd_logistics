@@ -1,13 +1,13 @@
 package org.iiidev.pinda.authority.biz.service.auth.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.authority.biz.dao.auth.MenuMapper;
 import org.iiidev.pinda.authority.biz.service.auth.MenuService;
 import org.iiidev.pinda.authority.biz.service.auth.ResourceService;
 import org.iiidev.pinda.authority.entity.auth.Menu;
 import org.iiidev.pinda.utils.NumberHelper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,9 +20,9 @@ import static org.iiidev.pinda.utils.StrPool.DEF_PARENT_ID;
  */
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
-    @Autowired
-    private ResourceService resourceService;
+    private final ResourceService resourceService;
 
     @Override
     public List<Menu> findVisibleMenu(String group, Long userId) {

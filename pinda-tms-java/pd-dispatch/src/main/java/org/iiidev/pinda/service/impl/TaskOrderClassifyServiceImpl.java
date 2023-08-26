@@ -1,6 +1,7 @@
 package org.iiidev.pinda.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Maps;
+import lombok.RequiredArgsConstructor;
 import org.iiidev.pinda.DTO.OrderClassifyDTO;
 import org.iiidev.pinda.DTO.OrderClassifyGroupDTO;
 import org.iiidev.pinda.DTO.OrderSearchDTO;
@@ -25,6 +26,7 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.iiidev.pinda.utils.StrPool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -36,17 +38,14 @@ import java.util.stream.Collectors;
 /**
  * 订单分类实现类
  */
-@Service
 @Slf4j
+@Service
+@RequiredArgsConstructor
 public class TaskOrderClassifyServiceImpl implements ITaskOrderClassifyService {
-    @Autowired
-    private OrderFeign orderFeign;
-    @Autowired
-    private AgencyScopeFeign agencyScopeFeign;
-    @Autowired
-    private IOrderClassifyService orderClassifyService;
-    @Autowired
-    private IOrderClassifyOrderService orderClassifyOrderService;
+    private final OrderFeign orderFeign;
+    private final AgencyScopeFeign agencyScopeFeign;
+    private final IOrderClassifyService orderClassifyService;
+    private final IOrderClassifyOrderService orderClassifyOrderService;
 
     /**
      * 订单分类核心逻辑
@@ -363,9 +362,7 @@ public class TaskOrderClassifyServiceImpl implements ITaskOrderClassifyService {
      * @return
      */
     private String getPoint(Map map){
-        String lng = map.get("lng").toString();
-        String lat = map.get("lat").toString();
-        return lng + "," + lat;
+        return StringUtils.join(map.get("lng"), StrPool.DEF_ROOT_PATH, map.get("lat"));
     }
 
     public static void main(String[] args) {

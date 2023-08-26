@@ -1,6 +1,7 @@
 package org.iiidev.pinda.authority.util;
 
 import org.iiidev.pinda.authority.dto.auth.UserDTO;
+import org.iiidev.pinda.common.utils.RedisHelper;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

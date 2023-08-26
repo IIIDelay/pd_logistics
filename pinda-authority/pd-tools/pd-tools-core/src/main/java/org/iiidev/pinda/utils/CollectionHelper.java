@@ -5,6 +5,8 @@
 package org.iiidev.pinda.utils;
 
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.iiidev.pinda.constant.MatchType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -191,6 +193,54 @@ public class CollectionHelper {
         return Optional.ofNullable(filter)
             .map(test -> inList.stream().filter(test).map(mapping).collect(Collectors.toList()))
             .orElse(inList.stream().map(mapping).collect(Collectors.toList()));
+    }
+
+    /**
+     * matchAny 集合任意元素匹配
+     *
+     * @param inCollection inCollection
+     * @param anyEle       anyEle
+     * @param matchType    matchType
+     * @return boolean
+     */
+    public static <IN> boolean matchAny(Collection<IN> inCollection, IN anyEle, MatchType matchType) {
+        if (CollectionUtils.isEmpty(inCollection) || anyEle == null) {
+            return false;
+        }
+        boolean resultBool = false;
+        switch (matchType) {
+            case FULL: {
+                resultBool = inCollection.stream().anyMatch(in -> Objects.equals(in, anyEle));
+            }
+            case PREFIX: {
+                resultBool = inCollection.stream().anyMatch(in -> {
+                    if (in instanceof String) {
+                        return StringUtils.startsWith((CharSequence) in, (CharSequence) anyEle);
+                    } else {
+                        return StringUtils.startsWith(String.valueOf(in), String.valueOf(anyEle));
+                    }
+                });
+            }
+            case SUBFIX:{
+                resultBool = inCollection.stream().anyMatch(in -> {
+                    if (in instanceof String) {
+                        return StringUtils.endsWith((CharSequence) in, (CharSequence) anyEle);
+                    } else {
+                        return StringUtils.endsWith(String.valueOf(in), String.valueOf(anyEle));
+                    }
+                });
+            }
+            case ANY:{
+                resultBool = inCollection.stream().anyMatch(in -> {
+                    if (in instanceof String) {
+                        return StringUtils.contains((CharSequence) in, (CharSequence) anyEle);
+                    } else {
+                        return StringUtils.contains(String.valueOf(in), String.valueOf(anyEle));
+                    }
+                });
+            }
+        }
+        return resultBool;
     }
 
     private static <IN, OUT> boolean checkNon(IN in, Function<IN, OUT> func) {

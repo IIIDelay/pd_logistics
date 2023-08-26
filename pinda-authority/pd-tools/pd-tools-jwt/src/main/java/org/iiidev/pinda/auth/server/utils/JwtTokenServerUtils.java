@@ -1,4 +1,5 @@
 package org.iiidev.pinda.auth.server.utils;
+
 import org.iiidev.pinda.auth.server.properties.AuthServerProperties;
 import org.iiidev.pinda.auth.utils.JwtHelper;
 import org.iiidev.pinda.auth.utils.JwtUserInfo;
@@ -6,6 +7,7 @@ import org.iiidev.pinda.auth.utils.Token;
 import org.iiidev.pinda.exception.BizException;
 
 import lombok.AllArgsConstructor;
+
 /**
  * jwt token 工具
  *

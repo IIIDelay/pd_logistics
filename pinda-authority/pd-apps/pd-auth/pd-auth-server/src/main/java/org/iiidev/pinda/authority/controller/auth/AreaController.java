@@ -17,12 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- *
- * @author : Lusic
- * @create : 2022/9/5 20:09
- */
 @RestController
 @RequestMapping("/area")
 public class AreaController {
