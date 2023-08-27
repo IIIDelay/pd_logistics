@@ -3,14 +3,14 @@
     <template
       v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow"
     >
-      <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
+      <app-link v-if="onlyOneChild" :to="resolvePath(onlyOneChild.path)">
         <el-menu-item
           :index="resolvePath(onlyOneChild.path)"
-          :class="{&quot;submenu-title-noDropdown&quot;:!isNest}"
+          :class="{'submenu-title-noDropdown':!isNest}"
         >
           <item
-            :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)"
-            :title="generateTitle(onlyOneChild.meta.title)"
+            :icon="onlyOneChild.icon||(item&&item.icon)"
+            :title="generateTitle(onlyOneChild.name)"
           />
         </el-menu-item>
       </app-link>
@@ -18,9 +18,9 @@
     <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
         <item
-          v-if="item.meta"
-          :icon="item.meta && item.meta.icon"
-          :title="generateTitle(item.meta.title)"
+          v-if="item"
+          :icon="item && item.icon"
+          :title="generateTitle(item.name)"
         />
       </template>
       <sidebar-item
@@ -70,6 +70,10 @@ export default {
     return {}
   },
   methods: {
+    show(onlyOneChild){
+      console.log("meata: ", onlyOneChild)
+      console.log("onlyOneChild meata: ", onlyOneChild.meta.title)
+    },
     hasOneShowingChild(children = [], parent) {
       const showingChildren = children.filter(item => {
         if (item.hidden) {
