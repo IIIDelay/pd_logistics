@@ -8,11 +8,9 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.constant.MatchType;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -20,7 +18,6 @@ import java.util.Optional;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -30,66 +27,51 @@ import java.util.stream.Collectors;
  * @Date 2023/6/10 16:18
  **/
 public class CollectionHelper {
+
     /**
-     * distinct 指定字段去重
+     * toMap
      *
-     * @param from      from
-     * @param keyMapper keyMapper
-     * @return List<T>
+     * @param inCollection inCollection
+     * @param keyFunc      keyFunc
+     * @return Map<K, IN>
      */
-    public static <IN, F> List<IN> distinct(Collection<IN> from, Function<IN, F> keyMapper) {
-        if (CollectionUtils.isEmpty(from)) {
-            return new ArrayList<>();
-        }
-        return distinct(from, keyMapper, (t1, t2) -> t1);
+    public static <IN, K> Map<K, IN> toMap(Collection<IN> inCollection, Predicate<IN> filter, Function<IN, K> keyFunc) {
+        return toMap(inCollection, filter, keyFunc, true);
     }
 
     /**
-     * distinct : 指定字段去重
+     * toMap
      *
-     * @param from      from
-     * @param keyMapper keyMapper
-     * @param cover     cover
-     * @return List<T>
+     * @param inCollection inCollection
+     * @param keyFunc      keyFunc
+     * @return Map<K, IN>
      */
-    public static <IN, F> List<IN> distinct(Collection<IN> from, Function<IN, F> keyMapper, BinaryOperator<IN> cover) {
-        if (CollectionUtils.isEmpty(from)) {
-            return new ArrayList<>();
-        }
-        return new ArrayList<>(convertMap(from, keyMapper, Function.identity(), cover).values());
+    public static <IN, K> Map<K, IN> toMap(Collection<IN> inCollection, Function<IN, K> keyFunc) {
+        return toMap(inCollection, null, keyFunc, true);
     }
 
     /**
-     * convertMap
+     * toMap
      *
-     * @param from          from
-     * @param keyFunc       keyFunc
-     * @param valueFunc     valueFunc
-     * @param mergeFunction mergeFunction
-     * @return Map<K, V>
+     * @param inCollection inCollection
+     * @param keyFunc      keyFunc
+     * @param isCover      isCover
+     * @return Map<K, IN>
      */
-    public static <IN, K, V> Map<K, V> convertMap(Collection<IN> from, Function<IN, K> keyFunc, Function<IN, V> valueFunc, BinaryOperator<V> mergeFunction) {
-        if (CollectionUtils.isEmpty(from)) {
-            return new HashMap<>();
+    public static <IN, K> Map<K, IN> toMap(Collection<IN> inCollection, Predicate<IN> filter,
+                                           Function<IN, K> keyFunc, boolean isCover) {
+        if (CollectionUtils.isEmpty(inCollection)) {
+            return Collections.emptyMap();
         }
-        return convertMap(from, keyFunc, valueFunc, mergeFunction, HashMap::new);
-    }
 
-    /**
-     * convertMap
-     *
-     * @param from          from
-     * @param keyFunc       keyFunc
-     * @param valueFunc     valueFunc
-     * @param mergeFunction mergeFunction
-     * @param supplier      supplier
-     * @return Map<K, V>
-     */
-    public static <IN, K, V> Map<K, V> convertMap(Collection<IN> from, Function<IN, K> keyFunc, Function<IN, V> valueFunc, BinaryOperator<V> mergeFunction, Supplier<? extends Map<K, V>> supplier) {
-        if (CollectionUtils.isEmpty(from)) {
-            return new HashMap<>();
+        if (filter != null) {
+            return inCollection.stream()
+                .filter(filter)
+                .collect(Collectors.toMap(keyFunc, Function.identity(), isCover(isCover)));
         }
-        return from.stream().collect(Collectors.toMap(keyFunc, valueFunc, mergeFunction, supplier));
+        return inCollection.stream()
+            .filter(in -> checkNon(in, keyFunc))
+            .collect(Collectors.toMap(keyFunc, Function.identity(), isCover(isCover)));
     }
 
     /**
@@ -221,7 +203,7 @@ public class CollectionHelper {
                     }
                 });
             }
-            case SUBFIX:{
+            case SUBFIX: {
                 resultBool = inCollection.stream().anyMatch(in -> {
                     if (in instanceof String) {
                         return StringUtils.endsWith((CharSequence) in, (CharSequence) anyEle);
@@ -230,7 +212,7 @@ public class CollectionHelper {
                     }
                 });
             }
-            case ANY:{
+            case ANY: {
                 resultBool = inCollection.stream().anyMatch(in -> {
                     if (in instanceof String) {
                         return StringUtils.contains((CharSequence) in, (CharSequence) anyEle);
@@ -248,6 +230,13 @@ public class CollectionHelper {
             return true;
         }
         return false;
+    }
+
+    private static <IN> BinaryOperator<IN> isCover(boolean flag) {
+        if (flag) {
+            return (k1, k2) -> k2;
+        }
+        return (k1, k2) -> k1;
     }
 
 }

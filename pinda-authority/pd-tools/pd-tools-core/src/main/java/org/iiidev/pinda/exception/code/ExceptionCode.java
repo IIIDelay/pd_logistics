@@ -37,6 +37,7 @@ public enum ExceptionCode implements BaseExceptionCode {
     LOAD_RESOURCES_ERROR(-8, "加载资源出错"),
     BASE_VALID_PARAM(-9, "统一验证参数异常"),
     OPERATION_EX(-10, "操作异常"),
+    REFLECT_EX(-11, "反射异常"),
 
 
     OK(200, "OK"),
@@ -70,10 +71,10 @@ public enum ExceptionCode implements BaseExceptionCode {
     JWT_GEN_TOKEN_FAIL(40004, "生成token失败"),
     JWT_PARSER_TOKEN_FAIL(40005, "解析token失败"),
     JWT_USER_INVALID(40006, "用户名或密码错误"),
-    JWT_USER_ENABLED(40007, "用户已经被禁用！"),
+    JWT_USER_ENABLED(40007, "用户已经被禁用！");
     // jwt token 相关 end
 
-    ;
+
 
     private int code;
     private String msg;

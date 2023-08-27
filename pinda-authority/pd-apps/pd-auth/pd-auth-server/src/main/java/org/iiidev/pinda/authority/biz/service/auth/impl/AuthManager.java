@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.iiidev.pinda.auth.server.utils.JwtTokenServerUtils;
 import org.iiidev.pinda.auth.utils.JwtUserInfo;
 import org.iiidev.pinda.auth.utils.Token;
@@ -23,6 +22,7 @@ import org.iiidev.pinda.exception.code.ExceptionCode;
 import org.iiidev.pinda.utils.BeanHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -83,7 +83,7 @@ public class AuthManager {
         User user = userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getAccount, account));
 
         // 将前端提交的密码进行md5加密
-        String md5Hex = DigestUtils.md5Hex(password);
+        String md5Hex = DigestUtils.md5DigestAsHex(password.getBytes());
         if (user == null || !user.getPassword().equals(md5Hex)) {
             // 认证失败
             throw BizException.wrap(ExceptionCode.JWT_USER_INVALID);

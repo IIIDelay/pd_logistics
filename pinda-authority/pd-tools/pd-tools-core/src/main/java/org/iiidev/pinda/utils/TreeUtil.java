@@ -1,17 +1,15 @@
 package org.iiidev.pinda.utils;
 
 
+import org.iiidev.pinda.model.ITreeNode;
+import org.springframework.util.CollectionUtils;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.iiidev.pinda.model.ITreeNode;
-
-import org.springframework.util.CollectionUtils;
-
 /**
  * list列表 转换成tree列表
- *
  */
 public class TreeUtil {
 
@@ -27,18 +25,15 @@ public class TreeUtil {
         if (CollectionUtils.isEmpty(treeNodes)) {
             return treeNodes;
         }
-        //记录自己是自己的父节点的id集合
+        // 记录自己是自己的父节点的id集合
         List<Serializable> selfIdEqSelfParent = new ArrayList<>();
         // 为每一个节点找到子节点集合
         for (T parent : treeNodes) {
             Serializable id = parent.getId();
             for (T children : treeNodes) {
                 if (parent != children) {
-                    //parent != children 这个来判断自己的孩子不允许是自己，因为有时候，根节点的parent会被设置成为自己
+                    // parent != children 这个来判断自己的孩子不允许是自己，因为有时候，根节点的parent会被设置成为自己
                     if (id.equals(children.getParentId())) {
-//                        if (parent.getChildren() == null) {
-//                            parent.setChildren(new ArrayList<T>());
-//                        }
                         parent.initChildren();
                         parent.getChildren().add(children);
                     }
@@ -56,7 +51,6 @@ public class TreeUtil {
             allIds.add(baseNode.getId());
         }
 
-//        List<? extends Serializable> allIds = treeNodes.stream().map(node -> node.getId()).collect(Collectors.toList());
         for (T baseNode : treeNodes) {
             if (!allIds.contains(baseNode.getParentId()) || selfIdEqSelfParent.contains(baseNode.getParentId())) {
                 trees.add(baseNode);
