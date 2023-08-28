@@ -133,3 +133,5 @@ package-lock.json
 yarn.lock
 /.idea
 target
+/.fastRequest/*
+/logs/*
