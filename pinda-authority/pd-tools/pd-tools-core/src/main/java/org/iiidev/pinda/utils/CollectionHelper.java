@@ -193,6 +193,7 @@ public class CollectionHelper {
         switch (matchType) {
             case FULL: {
                 resultBool = inCollection.stream().anyMatch(in -> Objects.equals(in, anyEle));
+                break;
             }
             case PREFIX: {
                 resultBool = inCollection.stream().anyMatch(in -> {
@@ -202,6 +203,7 @@ public class CollectionHelper {
                         return StringUtils.startsWith(String.valueOf(in), String.valueOf(anyEle));
                     }
                 });
+                break;
             }
             case SUBFIX: {
                 resultBool = inCollection.stream().anyMatch(in -> {
@@ -211,6 +213,7 @@ public class CollectionHelper {
                         return StringUtils.endsWith(String.valueOf(in), String.valueOf(anyEle));
                     }
                 });
+                break;
             }
             case ANY: {
                 resultBool = inCollection.stream().anyMatch(in -> {
@@ -220,6 +223,7 @@ public class CollectionHelper {
                         return StringUtils.contains(String.valueOf(in), String.valueOf(anyEle));
                     }
                 });
+                break;
             }
         }
         return resultBool;
