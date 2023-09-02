@@ -182,7 +182,12 @@ function filterAsyncRouter(routes) {
 
 function view(path) {
   return function (resolve) {
-    import(`@/views/${path}.vue`).then(mod => {
+    // Fix 异步加载动态组件问题修复
+    // 原写法
+    // component:()=>import('@/views/xxxx') //这种字符串的可以
+    // component:()=>import(`@/views/${path}`)//这种会提示Cannot find module
+    // component:()=>resolve=>require([`@/views/${path}`],resolve) //最终写法
+    require([`@/views/${path}`],resolve).then(mod => {
       resolve(mod)
     })
   }
