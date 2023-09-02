@@ -70,10 +70,6 @@ export default {
     return {}
   },
   methods: {
-    show(onlyOneChild){
-      console.log("meata: ", onlyOneChild)
-      console.log("onlyOneChild meata: ", onlyOneChild.meta.title)
-    },
     hasOneShowingChild(children = [], parent) {
       const showingChildren = children.filter(item => {
         if (item.hidden) {

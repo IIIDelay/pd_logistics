@@ -11,6 +11,8 @@ export default {
   },
   methods: {
     fixBugIniOS() {
+        console.log("xxx");
+
       const $subMenu = this.$refs.subMenu
       if ($subMenu) {
         const handleMouseleave = $subMenu.handleMouseleave
