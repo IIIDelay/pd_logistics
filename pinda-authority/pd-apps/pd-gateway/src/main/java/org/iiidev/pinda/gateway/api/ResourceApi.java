@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
 
-@FeignClient(name = "${pinda.feign.authority-server:pd-auth-server}",
-    fallback = ResourceApiFallback.class)
+@FeignClient(name = "${pinda.feign.authority-server:pd-auth-server}", decode404 = true)
 public interface ResourceApi {
     // 获取所有需要鉴权的资源
     @GetMapping("/resource/list")

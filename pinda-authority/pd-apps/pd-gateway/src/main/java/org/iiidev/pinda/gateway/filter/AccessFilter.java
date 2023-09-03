@@ -7,12 +7,14 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.authority.dto.auth.ResourceQueryDTO;
 import org.iiidev.pinda.authority.entity.auth.Resource;
+import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.common.constant.CacheKey;
 import org.iiidev.pinda.common.utils.RedisHelper;
 import org.iiidev.pinda.constant.MatchType;
 import org.iiidev.pinda.context.BaseContextConstants;
 import org.iiidev.pinda.exception.code.ExceptionCode;
 import org.iiidev.pinda.gateway.api.ResourceApi;
+import org.iiidev.pinda.gateway.config.ClientHolder;
 import org.iiidev.pinda.utils.CollectionHelper;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -22,6 +24,7 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -34,7 +37,10 @@ import java.util.stream.Collectors;
 @Component
 @RequiredArgsConstructor
 public class AccessFilter extends BaseFilter {
-    private final ResourceApi resourceApi;
+
+    private ResourceApi resourceApi;
+
+    private final ClientHolder clientHolder;
 
     /**
      * filter 鉴权处理逻辑
@@ -67,7 +73,9 @@ public class AccessFilter extends BaseFilter {
         List<String> uriList = JSONObject.parseArray(value, String.class);
         if (CollectionUtils.isEmpty(uriList)) {
             // 缓存中没有相应数据
-            uriList = resourceApi.list().getData();
+            Result<List> result = ClientHolder.get(clientHolder -> clientHolder.list());
+            uriList = Optional.ofNullable(result).map(Result::getData).orElse(null);
+
             if (CollectionUtils.isNotEmpty(uriList)) {
                 RedisHelper.save(uriList, CacheKey.RESOURCE, CacheKey.RESOURCE_NEED_TO_CHECK);
             }

@@ -57,13 +57,16 @@ public class TokenContextFilter extends BaseFilter {
         }
 
         // 将信息放入header
+        ServerHttpRequest.Builder mutate = request.mutate();
+
         HttpHeaders headers = request.getHeaders();
         if (userInfo != null && headers != null) {
-            headers.add(BaseContextConstants.JWT_KEY_ACCOUNT, userInfo.getAccount());
-            headers.add(BaseContextConstants.JWT_KEY_USER_ID, String.valueOf(userInfo.getUserId()));
-            headers.add(BaseContextConstants.JWT_KEY_NAME, userInfo.getName());
-            headers.add(BaseContextConstants.JWT_KEY_ORG_ID, String.valueOf(userInfo.getOrgId()));
-            headers.add(BaseContextConstants.JWT_KEY_STATION_ID, String.valueOf(userInfo.getStationId()));
+            request.mutate()
+                .header(BaseContextConstants.JWT_KEY_ACCOUNT, userInfo.getAccount())
+                .header(BaseContextConstants.JWT_KEY_USER_ID, String.valueOf(userInfo.getUserId()))
+                .header(BaseContextConstants.JWT_KEY_NAME, userInfo.getName())
+                .header(BaseContextConstants.JWT_KEY_ORG_ID, String.valueOf(userInfo.getOrgId()))
+                .header(BaseContextConstants.JWT_KEY_STATION_ID, String.valueOf(userInfo.getStationId()));
         }
         return chain.filter(exchange);
 

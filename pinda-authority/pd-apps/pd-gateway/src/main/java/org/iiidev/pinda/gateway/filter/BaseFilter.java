@@ -26,7 +26,7 @@ public abstract class BaseFilter implements GlobalFilter, Ordered {
     /**
      * 前缀: /api
      */
-    @Value("${server.servlet.context-path}")
+    @Value("${server.servlet.context-path:}")
     protected String zuulPrefix;
 
     // 判断当前请求uri是否需要忽略 (直接放行)
