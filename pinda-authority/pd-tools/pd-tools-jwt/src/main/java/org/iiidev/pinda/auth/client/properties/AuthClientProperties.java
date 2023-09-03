@@ -2,6 +2,8 @@ package org.iiidev.pinda.auth.client.properties;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+
 import static org.iiidev.pinda.auth.client.properties.AuthClientProperties.PREFIX;
 /**
  * 客户端认证配置
@@ -9,6 +11,7 @@ import static org.iiidev.pinda.auth.client.properties.AuthClientProperties.PREFI
 @ConfigurationProperties(prefix = PREFIX)
 @Data
 @NoArgsConstructor
+@RefreshScope
 public class AuthClientProperties {
     public static final String PREFIX = "authentication";
     private TokenInfo user;

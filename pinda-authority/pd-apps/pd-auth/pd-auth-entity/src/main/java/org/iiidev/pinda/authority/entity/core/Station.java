@@ -1,23 +1,18 @@
 package org.iiidev.pinda.authority.entity.core;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import org.iiidev.pinda.base.entity.Entity;
-
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+import org.iiidev.pinda.base.entity.Entity;
+
+import javax.validation.constraints.NotEmpty;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -31,8 +26,6 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("pd_core_station")
 @ApiModel(value = "Station", description = "岗位")
@@ -53,6 +46,7 @@ public class Station extends Entity<Long> {
      */
     @ApiModelProperty(value = "组织ID")
     @TableField("org_id")
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long orgId;
 
     /**
@@ -69,18 +63,4 @@ public class Station extends Entity<Long> {
     @Length(max = 255, message = "描述长度不能超过255")
     @TableField(value = "describe_", condition = LIKE)
     private String describe;
-
-    @Builder
-    public Station(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-                   String name, Long orgId, Boolean status, String describe) {
-        this.id = id;
-        this.createTime = createTime;
-        this.createUser = createUser;
-        this.updateTime = updateTime;
-        this.updateUser = updateUser;
-        this.name = name;
-        this.orgId = orgId;
-        this.status = status;
-        this.describe = describe;
-    }
 }

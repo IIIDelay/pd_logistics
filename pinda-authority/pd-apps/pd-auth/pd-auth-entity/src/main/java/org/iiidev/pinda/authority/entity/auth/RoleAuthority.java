@@ -29,8 +29,6 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("pd_auth_role_authority")
 @ApiModel(value = "RoleAuthority", description = "角色的资源")

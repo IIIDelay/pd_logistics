@@ -136,11 +136,11 @@ public class ResourceController extends BaseController {
     @ApiOperation(value = "查询所有资源", notes = "查询所有资源")
     @GetMapping("list")
     @SysLog("查询所有资源")
-    public Result<List> list() {
+    public Result<List<String>> list() {
         List<Resource> list = resourceService.list();
         List<String> resourceList = list
             .stream()
-            .map((Resource r) -> StringUtils.join(r.getMethod(), r.getUrl()))
+            .map(resource -> StringUtils.join(resource.getMethod(), resource.getUrl()))
             .collect(Collectors.toList());
         return success(resourceList);
     }

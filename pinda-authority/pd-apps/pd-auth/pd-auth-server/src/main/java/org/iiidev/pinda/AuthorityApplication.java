@@ -22,7 +22,7 @@ import java.net.UnknownHostException;
 @EnableDiscoveryClient
 @EnableAuthServer
 @EnableFeignClients(value = {
-    "org.iiidev.pinda",
+    "org.iiidev.pinda.*",
 })
 @Slf4j
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)

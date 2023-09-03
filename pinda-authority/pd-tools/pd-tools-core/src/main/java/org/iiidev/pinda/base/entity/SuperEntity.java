@@ -34,6 +34,7 @@ public class SuperEntity<T> implements Serializable, Cloneable {
     @TableId(value = "id", type = IdType.INPUT)
     @ApiModelProperty(value = "主键")
     @NotNull(message = "id不能为空", groups = SuperEntity.Update.class)
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     protected T id;
 
     @ApiModelProperty(value = "创建时间")

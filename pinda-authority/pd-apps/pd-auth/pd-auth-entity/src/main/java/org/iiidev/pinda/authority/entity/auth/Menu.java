@@ -1,23 +1,19 @@
 package org.iiidev.pinda.authority.entity.auth;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import org.iiidev.pinda.base.entity.Entity;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+import org.iiidev.pinda.base.entity.Entity;
+
+import javax.validation.constraints.NotEmpty;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -31,8 +27,6 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("pd_auth_menu")
 @ApiModel(value = "Menu", description = "菜单")
@@ -117,27 +111,4 @@ public class Menu extends Entity<Long> {
     @ApiModelProperty(value = "父级菜单id")
     @TableField("parent_id")
     private Long parentId;
-
-
-    @Builder
-    public Menu(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
-                String name, String describe, Boolean isPublic, String path, String component,
-                Boolean isEnable, Integer sortValue, String icon, String group, Long parentId) {
-        this.id = id;
-        this.createUser = createUser;
-        this.createTime = createTime;
-        this.updateUser = updateUser;
-        this.updateTime = updateTime;
-        this.name = name;
-        this.describe = describe;
-        this.isPublic = isPublic;
-        this.path = path;
-        this.component = component;
-        this.isEnable = isEnable;
-        this.sortValue = sortValue;
-        this.icon = icon;
-        this.group = group;
-        this.parentId = parentId;
-    }
-
 }

@@ -1,36 +1,29 @@
 package org.iiidev.pinda.authority.entity.core;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotEmpty;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import org.iiidev.pinda.base.entity.Entity;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+import org.iiidev.pinda.base.entity.Entity;
+
+import javax.validation.constraints.NotEmpty;
 
 /**
  * <p>
  * 实体类
  * 组织
  * </p>
- *
  */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 @Accessors(chain = true)
 @TableName("pd_core_org")
 @ApiModel(value = "Org", description = "组织")
@@ -56,11 +49,11 @@ public class Org extends Entity<Long> {
     @ApiModelProperty("父级名称")
     private String parentName;
 
-    @TableField("org_type")
+    @TableField(value = "org_type", exist = false)
     @ApiModelProperty("部门类型 1为分公司，2为一级转运中心 3为二级转运中心 4为网点")
     private Integer orgType;
 
-    @TableField("province_id")
+    @TableField(value = "province_id", exist = false)
     @ApiModelProperty("所属省份id")
     private Long provinceId;
 
@@ -68,7 +61,7 @@ public class Org extends Entity<Long> {
     @ApiModelProperty("所属省份名称")
     private String provinceName;
 
-    @TableField("city_id")
+    @TableField(value = "city_id", exist = false)
     @ApiModelProperty("所属城市id")
     private Long cityId;
 
@@ -76,7 +69,7 @@ public class Org extends Entity<Long> {
     @ApiModelProperty("所属城市名称")
     private String cityName;
 
-    @TableField("county_id")
+    @TableField(value = "county_id", exist = false)
     @ApiModelProperty("所属区县id")
     private Long countyId;
 
@@ -85,26 +78,26 @@ public class Org extends Entity<Long> {
     private String countyName;
 
     @Length(max = 255, message = "详细地址长度不能超过255")
-    @TableField(value = "address", condition = "%s LIKE CONCAT('%%',#{%s},'%%')")
+    @TableField(value = "address", condition = "%s LIKE CONCAT('%%',#{%s},'%%')", exist = false)
     @ApiModelProperty("详细地址")
     private String address;
 
     @Length(max = 255, message = "经度长度不能超过255")
-    @TableField(value = "longitude", condition = "%s LIKE CONCAT('%%',#{%s},'%%')")
+    @TableField(value = "longitude", condition = "%s LIKE CONCAT('%%',#{%s},'%%')", exist = false)
     @ApiModelProperty("经度")
     private String longitude;
 
     @Length(max = 255, message = "纬度长度不能超过255")
-    @TableField(value = "latitude", condition = "%s LIKE CONCAT('%%',#{%s},'%%')")
+    @TableField(value = "latitude", condition = "%s LIKE CONCAT('%%',#{%s},'%%')", exist = false)
     @ApiModelProperty("纬度")
     private String latitude;
 
     @Length(max = 255, message = "联系电话长度不能超过255")
-    @TableField(value = "contract_number", condition = "%s LIKE CONCAT('%%',#{%s},'%%')")
+    @TableField(value = "contract_number", condition = "%s LIKE CONCAT('%%',#{%s},'%%')", exist = false)
     @ApiModelProperty("联系电话")
     private String contractNumber;
 
-    @TableField("manager_id")
+    @TableField(value = "manager_id", exist = false)
     @ApiModelProperty("负责人id")
     private Long managerId;
 
@@ -113,7 +106,7 @@ public class Org extends Entity<Long> {
     private String manager;
 
     @Length(max = 255, message = "营业时间长度不能超过255")
-    @TableField(value = "business_hours", condition = "%s LIKE CONCAT('%%',#{%s},'%%')")
+    @TableField(value = "business_hours", condition = "%s LIKE CONCAT('%%',#{%s},'%%')", exist = false)
     @ApiModelProperty("营业时间")
     private String businessHours;
 
@@ -134,23 +127,4 @@ public class Org extends Entity<Long> {
     @TableField(value = "describe_", condition = "%s LIKE CONCAT('%%',#{%s},'%%')")
     @ApiModelProperty("描述")
     private String describe;
-
-    @Builder
-    public Org(Long id, LocalDateTime createTime, Long createUser, LocalDateTime updateTime, Long updateUser,
-               String name, String abbreviation, Long parentId, String treePath, Integer sortValue,
-               Boolean status, String describe) {
-        this.id = id;
-        this.createTime = createTime;
-        this.createUser = createUser;
-        this.updateTime = updateTime;
-        this.updateUser = updateUser;
-        this.name = name;
-        this.abbreviation = abbreviation;
-        this.parentId = parentId;
-        this.treePath = treePath;
-        this.sortValue = sortValue;
-        this.status = status;
-        this.describe = describe;
-    }
-
 }

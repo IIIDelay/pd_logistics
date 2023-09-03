@@ -6,9 +6,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
 import org.iiidev.pinda.base.entity.Entity;
 
@@ -26,8 +24,6 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 @TableName("pd_auth_resource")
 @ApiModel(value = "Resource", description = "资源")
 public class Resource extends Entity<Long> {

@@ -1,12 +1,12 @@
 package org.iiidev.pinda.authority.dto.auth;
 
-import java.util.List;
-
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
+import lombok.ToString;
 import org.iiidev.pinda.authority.entity.auth.Menu;
 import org.iiidev.pinda.model.ITreeNode;
 
-import io.swagger.annotations.ApiModel;
-import lombok.ToString;
+import java.util.List;
 
 /**
  * 树形菜单 DTO
@@ -14,48 +14,9 @@ import lombok.ToString;
  */
 @ToString(callSuper = true)
 @ApiModel(value = "ResourceTreeDTO", description = "资源树")
+@Data
 public class MenuTreeDTO extends Menu implements ITreeNode<MenuTreeDTO, Long> {
     private List<MenuTreeDTO> children;
 
     private String label;
-
-    @Override
-    public Long getId() {
-        return super.getId();
-    }
-
-    @Override
-    public Long getCreateUser() {
-        return super.getCreateUser();
-    }
-
-    @Override
-    public Long getUpdateUser() {
-        return super.getUpdateUser();
-    }
-
-    @Override
-    public List<MenuTreeDTO> getChildren() {
-        return this.children;
-    }
-
-    @Override
-    public void setChildren(List<MenuTreeDTO> children) {
-        this.children = children;
-    }
-
-    public String getLabel() {
-        return this.getName();
-    }
-
-    //    @Override
-//    public boolean equals(Object o) {
-//        return super.equals(o);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return super.hashCode();
-//    }
-
 }
