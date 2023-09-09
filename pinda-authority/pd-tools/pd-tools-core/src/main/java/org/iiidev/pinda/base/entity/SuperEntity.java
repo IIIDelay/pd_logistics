@@ -6,11 +6,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 import org.iiidev.pinda.exception.BizException;
 
 import javax.validation.constraints.NotNull;
@@ -21,11 +17,7 @@ import java.time.LocalDateTime;
 /**
  * 超类基础实体
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString(callSuper = true)
+@Data
 public class SuperEntity<T> implements Serializable, Cloneable {
     public static final String FIELD_ID = "id";
     public static final String CREATE_TIME = "createTime";

@@ -4,6 +4,7 @@
 
 package org.iiidev.pinda.utils;
 
+import com.google.common.collect.Maps;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.constant.MatchType;
@@ -11,6 +12,7 @@ import org.iiidev.pinda.constant.MatchType;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -18,6 +20,7 @@ import java.util.Optional;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 /**
@@ -36,7 +39,7 @@ public class CollectionHelper {
      * @return Map<K, IN>
      */
     public static <IN, K> Map<K, IN> toMap(Collection<IN> inCollection, Predicate<IN> filter, Function<IN, K> keyFunc) {
-        return toMap(inCollection, filter, keyFunc, true);
+        return toMap(inCollection, filter, keyFunc, Function.identity(), HashMap::new, true);
     }
 
     /**
@@ -47,7 +50,11 @@ public class CollectionHelper {
      * @return Map<K, IN>
      */
     public static <IN, K> Map<K, IN> toMap(Collection<IN> inCollection, Function<IN, K> keyFunc) {
-        return toMap(inCollection, null, keyFunc, true);
+        return toMap(inCollection, keyFunc, null, Function.identity());
+    }
+
+    public static <IN, K, OUT> Map<K, OUT> toMap(Collection<IN> inCollection, Function<IN, K> keyFunc, Predicate<IN> filter, Function<IN, OUT> valFunc) {
+        return toMap(inCollection, filter, keyFunc, valFunc, HashMap::new, true);
     }
 
     /**
@@ -58,21 +65,23 @@ public class CollectionHelper {
      * @param isCover      isCover
      * @return Map<K, IN>
      */
-    public static <IN, K> Map<K, IN> toMap(Collection<IN> inCollection, Predicate<IN> filter,
-                                           Function<IN, K> keyFunc, boolean isCover) {
+    public static <IN, K, OUT> Map<K, OUT> toMap(Collection<IN> inCollection, Predicate<IN> filter, Function<IN, K> keyFunc,
+                                                 Function<IN, OUT> valFunc, Supplier<Map<K, OUT>> supMapType, boolean isCover) {
         if (CollectionUtils.isEmpty(inCollection)) {
             return Collections.emptyMap();
         }
 
-        if (filter != null) {
-            return inCollection.stream()
-                .filter(filter)
-                .collect(Collectors.toMap(keyFunc, Function.identity(), isCover(isCover)));
-        }
-        return inCollection.stream()
-            .filter(in -> checkNon(in, keyFunc))
-            .collect(Collectors.toMap(keyFunc, Function.identity(), isCover(isCover)));
+        Map<K, OUT> outMap = Optional.ofNullable(supMapType).map(Supplier::get).orElse(Maps.newHashMap());
+        inCollection.stream().filter(Optional.ofNullable(filter).orElse(in -> null != in)).forEach(in -> {
+            if (isCover) {
+                outMap.put(keyFunc.apply(in), valFunc.apply(in));
+            } else {
+                outMap.putIfAbsent(keyFunc.apply(in), valFunc.apply(in));
+            }
+        });
+        return outMap;
     }
+
 
     /**
      * toGroup: 分组
@@ -243,4 +252,23 @@ public class CollectionHelper {
         return (k1, k2) -> k1;
     }
 
+    /**
+     * getIf : 获取满足条件的第一个值
+     *
+     * @param ins        ins
+     * @param test       test
+     * @param defaultVal defaultVal
+     * @return T
+     */
+    public static <T> T getIf(Collection<T> ins, Predicate<T> test, T defaultVal) {
+        if (CollectionUtils.isEmpty(ins)) {
+            return defaultVal;
+        }
+
+        return ins.stream().filter(test).findFirst().orElse(defaultVal);
+    }
+
+    public static <T> T getIf(Collection<T> ins, Predicate<T> test) {
+        return getIf(ins, test, null);
+    }
 }
