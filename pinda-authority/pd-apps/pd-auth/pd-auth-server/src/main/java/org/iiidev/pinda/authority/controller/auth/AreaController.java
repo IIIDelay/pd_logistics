@@ -1,12 +1,12 @@
 package org.iiidev.pinda.authority.controller.auth;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.conditions.query.LambdaQueryChainWrapper;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.authority.biz.service.area.AreaService;
 import org.iiidev.pinda.authority.entity.common.Area;
@@ -54,7 +54,7 @@ public class AreaController {
         LambdaQueryChainWrapper<Area> areaQW = areaService.lambdaQuery()
             .eq(null != parentId, Area::getParentId, parentId);
 
-        if (CollUtil.isNotEmpty(ids)) {
+        if (CollectionUtils.isNotEmpty(ids)) {
             String firstCode = ids.stream().findFirst().map(id -> StringUtils.rightPad(String.valueOf(id), 6)).orElse("");
             if (ids.size() == 1) {
                 areaQW.eq(Area::getAreaCode, firstCode);

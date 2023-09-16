@@ -5,10 +5,12 @@ import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.common.adapter.IgnoreTokenConfig;
+import org.iiidev.pinda.common.constant.HttpConstant;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import reactor.core.publisher.Mono;
@@ -40,7 +42,7 @@ public abstract class BaseFilter implements GlobalFilter, Ordered {
     }
 
     // 网关抛异常，不再进行路由，而是直接返回到前端
-    protected Mono<Void> errorResponse(ServerHttpResponse response, String errMsg, int errCode, int httpStatusCode) {
+    protected Mono<Void> errorResponse(ServerHttpResponse response, String errMsg, int errCode, HttpStatus httpStatus) {
         Result<Void> build = Result.fail(errCode, errMsg);
 
         byte[] bytes = JSONObject.toJSONString(build).getBytes(StandardCharsets.UTF_8);
@@ -48,7 +50,8 @@ public abstract class BaseFilter implements GlobalFilter, Ordered {
         // 获取DataBuffer
         DataBuffer wrap = response.bufferFactory().wrap(bytes);
         // 中文乱码处理
-        response.getHeaders().add("Content-Type", "application/json;charset=UTF-8");
+        response.getHeaders().add(HttpConstant.CONTENT_TYPE_APP_UTF8.key, HttpConstant.CONTENT_TYPE_APP_UTF8.value);
+        response.setStatusCode(httpStatus);
 
         return response.writeWith(Mono.just(wrap));
     }

@@ -10,6 +10,7 @@ import org.iiidev.pinda.context.BaseContextConstants;
 import org.iiidev.pinda.exception.BizException;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
@@ -51,9 +52,9 @@ public class TokenContextFilter extends BaseFilter {
         try {
             userInfo = jwtTokenClientUtils.getUserInfo(userToken);
         } catch (BizException e) {
-            return errorResponse(response, e.getMessage(), e.getCode(), 200);
+            return errorResponse(response, e.getMessage(), e.getCode(), HttpStatus.OK);
         } catch (Exception e) {
-            return errorResponse(response, "解析jwt令牌出错", Result.FAIL_CODE, 200);
+            return errorResponse(response, "解析jwt令牌出错", Result.FAIL_CODE, HttpStatus.OK);
         }
 
         // 将信息放入header
