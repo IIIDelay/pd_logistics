@@ -12,7 +12,7 @@ import java.util.List;
 public interface ResourceApi {
     // 获取所有需要鉴权的资源
     @GetMapping("/resource/list")
-    Result<List> list();
+    Result<List<String>> list();
 
     // 查询当前登录用户拥有的资源权限
     @GetMapping("/resource")

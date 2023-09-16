@@ -14,7 +14,7 @@ import org.iiidev.pinda.constant.MatchType;
 import org.iiidev.pinda.context.BaseContextConstants;
 import org.iiidev.pinda.exception.code.ExceptionCode;
 import org.iiidev.pinda.gateway.api.ResourceApi;
-import org.iiidev.pinda.gateway.config.ClientHolder;
+import org.iiidev.pinda.gateway.api.client.ClientHolder;
 import org.iiidev.pinda.utils.CollectionHelper;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.http.HttpStatus;
@@ -73,7 +73,7 @@ public class AccessFilter extends BaseFilter {
         if (CollectionUtils.isEmpty(uriList)) {
             // 缓存中没有相应数据
             // Result<List> result = ClientHolder.get(clientHolder -> clientHolder.list());
-            Result<List> result = ClientHolder.get(client -> client.getResourceApi(), ResourceApi::list);
+            Result<List<String>> result = ClientHolder.get(ClientHolder::getResourceApi, ResourceApi::list);
             uriList = Optional.ofNullable(result).map(Result::getData).orElse(null);
 
             if (CollectionUtils.isNotEmpty(uriList)) {
@@ -97,7 +97,7 @@ public class AccessFilter extends BaseFilter {
         if (visibleResource == null) {
             // 缓存中不存在，需要通过接口远程调用权限服务来获取
             ResourceQueryDTO resourceQueryDTO = ResourceQueryDTO.builder().userId(new Long(userId)).build();
-            List<Resource> resourceList = ClientHolder.get(clientHolder1 -> clientHolder1.visible(resourceQueryDTO)).getData();
+            List<Resource> resourceList = ClientHolder.get(ClientHolder::getResourceApi, resourceApi -> resourceApi.visible(resourceQueryDTO)).getData();
             if (resourceList != null && resourceList.size() > 0) {
                 visibleResource = resourceList.stream()
                     .map((resource -> resource.getMethod() + resource.getUrl()))
