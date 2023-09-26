@@ -1,12 +1,12 @@
 
 
-package org.iiidev.pinda.authority.api.hystrix;
+package org.iiidev.pinda.authority.api.fusing;
 
 import org.iiidev.pinda.authority.api.AuthorityGeneralApi;
 import org.iiidev.pinda.base.Result;
-import java.util.Map;
-
 import org.springframework.stereotype.Component;
+
+import java.util.Map;
 
 @Component
 public class AuthorityGeneralApiFallback implements AuthorityGeneralApi {

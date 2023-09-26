@@ -185,7 +185,7 @@ public class TaskOrderClassifyServiceImpl implements ITaskOrderClassifyService {
         }
         String adcode = map.getOrDefault("adcode", "").toString();
         Result<Area> result = areaApi.getByCode(adcode + "000000");
-        if (!result.getIsSuccess()) {
+        if (!result.isSuccess()) {
             RespResult.error(result.getMsg());
         }
         Area area = result.getData();

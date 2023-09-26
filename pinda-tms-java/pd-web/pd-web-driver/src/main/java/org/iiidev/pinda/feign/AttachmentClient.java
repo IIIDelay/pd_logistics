@@ -1,6 +1,6 @@
 package org.iiidev.pinda.feign;
 
-import org.iiidev.pinda.authority.api.hystrix.UserApiFallback;
+import org.iiidev.pinda.authority.api.fusing.UserApiFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;

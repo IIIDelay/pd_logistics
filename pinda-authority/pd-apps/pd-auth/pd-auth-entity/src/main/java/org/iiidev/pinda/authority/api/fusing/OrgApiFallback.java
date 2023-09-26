@@ -1,4 +1,4 @@
-package org.iiidev.pinda.authority.api.hystrix;
+package org.iiidev.pinda.authority.api.fusing;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.iiidev.pinda.authority.api.OrgApi;

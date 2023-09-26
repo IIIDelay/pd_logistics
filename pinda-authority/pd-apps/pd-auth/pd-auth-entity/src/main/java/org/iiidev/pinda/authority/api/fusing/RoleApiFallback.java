@@ -1,5 +1,5 @@
 
-package org.iiidev.pinda.authority.api.hystrix;
+package org.iiidev.pinda.authority.api.fusing;
 
 import org.iiidev.pinda.authority.api.RoleApi;
 import org.iiidev.pinda.authority.dto.auth.RoleDTO;

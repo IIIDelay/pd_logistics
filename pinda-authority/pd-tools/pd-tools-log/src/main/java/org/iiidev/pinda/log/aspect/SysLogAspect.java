@@ -142,7 +142,7 @@ public class SysLogAspect {
             if (result == null) {
                 sysLog.setType("OPT");
             } else {
-                if (result.getIsSuccess()) {
+                if (result.isSuccess()) {
                     sysLog.setType("OPT");
                 } else {
                     sysLog.setType("EX");

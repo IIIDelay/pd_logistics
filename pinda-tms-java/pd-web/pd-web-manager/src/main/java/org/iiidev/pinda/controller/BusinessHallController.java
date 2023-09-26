@@ -185,7 +185,7 @@ public class BusinessHallController {
                                                      @RequestParam(name = "name", required = false) String name,
                                                      @RequestParam(name = "mobile", required = false) String mobile) {
         Result<Page<User>> result = userApi.page(page.longValue(), pageSize.longValue(), null, StaticStation.COURIER_ID, name, null, mobile);
-        if (result.getIsSuccess() && result.getData() != null) {
+        if (result.isSuccess() && result.getData() != null) {
             IPage<User> userPage = result.getData();
             //处理对象转换
             List<SysUserVo> voList = userPage.getRecords().stream().map(user -> BeanUtil.parseUser2Vo(user, null, orgApi)).collect(Collectors.toList());
@@ -202,7 +202,7 @@ public class BusinessHallController {
     public SysUserVo findCourierById(@PathVariable(name = "id") String id) {
         Result<User> result = userApi.get(Long.valueOf(id));
         SysUserVo vo = null;
-        if (result.getIsSuccess() && result.getData() != null) {
+        if (result.isSuccess() && result.getData() != null) {
             vo = BeanUtil.parseUser2Vo(result.getData(), null, orgApi);
         }
         return vo;
@@ -264,7 +264,7 @@ public class BusinessHallController {
                                     return RespResult.error(5000, "一个机构作业范围必须在一个区域内");
                                 }
                                 Result<Area> result = areaApi.getByCode(adcode + "000000");
-                                if (result.getIsSuccess() && result.getData() != null) {
+                                if (result.isSuccess() && result.getData() != null) {
                                     area = result.getData();
                                 }
                             }
@@ -297,7 +297,7 @@ public class BusinessHallController {
         CourierScopeVo vo = new CourierScopeVo();
         Result<User> result = userApi.get(Long.valueOf(id));
         User user = null;
-        if (result.getIsSuccess() && result.getData() != null) {
+        if (result.isSuccess() && result.getData() != null) {
             user = result.getData();
             vo.setCourier(BeanUtil.parseUser2Vo(user, null, null));
         }

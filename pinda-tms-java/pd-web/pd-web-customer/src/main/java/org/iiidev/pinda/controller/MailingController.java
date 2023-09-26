@@ -235,7 +235,6 @@ public class MailingController {
         }
 
         pickupDispatchTaskFeign.save(pickupDispatchTaskDTO);
-        System.out.println(1/0);
         return RespResult.ok().put("amount", orderDTO.getAmount());
     }
 
@@ -256,7 +255,7 @@ public class MailingController {
         }
         String adcode = map.getOrDefault("adcode", "").toString();
         Result<Area> r = areaApi.getByCode(adcode + "000000");
-        if (!r.getIsSuccess()) {
+        if (!r.isSuccess()) {
             RespResult.error(r.getMsg());
         }
         Area area = r.getData();
@@ -378,7 +377,7 @@ public class MailingController {
         }
         String adcode = map.getOrDefault("adcode", "").toString();
         Result<Area> r = areaApi.getByCode(adcode + "000000");
-        if (!r.getIsSuccess()) {
+        if (!r.isSuccess()) {
             RespResult.error(r.getMsg());
         }
         Area area = r.getData();

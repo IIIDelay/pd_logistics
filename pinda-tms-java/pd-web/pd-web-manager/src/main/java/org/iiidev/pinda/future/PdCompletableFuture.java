@@ -69,7 +69,7 @@ public class PdCompletableFuture {
         return CompletableFuture.supplyAsync(() -> {
             SysUserVo userVo = new SysUserVo();
             Result<User> result = api.get(Long.valueOf(id));
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 userVo = BeanUtil.parseUser2Vo(result.getData(), null, null);
             }
             return userVo;
@@ -87,7 +87,7 @@ public class PdCompletableFuture {
         return CompletableFuture.supplyAsync(() -> {
             //查询所属机构信息列表
             Result<List<Org>> result = api.list(null, new ArrayList<>(agencySet), null, null, null);
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 List<Org> orgList = result.getData();
                 Map<String, AgencyVo> voMap = new HashMap<>();
                 orgList.forEach(org -> {
@@ -263,7 +263,7 @@ public class PdCompletableFuture {
     public static final CompletableFuture<List<Org>> agencyListFuture(OrgApi api, Integer agencyType, List<Long> ids, Long countyId) {
         return CompletableFuture.supplyAsync(() -> {
             Result<List<Org>> result = api.list(agencyType, ids, countyId, null, null);
-            if (result.getIsSuccess()) {
+            if (result.isSuccess()) {
                 return result.getData();
             }
             return new ArrayList<>();

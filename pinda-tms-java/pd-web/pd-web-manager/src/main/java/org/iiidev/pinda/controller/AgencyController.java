@@ -2,6 +2,14 @@ package org.iiidev.pinda.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.iiidev.pinda.DTO.angency.AgencyScopeDto;
 import org.iiidev.pinda.authority.api.AreaApi;
 import org.iiidev.pinda.authority.api.OrgApi;
 import org.iiidev.pinda.authority.api.RoleApi;
@@ -14,7 +22,6 @@ import org.iiidev.pinda.authority.enumeration.core.OrgEnum;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.common.utils.EntCoordSyncJob;
 import org.iiidev.pinda.common.utils.PageResponse;
-import org.iiidev.pinda.DTO.angency.AgencyScopeDto;
 import org.iiidev.pinda.common.utils.RespResult;
 import org.iiidev.pinda.feign.agency.AgencyScopeFeign;
 import org.iiidev.pinda.util.BeanUtil;
@@ -23,12 +30,6 @@ import org.iiidev.pinda.vo.base.angency.AgencyScopeVo;
 import org.iiidev.pinda.vo.base.angency.AgencySimpleVo;
 import org.iiidev.pinda.vo.base.angency.AgencyVo;
 import org.iiidev.pinda.vo.base.userCenter.SysUserVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.java.Log;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,7 +47,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("agency")
 @Api(tags = "组织管理")
-@Log
+@RequiredArgsConstructor
+@Slf4j
 public class AgencyController {
     @Autowired
     private OrgApi orgApi;
@@ -65,7 +67,7 @@ public class AgencyController {
         List<AgencySimpleVo> resultList = new ArrayList<>();
 
         Result<List<OrgTreeDTO>> result = orgApi.tree(null, true);
-        if (result.getIsSuccess() && result.getData() != null && result.getData().size() > 0) {
+        if (result.isSuccess() && result.getData() != null && result.getData().size() > 0) {
             resultList.addAll(result.getData().stream().map(orgTreeDTO -> {
                 AgencySimpleVo simpleVo = BeanUtil.parseOrg2SimpleVo(orgTreeDTO);
                 simpleVo.setSubAgencies(getNode(orgTreeDTO.getChildren()));
@@ -82,7 +84,7 @@ public class AgencyController {
     @GetMapping("/{id}")
     public AgencyVo findAgencyById(@PathVariable(name = "id") String id) {
         Result<Org> result = orgApi.get(Long.valueOf(id));
-        if (result.getIsSuccess()) {
+        if (result.isSuccess()) {
             Org org = result.getData();
             if (org != null) {
                 AgencyVo vo = BeanUtil.parseOrg2Vo(org, orgApi, areaApi);
@@ -100,7 +102,7 @@ public class AgencyController {
     public SysUserVo findById(@PathVariable(name = "id") String id) {
         Result<User> result = userApi.get(Long.valueOf(id));
         SysUserVo vo = null;
-        if (result.getIsSuccess() && result.getData() != null) {
+        if (result.isSuccess() && result.getData() != null) {
             vo = BeanUtil.parseUser2Vo(result.getData(), roleApi, orgApi);
         }
         return vo;
@@ -117,7 +119,7 @@ public class AgencyController {
                                                   @RequestParam(name = "pageSize") Integer pageSize,
                                                   @RequestParam(name = "agencyId", required = false) String agencyId) {
         Result<Page<User>> result = userApi.page(page.longValue(), pageSize.longValue(), StringUtils.isNotEmpty(agencyId) ? Long.valueOf(agencyId) : null, null, null, null, null);
-        if (result.getIsSuccess() && result.getData() != null) {
+        if (result.isSuccess() && result.getData() != null) {
             IPage<User> userPage = result.getData();
             //处理对象转换
             List<SysUserVo> voList = userPage.getRecords().stream().map(user -> BeanUtil.parseUser2Vo(user, roleApi, orgApi)).collect(Collectors.toList());
@@ -183,7 +185,7 @@ public class AgencyController {
                                     return RespResult.error(5000, "一个机构作业范围必须在一个区域内");
                                 }
                                 Result<Area> result = areaApi.getByCode(adcode + "000000");
-                                if (result.getIsSuccess() && result.getData() != null) {
+                                if (result.isSuccess() && result.getData() != null) {
                                     area = result.getData();
                                 }
                             }
@@ -213,7 +215,7 @@ public class AgencyController {
     @GetMapping("/{id}/scope")
     public AgencyScopeVo findAllAgencyScope(@PathVariable(name = "id") String id) {
         Result<Org> result = orgApi.get(Long.valueOf(id));
-        if (result.getIsSuccess()) {
+        if (result.isSuccess()) {
             Org org = result.getData();
             List<AgencyScopeDto> agencyScopeDtoList = null;
             if (org != null && org.getOrgType() != null) {
@@ -252,7 +254,7 @@ public class AgencyController {
                 List<Long> areaIds = agencyScopeDtoList.stream().map(dto -> Long.valueOf(dto.getAreaId())).collect(Collectors.toList());
                 if (areaIds.size() > 0) {
                     Result<List<Area>> areaResult = areaApi.findAll(null, areaIds);
-                    if (areaResult.getIsSuccess() && areaResult.getData() != null) {
+                    if (areaResult.isSuccess() && areaResult.getData() != null) {
                         areas.addAll(areaResult.getData().stream().map(BeanUtil::parseArea2Vo).collect(Collectors.toList()));
                     }
                 }
@@ -289,7 +291,7 @@ public class AgencyController {
      */
     private List<Long> getOrgIds(Long id, List<Long> ids) {
         Result<List<Org>> listResult = orgApi.list(null, null, null, id, ids);
-        if (listResult.getIsSuccess() && listResult.getData() != null && listResult.getData().size() > 0) {
+        if (listResult.isSuccess() && listResult.getData() != null && listResult.getData().size() > 0) {
             return listResult.getData().stream().map(Org::getId).collect(Collectors.toList());
         }
         return new ArrayList<>();

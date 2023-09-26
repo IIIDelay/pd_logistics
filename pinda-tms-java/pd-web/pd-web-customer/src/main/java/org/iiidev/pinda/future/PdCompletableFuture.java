@@ -39,7 +39,7 @@ public class PdCompletableFuture {
     public static final CompletableFuture<Map<Long, Org>> agencyMapFuture(OrgApi api, Integer agencyType, Set<String> ids, Long countyId) {
         return CompletableFuture.supplyAsync(() -> {
             Result<List<Org>> result = api.list(agencyType, ids.stream().mapToLong(id -> Long.valueOf(id)).boxed().collect(Collectors.toList()), countyId, null, null);
-            if (result.getIsSuccess()) {
+            if (result.isSuccess()) {
                 return result.getData().stream().collect(Collectors.toMap(Org::getId, org -> org));
             }
             return new HashMap<>();

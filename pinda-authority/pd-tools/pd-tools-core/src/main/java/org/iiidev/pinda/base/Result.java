@@ -1,16 +1,14 @@
 package org.iiidev.pinda.base;
 
-import java.util.Map;
-
-import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Maps;
-
-import org.iiidev.pinda.exception.BizException;
-import org.iiidev.pinda.exception.code.BaseExceptionCode;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.iiidev.pinda.exception.BizException;
+import org.iiidev.pinda.exception.code.BaseExceptionCode;
+
+import java.util.Map;
 
 /**
  *
@@ -176,7 +174,7 @@ public class Result<T> {
      *
      * @return 是否成功
      */
-    public Boolean getIsSuccess() {
+    public Boolean isSuccess() {
         return this.code == SUCCESS_CODE || this.code == 200;
     }
 
@@ -185,12 +183,12 @@ public class Result<T> {
      *
      * @return
      */
-    public Boolean getIsError() {
-        return !getIsSuccess();
+    public Boolean isError() {
+        return !isSuccess();
     }
 
-    @Override
-    public String toString() {
-        return JSONObject.toJSONString(this);
+    public boolean successHasData(){
+        return isSuccess() && getData() != null;
     }
+
 }

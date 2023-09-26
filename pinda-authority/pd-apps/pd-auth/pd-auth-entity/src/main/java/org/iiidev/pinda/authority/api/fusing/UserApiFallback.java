@@ -1,15 +1,15 @@
-package org.iiidev.pinda.authority.api.hystrix;
+package org.iiidev.pinda.authority.api.fusing;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.iiidev.pinda.authority.api.UserApi;
 import org.iiidev.pinda.authority.entity.auth.User;
 import org.iiidev.pinda.base.Result;
+import org.springframework.stereotype.Component;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.stereotype.Component;
 
 @Component
 public class UserApiFallback implements UserApi {

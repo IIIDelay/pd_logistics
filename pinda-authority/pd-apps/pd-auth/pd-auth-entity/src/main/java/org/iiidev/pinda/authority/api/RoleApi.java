@@ -2,7 +2,7 @@
 
 package org.iiidev.pinda.authority.api;
 
-import org.iiidev.pinda.authority.api.hystrix.RoleApiFallback;
+import org.iiidev.pinda.authority.api.fusing.RoleApiFallback;
 import org.iiidev.pinda.authority.dto.auth.RoleDTO;
 import org.iiidev.pinda.authority.dto.auth.RoleResourceDTO;
 import org.iiidev.pinda.base.Result;

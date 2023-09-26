@@ -72,13 +72,15 @@ public class CollectionHelper {
         }
 
         Map<K, OUT> outMap = Optional.ofNullable(supMapType).map(Supplier::get).orElse(Maps.newHashMap());
-        inCollection.stream().filter(Optional.ofNullable(filter).orElse(in -> null != in)).forEach(in -> {
-            if (isCover) {
-                outMap.put(keyFunc.apply(in), valFunc.apply(in));
-            } else {
-                outMap.putIfAbsent(keyFunc.apply(in), valFunc.apply(in));
-            }
-        });
+        inCollection.stream()
+            .filter(in -> Optional.ofNullable(filter).map(condition-> in!=null && condition.test(in)).orElse(in!=null))
+            .forEach(in -> {
+                if (isCover) {
+                    outMap.put(keyFunc.apply(in), valFunc.apply(in));
+                } else {
+                    outMap.putIfAbsent(keyFunc.apply(in), valFunc.apply(in));
+                }
+            });
         return outMap;
     }
 
@@ -182,8 +184,22 @@ public class CollectionHelper {
             return Collections.emptyList();
         }
         return Optional.ofNullable(filter)
-            .map(test -> inList.stream().filter(test).map(mapping).collect(Collectors.toList()))
-            .orElse(inList.stream().map(mapping).collect(Collectors.toList()));
+            .map(condition -> inList.stream()
+                .filter(in -> in != null && condition.test(in))
+                .map(mapping)
+                .collect(Collectors.toList()))
+            .orElse(inList.stream().filter(Objects::nonNull).map(mapping).collect(Collectors.toList()));
+    }
+
+    public static <IN, OUT> List<OUT> toList(List<IN> inList, Function<IN, OUT> mapping) {
+        if (CollectionUtils.isEmpty(inList)) {
+            return Collections.emptyList();
+        }
+        return inList.stream()
+            .filter(Objects::nonNull)
+            .map(mapping)
+            .distinct()
+            .collect(Collectors.toList());
     }
 
     /**

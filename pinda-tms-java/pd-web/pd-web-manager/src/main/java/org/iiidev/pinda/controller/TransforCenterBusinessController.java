@@ -344,7 +344,7 @@ public class TransforCenterBusinessController {
         }
         if (dto.getUpdater() != null) {
             Result<User> result = userApi.get(Long.valueOf(dto.getUpdater()));
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 vo.setUpdater(BeanUtil.parseUser2Vo(result.getData(), null, null));
             }
         }
@@ -469,14 +469,14 @@ public class TransforCenterBusinessController {
         // 负责人信息
         if (StringUtils.isNotEmpty(dto.getManager())) {
             Result<User> userResult = userApi.get(Long.valueOf(dto.getManager()));
-            if (userResult.getIsSuccess() && userResult.getData() != null) {
+            if (userResult.isSuccess() && userResult.getData() != null) {
                 vo.setManager(BeanUtil.parseUser2Vo(userResult.getData(), null, null));
             }
         }
         // 机构信息
         if (StringUtils.isNotEmpty(dto.getAgencyId())) {
             Result<Org> orgResult = orgApi.get(Long.valueOf(dto.getAgencyId()));
-            if (orgResult.getIsSuccess() && orgResult.getData() != null) {
+            if (orgResult.isSuccess() && orgResult.getData() != null) {
                 vo.setAgency(BeanUtil.parseOrg2SimpleVo(orgResult.getData()));
             }
         }
@@ -621,7 +621,7 @@ public class TransforCenterBusinessController {
                     if (vo.getFleet() != null && vo.getFleet()
                         .getAgency() != null && StringUtils.isNotEmpty(vo.getFleet().getAgency().getId())) {
                         Result<Org> result = orgApi.get(Long.valueOf(vo.getFleet().getAgency().getId()));
-                        if (result.getIsSuccess() && result.getData() != null) {
+                        if (result.isSuccess() && result.getData() != null) {
                             vo.setAgency(BeanUtil.parseOrg2Vo(result.getData(), null, null));
                         }
                     }
@@ -1146,7 +1146,7 @@ public class TransforCenterBusinessController {
             pages = truckDriverDtoPage.getPages();
             truckDriverDtoPage.getItems().forEach(driverDto -> {
                 Result<User> result = userApi.get(Long.valueOf(driverDto.getUserId()));
-                if (result.getIsSuccess() && result.getData() != null) {
+                if (result.isSuccess() && result.getData() != null) {
                     DriverVo driverVo = new DriverVo();
                     BeanUtils.copyProperties(BeanUtil.parseUser2Vo(result.getData(), null, orgApi), driverVo);
                     if (driverDto.getFleetId() != null) {
@@ -1161,7 +1161,7 @@ public class TransforCenterBusinessController {
         } else {
             // 否则以权限系统用户表为主
             Result<Page<User>> result = userApi.page(page.longValue(), pageSize.longValue(), null, StaticStation.DRIVER_ID, name, username, null);
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 total = result.getData().getTotal();
                 pages = result.getData().getPages();
                 List<String> userIds = result.getData()
@@ -1240,11 +1240,11 @@ public class TransforCenterBusinessController {
     public DriverVo findDriverById(@PathVariable(name = "id") String id) {
         DriverVo vo = new DriverVo();
         Result<User> userResult = userApi.get(Long.valueOf(id));
-        if (userResult.getIsSuccess() && userResult.getData() != null) {
+        if (userResult.isSuccess() && userResult.getData() != null) {
             BeanUtils.copyProperties(BeanUtil.parseUser2Vo(userResult.getData(), null, null), vo);
             if (userResult.getData().getOrgId() != null) {
                 Result<Org> result = orgApi.get(userResult.getData().getOrgId());
-                if (result.getIsSuccess() && result.getData() != null) {
+                if (result.isSuccess() && result.getData() != null) {
                     vo.setAgency(BeanUtil.parseOrg2SimpleVo(result.getData()));
                 }
             }

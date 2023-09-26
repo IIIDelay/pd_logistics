@@ -44,7 +44,7 @@ public class PdCompletableFuture {
             }
             List<User> userList = new ArrayList<>();
             Result<List<User>> result = api.list(new ArrayList<>(userSet), stationId, name, StringUtils.isNotEmpty(agencyId) ? Long.valueOf(agencyId) : null);
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 userList.addAll(result.getData());
             }
             return userList.stream().map(user -> BeanUtil.parseUser2Vo(user, null, null)).collect(Collectors.toMap(SysUserVo::getUserId, vo -> vo));
@@ -62,7 +62,7 @@ public class PdCompletableFuture {
     public static final CompletableFuture<List<Org>> agencyListFuture(OrgApi api, Integer agencyType, Set<String> ids, Long countyId) {
         return CompletableFuture.supplyAsync(() -> {
             Result<List<Org>> result = api.list(agencyType, ids.stream().mapToLong(id -> Long.valueOf(id)).boxed().collect(Collectors.toList()), countyId, null, null);
-            if (result.getIsSuccess()) {
+            if (result.isSuccess()) {
                 return result.getData();
             }
             return new ArrayList<>();

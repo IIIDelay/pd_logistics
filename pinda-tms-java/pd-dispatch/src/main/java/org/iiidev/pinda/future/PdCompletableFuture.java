@@ -46,7 +46,7 @@ public class PdCompletableFuture {
                         countyId,
                         null,
                         new ArrayList<>());
-                if (result.getIsSuccess()) {
+                if (result.isSuccess()) {
                     return result.getData().stream().collect(Collectors.toMap(Org::getId, org -> org));
                 }
             }
@@ -108,7 +108,7 @@ public class PdCompletableFuture {
             List<Long> list = driverIdSet.stream().filter(item -> StringUtils.isNotBlank(item)).map(item -> Long.parseLong(item)).collect(Collectors.toList());
 
             Result<List<User>> result = api.list(list, null, null, null);
-            if (result.getIsSuccess()) {
+            if (result.isSuccess()) {
                 return result.getData().stream().collect(Collectors.toMap(User::getId, item -> item));
             }
             return new HashMap<>();

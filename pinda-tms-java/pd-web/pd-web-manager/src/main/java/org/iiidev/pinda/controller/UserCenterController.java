@@ -44,7 +44,7 @@ public class UserCenterController {
         Long userId = 1L;
         SysUserVo vo = new SysUserVo();
         Result<User> result = userApi.get(userId);
-        if (result.getIsSuccess() && result.getData() != null) {
+        if (result.isSuccess() && result.getData() != null) {
             vo = BeanUtil.parseUser2Vo(result.getData(), roleApi, orgApi);
         }
         return vo;

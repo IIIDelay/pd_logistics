@@ -1,7 +1,8 @@
-package org.iiidev.pinda.authority.api.hystrix;
+package org.iiidev.pinda.authority.api.fusing;
 
 import org.iiidev.pinda.authority.api.LogApi;
 import org.iiidev.pinda.base.Result;
+
 import org.iiidev.pinda.log.entity.OptLogDTO;
 import org.springframework.stereotype.Component;
 

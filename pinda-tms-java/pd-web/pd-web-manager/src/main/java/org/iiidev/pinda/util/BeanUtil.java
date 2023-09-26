@@ -58,7 +58,7 @@ public class BeanUtil {
         if (roleApi != null) {
             Result<List<RoleDTO>> result = roleApi.list(user.getId());
             List<RoleVo> roles = new ArrayList<>();
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 result.getData().forEach(role -> {
                     roles.add(parseRole2Vo(role));
                 });
@@ -68,7 +68,7 @@ public class BeanUtil {
         //处理所属机构信息
         if (orgApi != null && user.getOrgId() != null && user.getOrgId() != 0) {
             Result<Org> result = orgApi.get(user.getOrgId());
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 vo.setAgency(parseOrg2SimpleVo(result.getData()));
             }
         }
@@ -125,7 +125,7 @@ public class BeanUtil {
         //处理父级信息
         if (org.getParentId() != null && org.getParentId() != 0 && orgApi != null) {
             Result<Org> result = orgApi.get(org.getParentId());
-            if (result.getIsSuccess() && result.getData() != null && result.getData().getId() != null) {
+            if (result.isSuccess() && result.getData() != null && result.getData().getId() != null) {
                 AgencySimpleVo simpleVo = new AgencySimpleVo();
                 BeanUtils.copyProperties(result.getData(), simpleVo);
                 simpleVo.setId(String.valueOf(result.getData().getId()));
@@ -148,7 +148,7 @@ public class BeanUtil {
         }
         if (areaIds.size() > 0 && areaApi != null) {
             Result<List<Area>> result = areaApi.findAll(null, new ArrayList<>(areaIds));
-            if (result.getIsSuccess()) {
+            if (result.isSuccess()) {
                 Map<Long, Area> areaMap = result.getData().stream().collect(Collectors.toMap(Area::getId, area -> area));
                 if (provinceOk) {
                     agencyVo.setProvince(parseArea2Vo(areaMap.get(org.getProvinceId())));
@@ -209,37 +209,37 @@ public class BeanUtil {
         BeanUtils.copyProperties(dto, vo);
         if (dto.getSenderProvinceId() != null && areaApi != null) {
             Result<Area> result = areaApi.get(Long.valueOf(dto.getSenderProvinceId()));
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 vo.setSenderProvince(parseArea2Vo(result.getData()));
             }
         }
         if (dto.getSenderCityId() != null && areaApi != null) {
             Result<Area> result = areaApi.get(Long.valueOf(dto.getSenderCityId()));
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 vo.setSenderCity(parseArea2Vo(result.getData()));
             }
         }
         if (dto.getSenderCountyId() != null && areaApi != null) {
             Result<Area> result = areaApi.get(Long.valueOf(dto.getSenderCountyId()));
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 vo.setSenderCounty(parseArea2Vo(result.getData()));
             }
         }
         if (dto.getReceiverProvinceId() != null && areaApi != null) {
             Result<Area> result = areaApi.get(Long.valueOf(dto.getReceiverProvinceId()));
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 vo.setReceiverProvince(parseArea2Vo(result.getData()));
             }
         }
         if (dto.getReceiverCityId() != null && areaApi != null) {
             Result<Area> result = areaApi.get(Long.valueOf(dto.getReceiverCityId()));
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 vo.setReceiverCity(parseArea2Vo(result.getData()));
             }
         }
         if (dto.getReceiverCountyId() != null && areaApi != null) {
             Result<Area> result = areaApi.get(Long.valueOf(dto.getReceiverCountyId()));
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 vo.setReceiverCounty(parseArea2Vo(result.getData()));
             }
         }
@@ -290,13 +290,13 @@ public class BeanUtil {
         }
         if (StringUtils.isNotEmpty(dto.getAgencyId()) && orgApi != null) {
             Result<Org> result = orgApi.get(Long.valueOf(dto.getAgencyId()));
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 vo.setAgency(parseOrg2SimpleVo(result.getData()));
             }
         }
         if (StringUtils.isNotEmpty(dto.getCourierId()) && userApi != null) {
             Result<User> result = userApi.get(Long.valueOf(dto.getCourierId()));
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 vo.setCourier(parseUser2Vo(result.getData(), null, null));
             }
         }
@@ -357,13 +357,13 @@ public class BeanUtil {
             }
         }
         if (StringUtils.isNotEmpty(dto.getStartAgencyId()) && orgApi != null) { Result<Org> orgResult = orgApi.get(Long.valueOf(dto.getStartAgencyId()));
-            if (orgResult.getIsSuccess() && orgResult.getData() != null) {
+            if (orgResult.isSuccess() && orgResult.getData() != null) {
                 vo.setStartAgency(parseOrg2SimpleVo(orgResult.getData()));
             }
         }
         if (StringUtils.isNotEmpty(dto.getEndAgencyId()) && orgApi != null) {
             Result<Org> orgResult = orgApi.get(Long.valueOf(dto.getEndAgencyId()));
-            if (orgResult.getIsSuccess() && orgResult.getData() != null) {
+            if (orgResult.isSuccess() && orgResult.getData() != null) {
                 vo.setEndAgency(parseOrg2SimpleVo(orgResult.getData()));
             }
         }
@@ -414,19 +414,19 @@ public class BeanUtil {
         BeanUtils.copyProperties(dto, vo);
         if (StringUtils.isNotEmpty(dto.getStartAgencyId()) && orgApi != null) {
             Result<Org> orgResult = orgApi.get(Long.valueOf(dto.getStartAgencyId()));
-            if (orgResult.getIsSuccess() && orgResult.getData() != null) {
+            if (orgResult.isSuccess() && orgResult.getData() != null) {
                 vo.setStartAgency(parseOrg2SimpleVo(orgResult.getData()));
             }
         }
         if (StringUtils.isNotEmpty(dto.getEndAgencyId()) && orgApi != null) {
             Result<Org> orgResult = orgApi.get(Long.valueOf(dto.getEndAgencyId()));
-            if (orgResult.getIsSuccess() && orgResult.getData() != null) {
+            if (orgResult.isSuccess() && orgResult.getData() != null) {
                 vo.setEndAgency(parseOrg2SimpleVo(orgResult.getData()));
             }
         }
         if (StringUtils.isNotEmpty(dto.getDriverId()) && userApi != null) {
             Result<User> userResult = userApi.get(Long.valueOf(dto.getDriverId()));
-            if (userResult.getIsSuccess() && userResult.getData() != null) {
+            if (userResult.isSuccess() && userResult.getData() != null) {
                 vo.setDriver(parseUser2Vo(userResult.getData(), null, null));
             }
         }
@@ -443,12 +443,12 @@ public class BeanUtil {
         DriverVo vo = new DriverVo();
         if (StringUtils.isNotEmpty(dto.getUserId()) && userApi != null) {
             Result<User> userResult = userApi.get(Long.valueOf(dto.getUserId()));
-            if (userResult.getIsSuccess() && userResult.getData() != null) {
+            if (userResult.isSuccess() && userResult.getData() != null) {
                 vo.setUserId(dto.getUserId());
                 BeanUtils.copyProperties(userResult.getData(), vo);
                 if (userResult.getData().getOrgId()!=null){
                     Result<Org> orgResult = orgApi.get(userResult.getData().getOrgId());
-                    if (orgResult.getIsSuccess() && orgResult.getData() != null) {
+                    if (orgResult.isSuccess() && orgResult.getData() != null) {
                         vo.setAgency(parseOrg2SimpleVo(orgResult.getData()));
                     }
                 }

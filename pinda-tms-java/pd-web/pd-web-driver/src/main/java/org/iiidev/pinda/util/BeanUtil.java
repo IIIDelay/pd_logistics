@@ -32,7 +32,7 @@ public class BeanUtil {
         if (roleApi != null) {
             Result<List<RoleDTO>> result = roleApi.list(user.getId());
             List<RoleVo> roles = new ArrayList<>();
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 result.getData().forEach(role -> {
                     roles.add(parseRole2Vo(role));
                 });
@@ -42,7 +42,7 @@ public class BeanUtil {
         //处理所属机构信息
         if (orgApi != null && user.getOrgId() != null && user.getOrgId() != 0) {
             Result<Org> result = orgApi.get(user.getOrgId());
-            if (result.getIsSuccess() && result.getData() != null) {
+            if (result.isSuccess() && result.getData() != null) {
                 vo.setAgency(parseOrg2SimpleVo(result.getData()));
             }
         }
@@ -99,7 +99,7 @@ public class BeanUtil {
         //处理父级信息
         if (org.getParentId() != null && org.getParentId() != 0 && orgApi != null) {
             Result<Org> result = orgApi.get(org.getParentId());
-            if (result.getIsSuccess() && result.getData() != null && result.getData().getId() != null) {
+            if (result.isSuccess() && result.getData() != null && result.getData().getId() != null) {
                 AgencySimpleVo simpleVo = new AgencySimpleVo();
                 BeanUtils.copyProperties(result.getData(), simpleVo);
                 simpleVo.setId(String.valueOf(result.getData().getId()));
@@ -122,7 +122,7 @@ public class BeanUtil {
         }
         if (areaIds.size() > 0 && areaApi != null) {
             Result<List<Area>> result = areaApi.findAll(null, new ArrayList<>(areaIds));
-            if (result.getIsSuccess()) {
+            if (result.isSuccess()) {
                 Map<Long, Area> areaMap = result.getData().stream().collect(Collectors.toMap(Area::getId, area -> area));
                 if (provinceOk) {
                     agencyVo.setProvince(parseArea2Vo(areaMap.get(org.getProvinceId())));

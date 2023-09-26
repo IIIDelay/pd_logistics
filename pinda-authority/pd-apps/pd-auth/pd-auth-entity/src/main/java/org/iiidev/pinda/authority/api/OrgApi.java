@@ -3,7 +3,7 @@
 package org.iiidev.pinda.authority.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.iiidev.pinda.authority.api.hystrix.OrgApiFallback;
+import org.iiidev.pinda.authority.api.fusing.OrgApiFallback;
 import org.iiidev.pinda.authority.dto.core.OrgTreeDTO;
 import org.iiidev.pinda.authority.entity.core.Org;
 import org.iiidev.pinda.base.Result;

@@ -1,13 +1,22 @@
 package org.iiidev.pinda.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.iiidev.pinda.DTO.angency.FleetDto;
 import org.iiidev.pinda.DTO.base.GoodsTypeDto;
 import org.iiidev.pinda.DTO.transportline.TransportLineTypeDto;
 import org.iiidev.pinda.DTO.truck.TruckDto;
 import org.iiidev.pinda.DTO.truck.TruckTypeDto;
 import org.iiidev.pinda.DTO.user.TruckDriverDto;
+import org.iiidev.pinda.authority.api.ApiClientService;
 import org.iiidev.pinda.authority.api.AreaApi;
-import org.iiidev.pinda.authority.api.UserApi;
 import org.iiidev.pinda.authority.entity.auth.User;
 import org.iiidev.pinda.authority.enumeration.common.StaticStation;
 import org.iiidev.pinda.base.Result;
@@ -19,6 +28,7 @@ import org.iiidev.pinda.feign.truck.TruckFeign;
 import org.iiidev.pinda.feign.truck.TruckTypeFeign;
 import org.iiidev.pinda.feign.user.DriverFeign;
 import org.iiidev.pinda.util.BeanUtil;
+import org.iiidev.pinda.utils.CollectionHelper;
 import org.iiidev.pinda.vo.base.AreaSimpleVo;
 import org.iiidev.pinda.vo.base.businessHall.GoodsTypeVo;
 import org.iiidev.pinda.vo.base.transforCenter.business.FleetVo;
@@ -26,14 +36,7 @@ import org.iiidev.pinda.vo.base.transforCenter.business.TransportLineTypeVo;
 import org.iiidev.pinda.vo.base.transforCenter.business.TruckTypeVo;
 import org.iiidev.pinda.vo.base.transforCenter.business.TruckVo;
 import org.iiidev.pinda.vo.base.userCenter.SysUserVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.java.Log;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -43,41 +46,38 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Api(tags = "公共信息")
+@Slf4j
 @RestController
 @RequestMapping("common")
-@Api(tags = "公共信息")
-@Log
+@RequiredArgsConstructor
 public class CommonController {
-    @Autowired
-    private AreaApi areaApi;
-    @Autowired
-    private FleetFeign fleetFeign;
-    @Autowired
-    private TruckTypeFeign truckTypeFeign;
-    @Autowired
-    private TransportLineTypeFeign transportLineTypeFeign;
-    @Autowired
-    private GoodsTypeFeign goodsTypeFeign;
-    @Autowired
-    private DriverFeign driverFeign;
-    @Autowired
-    private UserApi userApi;
-    @Autowired
-    private TruckFeign truckFeign;
+    private final AreaApi areaApi;
+    private final FleetFeign fleetFeign;
+    private final TruckTypeFeign truckTypeFeign;
+    private final TransportLineTypeFeign transportLineTypeFeign;
+    private final GoodsTypeFeign goodsTypeFeign;
+    private final DriverFeign driverFeign;
+    private final TruckFeign truckFeign;
+    private final ApiClientService apiClientService;
 
     @ApiOperation(value = "获取行政区域简要信息列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "parentId", value = "父级id，无父级为0", required = true, example = "0")
+        @ApiImplicitParam(name = "parentId", value = "父级id，无父级为0", required = true, example = "0")
     })
     @GetMapping(value = "area/simple")
     public List<AreaSimpleVo> areaSimple(@RequestParam(value = "parentId") String parentId) {
-        return areaApi.findAll(StringUtils.isEmpty(parentId) ? null : Long.valueOf(parentId), null).getData().stream().map(BeanUtil::parseArea2Vo).collect(Collectors.toList());
+        return areaApi.findAll(StringUtils.isEmpty(parentId) ? null : Long.valueOf(parentId), null)
+            .getData()
+            .stream()
+            .map(BeanUtil::parseArea2Vo)
+            .collect(Collectors.toList());
     }
 
     @ApiOperation(value = "获取负责人信息列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "station", value = "岗位", required = true, example = "1为员工，2为快递员，3为司机"),
-            @ApiImplicitParam(name = "name", value = "用户姓名", required = true, example = "张三"),
+        @ApiImplicitParam(name = "station", value = "岗位", required = true, example = "1为员工，2为快递员，3为司机"),
+        @ApiImplicitParam(name = "name", value = "用户姓名", required = true, example = "张三"),
     })
     @GetMapping(value = "user/simple")
     public List<SysUserVo> userSimple(@RequestParam(name = "station", required = false) Integer station, @RequestParam(name = "name", required = false) String name) {
@@ -88,17 +88,18 @@ public class CommonController {
         } else if (station != null && station == Constant.UserStation.DRIVER.getStation()) {
             stationId = StaticStation.DRIVER_ID;
         }
-        Result<List<User>> result = userApi.list(null, stationId, name, null);
+        Result<List<User>> result = apiClientService.getUserApi().list(null, stationId, name, null);
         List<SysUserVo> userVoList = new ArrayList<>();
-        if (result.getIsSuccess() && result.getData() != null) {
-            userVoList.addAll(result.getData().stream().map(user -> BeanUtil.parseUser2Vo(user, null, null)).collect(Collectors.toList()));
+
+        if (result.successHasData()) {
+            userVoList.addAll(CollectionHelper.toList(result.getData(), null, user -> BeanUtil.parseUser2Vo(user, null, null)));
         }
         return userVoList;
     }
 
     @ApiOperation(value = "获取车队信息列表")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "more", value = "是否获取更多信息，例如,司机和车辆，默认为false", required = true, example = "true")
+        @ApiImplicitParam(name = "more", value = "是否获取更多信息，例如,司机和车辆，默认为false", required = true, example = "true")
     })
     @GetMapping(value = "fleet/simple")
     public List<FleetVo> fleetSimple(@RequestParam(name = "more", required = false, defaultValue = "false") Boolean more) {
@@ -109,19 +110,25 @@ public class CommonController {
             BeanUtils.copyProperties(fleetDto, simpleVo);
             if (more) {
                 List<TruckDto> truckDtoList = truckFeign.findAll(null, fleetDto.getId());
-                if (truckDtoList != null && truckDtoList.size() > 0) {
-                    simpleVo.setTrucks(truckDtoList.stream().map(truckDto -> {
-                        TruckVo truckVo = new TruckVo();
-                        BeanUtils.copyProperties(truckDto, truckVo);
-                        return truckVo;
-                    }).collect(Collectors.toList()));
+                List<TruckVo> truckVos = CollectionHelper.toList(truckDtoList, null, truckDto -> {
+                    TruckVo truckVo = new TruckVo();
+                    BeanUtils.copyProperties(truckDto, truckVo);
+                    return truckVo;
+                });
+                if (CollectionUtils.isNotEmpty(truckVos)) {
+                    simpleVo.setTrucks(truckVos);
                 }
+
                 List<TruckDriverDto> driverDtoList = driverFeign.findAllDriver(null, fleetDto.getId());
-                if (driverDtoList != null && driverDtoList.size() > 0) {
+                if (CollectionUtils.isNotEmpty(driverDtoList)) {
                     List<SysUserVo> driverVoList = new ArrayList<>();
-                    Result<List<User>> userResult = userApi.list(driverDtoList.stream().mapToLong(driverDto -> Long.valueOf(driverDto.getUserId())).boxed().collect(Collectors.toList()), null, null, null);
-                    if (userResult.getIsSuccess() && userResult.getData() != null && userResult.getData().size() > 0) {
-                        driverVoList.addAll(userResult.getData().stream().map(user -> BeanUtil.parseUser2Vo(user, null, null)).collect(Collectors.toList()));
+                    List<Long> userIds = CollectionHelper.toList(driverDtoList, in -> NumberUtils.isDigits(in.getUserId()), in -> Long.valueOf(in.getUserId()));
+                    Result<List<User>> userResult = apiClientService.getUserApi().list(userIds, null, null, null);
+                    if (userResult.isSuccess() && userResult.getData() != null && userResult.getData().size() > 0) {
+                        driverVoList.addAll(userResult.getData()
+                            .stream()
+                            .map(user -> BeanUtil.parseUser2Vo(user, null, null))
+                            .collect(Collectors.toList()));
                     }
                     simpleVo.setDrivers(driverVoList);
                     simpleVo.setDriverCount(driverVoList.size());
@@ -137,13 +144,13 @@ public class CommonController {
         // TODO: 2020/2/18 此处需考虑是否从token上下文中获取当前用户所属机构id作为查询条件
         List<TruckTypeDto> truckTypeDtoList = truckTypeFeign.findAll(null);
 
-        return truckTypeDtoList.stream().map(truckTypeDto -> {
+        List<TruckTypeVo> truckTypeVoList = truckTypeDtoList.stream().map(truckTypeDto -> {
             TruckTypeVo simpleVo = new TruckTypeVo();
             BeanUtils.copyProperties(truckTypeDto, simpleVo);
-            System.out.println(truckTypeDtoList.size());
             return simpleVo;
         }).collect(Collectors.toList());
 
+        return truckTypeVoList;
     }
 
     @ApiOperation(value = "获取线路类型信息列表")

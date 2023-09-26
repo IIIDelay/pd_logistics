@@ -3,18 +3,18 @@
 package org.iiidev.pinda.authority.api;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import org.iiidev.pinda.authority.api.hystrix.UserApiFallback;
+import org.iiidev.pinda.authority.api.fusing.UserApiFallback;
 import org.iiidev.pinda.authority.entity.auth.User;
 import org.iiidev.pinda.base.Result;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Map;
 
 @FeignClient(
     name = "${pinda.feign.authority-server:pd-auth-server}",
