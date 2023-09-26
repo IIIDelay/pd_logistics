@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <label style="color:#909399;font-weight:500;">岗位名称：</label>
+      <label style="color:#909399;font-weight:500;">岗位名称: </label>
       <el-input
         v-model="queryParams.name"
         :placeholder="$t('table.station.name')"
         class="filter-item search-item"
       />
-      <label style="color:#909399;font-weight:500;">组织：</label>
+      <label style="color:#909399;font-weight:500;">组织: </label>
       <treeselect
         v-model="queryParams.orgId"
         :clear-value-text="$t('common.clear')"
@@ -18,7 +18,7 @@
         :searchable="true"
         class="filter-item search-item"
       />
-      <label style="color:#909399;font-weight:500;">日期：</label>
+      <label style="color:#909399;font-weight:500;">日期: </label>
       <el-date-picker
         v-model="queryParams.timeRange"
         :range-separator="null"

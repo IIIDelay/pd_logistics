@@ -43,11 +43,11 @@
       <el-form-item :label="$t('table.smsTemplate.content')" prop="content">
         <el-input v-model="smsTemplate.content" />
         <aside>
-          百度云：使用 ${xx} 作为占位符
+          百度云: 使用 ${xx} 作为占位符
           <br />
-          阿里云：使用 ${xx} 作为占位符
+          阿里云: 使用 ${xx} 作为占位符
           <br />
-          腾讯云：使用 {xx} 作为占位符
+          腾讯云: 使用 {xx} 作为占位符
         </aside>
       </el-form-item>
       <el-form-item :label="$t('table.smsTemplate.templateCode')" prop="templateCode">

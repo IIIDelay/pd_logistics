@@ -315,7 +315,7 @@ export default {
         this.isIndeterminate = true
       }
 
-      // 用于：父子节点严格互不关联时，父节点勾选变化时通知子节点同步变化，实现单向关联。
+      // 用于: 父子节点严格互不关联时，父节点勾选变化时通知子节点同步变化，实现单向关联。
       let selected = node.checkedKeys.indexOf(data.id) // -1未选中
       // 选中
       if (selected !== -1) {

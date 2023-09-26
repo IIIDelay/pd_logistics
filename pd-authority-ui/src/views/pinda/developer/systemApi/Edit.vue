@@ -45,14 +45,14 @@
           <el-radio-button :label="true">{{ $t('common.status.valid') }}</el-radio-button>
           <el-radio-button :label="false">{{ $t('common.status.invalid') }}</el-radio-button>
         </el-radio-group>
-        <aside class="tips">禁用：提示"请求地址,禁止访问!";</aside>
+        <aside class="tips">禁用: 提示"请求地址,禁止访问!";</aside>
       </el-form-item>
       <el-form-item :label="$t('table.systemApi.isAuth')" prop="isAuth">
         <el-radio-group v-model="systemApi.isAuth" size="small">
           <el-radio-button :label="true">{{ $t('common.yes') }}</el-radio-button>
           <el-radio-button :label="false">{{ $t('common.no') }}</el-radio-button>
         </el-radio-group>
-        <aside class="tips">是：未认证登录,提示"认证失败,请重新登录!";否: 不需要认证登录</aside>
+        <aside class="tips">是: 未认证登录,提示"认证失败,请重新登录!";否: 不需要认证登录</aside>
       </el-form-item>
       <!-- <el-form-item :label="$t('table.systemApi.isOpen')" prop="isOpen">
         <el-radio-group size="small" v-model="systemApi.isOpen">

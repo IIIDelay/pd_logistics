@@ -78,7 +78,7 @@
             </el-form-item>
           </el-col>
           <el-col :sm="12" :xs="24" style="margin-top: 10px;">
-            <el-form-item label="预览：">
+            <el-form-item label="预览: ">
               <div class="article" v-html="smsTask.content" />
             </el-form-item>
           </el-col>
@@ -132,7 +132,7 @@
       >存草稿</el-button>
     </div>
     <aside v-show="type!=='view'" class="tips">
-      模板提示：
+      模板提示:
       <p>1.长度不超过500字，单条短信超过70字后，按67字/条分多条计费；</p>
       <p>2.短信模板内容不能包含【】符号。</p>
     </aside>

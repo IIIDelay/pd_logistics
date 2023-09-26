@@ -1,6 +1,7 @@
 package org.iiidev.pinda.service.impl;
 
 
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.entity.Rule;
 import org.iiidev.pinda.mapper.RuleMapper;
 import org.kie.api.KieServices;
@@ -11,11 +12,13 @@ import org.kie.api.builder.Message;
 import org.kie.api.runtime.KieContainer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
- *重新加载规则
+ * 重新加载规则
  */
+@Slf4j
 @Service
 public class ReloadDroolsRulesService {
     public static KieContainer kieContainer;
@@ -51,11 +54,11 @@ public class ReloadDroolsRulesService {
             throw new RuntimeException("Build Errors:\n" + kb.getResults().toString());
         }
         long endTime = System.currentTimeMillis();
-        System.out.println("Time to build rules : " + (endTime - startTime) + " ms");
+        log.info("Time to build rules: {} ms", (endTime - startTime));
         startTime = System.currentTimeMillis();
         KieContainer kContainer = ks.newKieContainer(kr.getDefaultReleaseId());
         endTime = System.currentTimeMillis();
-        System.out.println("Time to load container: " + (endTime - startTime) + " ms");
+        log.info("Time to load container: {} ms", (endTime - startTime));
         return kContainer;
     }
 }

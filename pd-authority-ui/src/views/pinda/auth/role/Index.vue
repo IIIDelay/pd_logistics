@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <label style="color:#909399;font-weight:500;">编码：</label>
+      <label style="color:#909399;font-weight:500;">编码: </label>
       <el-input
         v-model="queryParams.code"
         :placeholder="$t('table.role.code')"
         class="filter-item search-item"
         clearable
       />
-      <label style="color:#909399;font-weight:500;">角色名称：</label>
+      <label style="color:#909399;font-weight:500;">角色名称: </label>
       <el-input
         v-model="queryParams.name"
         :placeholder="$t('table.role.name')"

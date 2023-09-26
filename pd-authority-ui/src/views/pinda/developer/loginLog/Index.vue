@@ -1,28 +1,28 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <label style="color:#909399;font-weight:500;">账号：</label>
+      <label style="color:#909399;font-weight:500;">账号: </label>
       <el-input
         v-model="queryParams.account"
         :placeholder="$t('table.loginLog.account')"
         class="filter-item search-item"
         style="width: 150px;"
       />
-      <label style="color:#909399;font-weight:500;">地区：</label>
+      <label style="color:#909399;font-weight:500;">地区: </label>
       <el-input
         v-model="queryParams.location"
         :placeholder="$t('table.loginLog.location')"
         class="filter-item search-item"
         style="width: 150px;"
       />
-      <label style="color:#909399;font-weight:500;">IP：</label>
+      <label style="color:#909399;font-weight:500;">IP: </label>
       <el-input
         v-model="queryParams.requestIp"
         :placeholder="$t('table.loginLog.requestIp')"
         class="filter-item search-item"
         style="width: 150px;"
       />
-      <label style="color:#909399;font-weight:500;">创始时间：</label>
+      <label style="color:#909399;font-weight:500;">创始时间: </label>
       <el-date-picker
         v-model="queryParams.timeRange"
         :range-separator="null"

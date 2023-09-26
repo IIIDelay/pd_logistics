@@ -15,48 +15,48 @@
     <el-row :gutter="10">
       <el-col :xs="24" :sm="12">
         <div class="view-item">
-          <i class="el-icon-user" /> <span>{{ $t('table.user.username') +'：' }}</span> {{ user.username }}
+          <i class="el-icon-user" /> <span>{{ $t('table.user.username') +': ' }}</span> {{ user.username }}
         </div>
       </el-col>
       <el-col :xs="24" :sm="12">
         <div class="view-item">
-          <i class="el-icon-suitcase" /> <span>{{ $t('table.user.dept') +'：' }}</span> {{ user.deptName }}
-        </div>
-      </el-col>
-    </el-row>
-    <el-row :gutter="10">
-      <el-col :xs="24" :sm="12">
-        <div class="view-item">
-          <i class="el-icon-trophy" /> <span>{{ $t('table.user.role') +'：' }}</span> {{ user.roleName }}
-        </div>
-      </el-col>
-      <el-col :xs="24" :sm="12">
-        <div class="view-item">
-          <i class="el-icon-phone-outline" /> <span>{{ $t('table.user.mobile') +'：' }}</span> {{ user.mobile }}
+          <i class="el-icon-suitcase" /> <span>{{ $t('table.user.dept') +': ' }}</span> {{ user.deptName }}
         </div>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :xs="24" :sm="12">
         <div class="view-item">
-          <i class="el-icon-star-off" /> <span>{{ $t('table.user.sex') +'：' }}</span> {{ transSex(user.sex) }}
+          <i class="el-icon-trophy" /> <span>{{ $t('table.user.role') +': ' }}</span> {{ user.roleName }}
         </div>
       </el-col>
       <el-col :xs="24" :sm="12">
         <div class="view-item">
-          <i class="el-icon-bangzhu" /> <span>{{ $t('table.user.status') +'：' }}</span> {{ user.status === '1' ? $t('common.status.valid') : $t('common.status.invalid') }}
+          <i class="el-icon-phone-outline" /> <span>{{ $t('table.user.mobile') +': ' }}</span> {{ user.mobile }}
         </div>
       </el-col>
     </el-row>
     <el-row :gutter="10">
       <el-col :xs="24" :sm="12">
         <div class="view-item">
-          <i class="el-icon-time" /> <span>{{ $t('table.user.createTime') +'：' }}</span> {{ user.createTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
+          <i class="el-icon-star-off" /> <span>{{ $t('table.user.sex') +': ' }}</span> {{ transSex(user.sex) }}
         </div>
       </el-col>
       <el-col :xs="24" :sm="12">
         <div class="view-item">
-          <i class="el-icon-brush" /> <span>{{ $t('table.user.modifyTime') +'：' }}</span>
+          <i class="el-icon-bangzhu" /> <span>{{ $t('table.user.status') +': ' }}</span> {{ user.status === '1' ? $t('common.status.valid') : $t('common.status.invalid') }}
+        </div>
+      </el-col>
+    </el-row>
+    <el-row :gutter="10">
+      <el-col :xs="24" :sm="12">
+        <div class="view-item">
+          <i class="el-icon-time" /> <span>{{ $t('table.user.createTime') +': ' }}</span> {{ user.createTime | parseTime('{y}-{m}-{d} {h}:{i}:{s}') }}
+        </div>
+      </el-col>
+      <el-col :xs="24" :sm="12">
+        <div class="view-item">
+          <i class="el-icon-brush" /> <span>{{ $t('table.user.modifyTime') +': ' }}</span>
           {{ user.modifyTime }}
         </div>
       </el-col>
@@ -64,7 +64,7 @@
     <el-row :gutter="10">
       <el-col :xs="24" :sm="24">
         <div class="view-item">
-          <i class="el-icon-date" /> <span>{{ $t('table.user.lastLoginTime') +'：' }}</span>
+          <i class="el-icon-date" /> <span>{{ $t('table.user.lastLoginTime') +': ' }}</span>
           {{ user.lastLoginTime ? user.lastLoginTime: $t('tips.neverLogin') }}
         </div>
       </el-col>
@@ -72,7 +72,7 @@
     <el-row :gutter="10">
       <el-col :xs="24" :sm="24">
         <div class="view-item">
-          <i class="el-icon-document" /> <span>{{ $t('table.user.desc') +'：' }}</span> {{ user.description ? user.description: $t('tips.nothing') }}
+          <i class="el-icon-document" /> <span>{{ $t('table.user.desc') +': ' }}</span> {{ user.description ? user.description: $t('tips.nothing') }}
         </div>
       </el-col>
     </el-row>

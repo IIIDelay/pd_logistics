@@ -3,9 +3,9 @@ package org.iiidev.pinda.common.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -19,6 +19,7 @@ import java.util.Map;
 /**
  * 百度地图操作工具类
  */
+@Slf4j
 public class BaiduMapUtils {
     static String AK = "wE6oQaU34sPnKMBl062kZAMZ3YUZg18Y"; // 百度地图密钥
 
@@ -34,12 +35,12 @@ public class BaiduMapUtils {
         DecimalFormat df = new DecimalFormat("#.##");
         String distanceStr = df.format(distance / 1000);
         BigDecimal orderDistance = new BigDecimal(distanceStr);
-        System.out.println("时间-->" + time/60 + "分钟--距离-->" + orderDistance+"km");
+        log.info("时间-->{}, 分钟--距离-->: {}km", time / 60, orderDistance);
     }
 
     // 调用百度地图API根据的地址，获取坐标
     public static String getCoordinate(String address) {
-        if (address != null && !"".equals(address)) {
+        if (StringUtils.isNotEmpty(address)) {
             address = address.replaceAll("\\s*", "").replace("#", "栋");
             String url = "http://api.map.baidu.com/geocoding/v3/?output=json&ak=" + AK + "&callback=showLocation&address=" + address;
             String json = loadJSON(url);
@@ -76,7 +77,8 @@ public class BaiduMapUtils {
                 JSONArray jsonArray = (JSONArray) childMap.get("routes");
                 JSONObject jsonObject = (JSONObject) jsonArray.get(0);
                 Map posMap = (Map) jsonObject.get("routes");
-                int duration = Integer.parseInt(jsonObject.get("duration") == null ? "0" : jsonObject.get("duration").toString());
+                int duration = Integer.parseInt(jsonObject.get("duration") == null ? "0" : jsonObject.get("duration")
+                    .toString());
                 return duration;
             }
         }
@@ -84,7 +86,7 @@ public class BaiduMapUtils {
         return null;
     }
 
-    //根据起止位置经纬度获取距离，单位：米
+    // 根据起止位置经纬度获取距离，单位：米
     public static Double getDistance(String origin, String destination) {
         String[] originArray = origin.split(",");
         String[] destinationArray = destination.split(",");
@@ -100,7 +102,8 @@ public class BaiduMapUtils {
                 JSONArray jsonArray = (JSONArray) childMap.get("routes");
                 JSONObject jsonObject = (JSONObject) jsonArray.get(0);
                 Map posMap = (Map) jsonObject.get("routes");
-                double distance = Double.parseDouble(jsonObject.get("distance") == null ? "0" : jsonObject.get("distance").toString());
+                double distance = Double.parseDouble(jsonObject.get("distance") == null ? "0" : jsonObject.get("distance")
+                    .toString());
                 return distance;
             }
         }
@@ -108,7 +111,7 @@ public class BaiduMapUtils {
         return null;
     }
 
-    //访问接口地址，返回结果数据
+    // 访问接口地址，返回结果数据
     public static String loadJSON(String url) {
         StringBuilder json = new StringBuilder();
         try {

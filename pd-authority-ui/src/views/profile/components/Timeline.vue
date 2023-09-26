@@ -10,19 +10,19 @@
         <el-card>
           <p>
             <el-icon class="el-icon-link" />
-            {{ $t('table.loginLog.requestIp') }}：{{ item.requestIp }}
+            {{ $t('table.loginLog.requestIp') }}: {{ item.requestIp }}
           </p>
           <p>
             <el-icon class="el-icon-location-outline" />
-            {{ $t('table.loginLog.location') }}：{{ item.location }}
+            {{ $t('table.loginLog.location') }}: {{ item.location }}
           </p>
           <p>
             <el-icon class="el-icon-bangzhu" />
-            {{ $t('table.loginLog.browser') }}：{{ item.browser }}
+            {{ $t('table.loginLog.browser') }}: {{ item.browser }}
           </p>
           <p>
             <el-icon class="el-icon-monitor" />
-            {{ $t('table.loginLog.operatingSystem') }}：{{ item.operatingSystem }}
+            {{ $t('table.loginLog.operatingSystem') }}: {{ item.operatingSystem }}
           </p>
         </el-card>
       </el-timeline-item>

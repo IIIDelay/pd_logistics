@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <label style="color:#909399;font-weight:500;">账户：</label>
+      <label style="color:#909399;font-weight:500;">账户: </label>
       <el-input
         v-model="queryParams.account"
         :placeholder="$t('table.user.account')"
@@ -9,7 +9,7 @@
         class="filter-item search-item"
         clearable
       />
-      <label style="color:#909399;font-weight:500;">组织：</label>
+      <label style="color:#909399;font-weight:500;">组织: </label>
       <treeselect
         v-model="queryParams.orgId"
         :clear-value-text="$t('common.clear')"
@@ -21,7 +21,7 @@
         placeholder="组织"
         style="width: 250px;"
       />
-      <label style="color:#909399;font-weight:500;">创建时间：</label>
+      <label style="color:#909399;font-weight:500;">创建时间: </label>
       <el-date-picker
         v-model="queryParams.timeRange"
         :range-separator="null"
@@ -85,7 +85,7 @@
         @selection-change="onSelectChange"
         @sort-change="sortChange"
       >
-        <el-table-column align="center" type="selection" width="40px" />
+        <el-table-column align="center" type="selection" width="45px" />
         <el-table-column
           :label="$t('table.user.avatar')"
           align="center"

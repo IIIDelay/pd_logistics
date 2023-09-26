@@ -18,7 +18,7 @@
                       <span>{{ user.workDescribe ? user.workDescribe : $t('common.noWorkDescribe') }}</span>
                     </div>
                     <div class="user-login-info">
-                      {{ $t('common.lastLoginTime') }}：
+                      {{ $t('common.lastLoginTime') }}:
                       <span
                         id="last-login-time"
                       >{{ user.lastLoginTime ? user.lastLoginTime : $t('common.firstLogin') }}</span>
@@ -161,7 +161,7 @@ export default {
         },
         {
           name: 'Mybatis-Plus',
-          des: 'Mybatis-plus 3.2.0：Mybatis 增强组件',
+          des: 'Mybatis-plus 3.2.0: Mybatis 增强组件',
           avatar: 'MP'
         },
         {

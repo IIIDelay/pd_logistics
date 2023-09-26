@@ -1,21 +1,21 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <label style="color:#909399;font-weight:500;">操作人：</label>
+      <label style="color:#909399;font-weight:500;">操作人: </label>
       <el-input
         v-model="queryParams.userName"
         :placeholder="$t('table.optLog.userName')"
         class="filter-item search-item"
         clearable
       />
-      <label style="color:#909399;font-weight:500;">IP：</label>
+      <label style="color:#909399;font-weight:500;">IP: </label>
       <el-input
         v-model="queryParams.requestIp"
         :placeholder="$t('table.optLog.requestIp')"
         class="filter-item search-item"
         clearable
       />
-      <label style="color:#909399;font-weight:500;">创建时间：</label>
+      <label style="color:#909399;font-weight:500;">创建时间: </label>
       <el-date-picker
         v-model="queryParams.timeRange"
         :range-separator="null"

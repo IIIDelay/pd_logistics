@@ -49,7 +49,7 @@
           <el-radio-button :label="true">{{ $t('common.status.valid') }}</el-radio-button>
           <el-radio-button :label="false">{{ $t('common.status.invalid') }}</el-radio-button>
         </el-radio-group>
-        <aside class="tips">禁用：提示"请求地址,禁止访问!";</aside>
+        <aside class="tips">禁用: 提示"请求地址,禁止访问!";</aside>
       </el-form-item>
       <el-form-item :label="$t('table.application.describe')" prop="describe">
         <el-input v-model="application.describe" />

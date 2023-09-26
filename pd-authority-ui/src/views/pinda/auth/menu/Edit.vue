@@ -15,7 +15,7 @@
           @keyup.enter.native="submitForm"
         />
         <p class="note">建议使用:作为分隔符，并以view、add、update、delete、export、import、download、upload等关键词结尾</p>
-        <p class="note">如：menu:add、 resource:view、 file:upload</p>
+        <p class="note">如: menu:add、 resource:view、 file:upload</p>
       </el-form-item>
       <el-form-item :label="$t('table.resource.name')" prop="name" @keyup.enter.native="submitForm">
         <el-input v-model="resource.name" />

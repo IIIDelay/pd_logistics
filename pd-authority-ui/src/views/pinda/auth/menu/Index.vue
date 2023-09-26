@@ -371,12 +371,12 @@ export default {
       if (this.menu.path && this.menu.path !== '/') {
         const isUrl = this.isUrl(this.menu.path)
         if (isUrl) {
-          comp = `跳转地址：${this.menu.path}`
+          comp = `跳转地址: ${this.menu.path}`
         } else {
-          comp = `前端组件：pinda${this.menu.path}/Index.vue`
+          comp = `前端组件: pinda${this.menu.path}/Index.vue`
         }
       } else {
-        comp = `前端组件：pinda/Index.vue`
+        comp = `前端组件: pinda/Index.vue`
       }
       return comp
     }
