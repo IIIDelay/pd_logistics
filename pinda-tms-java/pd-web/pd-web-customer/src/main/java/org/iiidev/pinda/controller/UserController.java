@@ -1,16 +1,15 @@
 package org.iiidev.pinda.controller;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.DTO.UserProfileDTO;
 import org.iiidev.pinda.common.context.RequestContext;
 import org.iiidev.pinda.common.utils.RespResult;
 import org.iiidev.pinda.entity.Member;
 import org.iiidev.pinda.feign.UserClient;
 import org.iiidev.pinda.service.IMemberService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,7 +43,7 @@ public class UserController {
     @GetMapping("profile")
     public RespResult profile() {
 
-        //    并放入参数
+        // 并放入参数
         String userId = RequestContext.getUserId();
 
         Member member = memberService.detail(userId);

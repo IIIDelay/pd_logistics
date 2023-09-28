@@ -2,7 +2,17 @@ package org.iiidev.pinda.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import org.iiidev.pinda.DTO.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.iiidev.pinda.DTO.CacheLineDTO;
+import org.iiidev.pinda.DTO.CacheLineDetailDTO;
+import org.iiidev.pinda.DTO.OrderClassifyLogDTO;
+import org.iiidev.pinda.DTO.ScheduleJobDTO;
+import org.iiidev.pinda.DTO.ScheduleJobLogDTO;
 import org.iiidev.pinda.DTO.transportline.TransportLineDto;
 import org.iiidev.pinda.DTO.transportline.TransportTripsDto;
 import org.iiidev.pinda.DTO.truck.TruckDto;
@@ -11,25 +21,37 @@ import org.iiidev.pinda.authority.api.UserApi;
 import org.iiidev.pinda.authority.entity.auth.User;
 import org.iiidev.pinda.authority.entity.core.Org;
 import org.iiidev.pinda.common.utils.PageResponse;
-import org.iiidev.pinda.entity.*;
+import org.iiidev.pinda.entity.CacheLineDetailEntity;
+import org.iiidev.pinda.entity.CacheLineEntity;
+import org.iiidev.pinda.entity.CacheLineUseEntity;
+import org.iiidev.pinda.entity.OrderClassifyAttachEntity;
+import org.iiidev.pinda.entity.OrderClassifyEntity;
+import org.iiidev.pinda.entity.ScheduleJobLogEntity;
 import org.iiidev.pinda.feign.transportline.TransportLineFeign;
 import org.iiidev.pinda.feign.transportline.TransportTripsFeign;
 import org.iiidev.pinda.feign.truck.TruckFeign;
 import org.iiidev.pinda.future.PdCompletableFuture;
-import org.iiidev.pinda.service.*;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
+import org.iiidev.pinda.service.ICacheLineDetailService;
+import org.iiidev.pinda.service.ICacheLineService;
+import org.iiidev.pinda.service.ICacheLineUseService;
+import org.iiidev.pinda.service.IOrderClassifyAttachService;
+import org.iiidev.pinda.service.IOrderClassifyService;
+import org.iiidev.pinda.service.IScheduleJobLogService;
+import org.iiidev.pinda.service.IScheduleJobService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -118,7 +140,7 @@ public class ScheduleJobLogController {
         agencySet.addAll(orderClassifyEntities.stream().map(item -> item.getEndAgencyId()).collect(Collectors.toSet()));
 
         CompletableFuture<Map<Long, Org>> agnecyMapFuture = PdCompletableFuture.agencyMapFuture(orgApi, null, agencySet, null);
-        Map<Long, Org> agencyMap = agnecyMapFuture.get();
+        Map<Long, Org> agencyMap = agnecyMapFuture.join();
 
         List<OrderClassifyLogDTO> orderClassifyLogDTOS = orderClassifyEntities.stream().map(item -> {
             OrderClassifyLogDTO orderClassifyLogDTO = new OrderClassifyLogDTO();
@@ -164,9 +186,9 @@ public class ScheduleJobLogController {
         Set<String> tripsSet = new LinkedHashSet<>();
         Set<String> truckSet = new LinkedHashSet<>();
         Set<String> driverSet = new LinkedHashSet<>();
-        Map<String, TransportTripsDto> tripsMap = tripsMapFuture.get();
-        Map<String, TruckDto> truckMap = truckMapFuture.get();
-        Map<Long, User> driverMap = driverMapFuture.get();
+        Map<String, TransportTripsDto> tripsMap = tripsMapFuture.join();
+        Map<String, TruckDto> truckMap = truckMapFuture.join();
+        Map<Long, User> driverMap = driverMapFuture.join();
         for (OrderClassifyAttachEntity orderClassifyAttach : orderClassifyAttachs) {
             tripsSet.add(tripsMap.get(orderClassifyAttach.getTripsId()).getName());
             truckSet.add(truckMap.get(orderClassifyAttach.getTruckId()).getLicensePlate());
@@ -200,8 +222,8 @@ public class ScheduleJobLogController {
             agencySet.addAll(cacheLineDetailEntities.stream().map(cacheLineDetailEntity -> cacheLineDetailEntity.getEndAgencyId()).collect(Collectors.toSet()));
 
             CompletableFuture<Map<Long, Org>> agnecyMapFu = PdCompletableFuture.agencyMapFuture(orgApi, null, agencySet, null);
-            Map<String, TransportLineDto> transportLineMap = transportLineMapFuture.get();
-            Map<Long, Org> agency = agnecyMapFu.get();
+            Map<String, TransportLineDto> transportLineMap = transportLineMapFuture.join();
+            Map<Long, Org> agency = agnecyMapFu.join();
 
             cacheLineDetailEntities.forEach(cacheLineDetailEntity -> {
                 CacheLineDetailDTO cacheLineDetailDTO = new CacheLineDetailDTO();

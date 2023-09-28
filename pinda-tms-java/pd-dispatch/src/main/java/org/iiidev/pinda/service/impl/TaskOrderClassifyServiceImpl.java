@@ -1,7 +1,11 @@
 package org.iiidev.pinda.service.impl;
+
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.google.common.collect.Maps;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.DTO.OrderClassifyDTO;
 import org.iiidev.pinda.DTO.OrderClassifyGroupDTO;
 import org.iiidev.pinda.DTO.OrderSearchDTO;
@@ -22,16 +26,17 @@ import org.iiidev.pinda.service.IOrderClassifyOrderService;
 import org.iiidev.pinda.service.IOrderClassifyService;
 import org.iiidev.pinda.service.ITaskOrderClassifyService;
 import org.iiidev.pinda.utils.IdUtils;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.utils.StrPool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -224,7 +229,7 @@ public class TaskOrderClassifyServiceImpl implements ITaskOrderClassifyService {
         areaIdSet.add(county);
 
         CompletableFuture<Map<Long, Area>> areaMapFuture = PdCompletableFuture.areaMapFuture(areaApi, null, areaIdSet);
-        Map<Long, Area> areaMap = areaMapFuture.get();
+        Map<Long, Area> areaMap = areaMapFuture.join();
 
         stringBuffer.append(areaMap.get(province).getName());
         stringBuffer.append(areaMap.get(city).getName());
@@ -487,7 +492,7 @@ public class TaskOrderClassifyServiceImpl implements ITaskOrderClassifyService {
         areaIdSet.add(county);
 
         CompletableFuture<Map<Long, Area>> areaMapFuture = PdCompletableFuture.areaMapFuture(areaApi, null, areaIdSet);
-        Map<Long, Area> areaMap = areaMapFuture.get();
+        Map<Long, Area> areaMap = areaMapFuture.join();
 
         stringBuffer.append(areaMap.get(province).getName());
         stringBuffer.append(areaMap.get(city).getName());

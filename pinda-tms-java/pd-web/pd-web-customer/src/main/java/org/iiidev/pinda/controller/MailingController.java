@@ -2,7 +2,22 @@ package org.iiidev.pinda.controller;
 
 import com.alibaba.fastjson.JSONArray;
 import com.google.common.collect.Lists;
-import org.iiidev.pinda.DTO.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang.StringUtils;
+import org.iiidev.pinda.DTO.CustomerOrderDTO;
+import org.iiidev.pinda.DTO.CustomerOrderDetailDTO;
+import org.iiidev.pinda.DTO.MailingQueryDTO;
+import org.iiidev.pinda.DTO.MailingSaveDTO;
+import org.iiidev.pinda.DTO.OrderCargoDto;
+import org.iiidev.pinda.DTO.OrderDTO;
+import org.iiidev.pinda.DTO.OrderLocationDto;
+import org.iiidev.pinda.DTO.OrderSearchDTO;
+import org.iiidev.pinda.DTO.RouteDTO;
+import org.iiidev.pinda.DTO.TaskPickupDispatchDTO;
+import org.iiidev.pinda.DTO.TaskTransportDTO;
+import org.iiidev.pinda.DTO.TransportOrderDTO;
 import org.iiidev.pinda.DTO.angency.AgencyScopeDto;
 import org.iiidev.pinda.DTO.user.CourierScopeDto;
 import org.iiidev.pinda.authority.api.AreaApi;
@@ -25,22 +40,34 @@ import org.iiidev.pinda.enums.OrderType;
 import org.iiidev.pinda.enums.pickuptask.PickupDispatchTaskAssignedStatus;
 import org.iiidev.pinda.enums.pickuptask.PickupDispatchTaskStatus;
 import org.iiidev.pinda.enums.pickuptask.PickupDispatchTaskType;
-import org.iiidev.pinda.feign.*;
+import org.iiidev.pinda.feign.AddressBookFeign;
+import org.iiidev.pinda.feign.CargoFeign;
+import org.iiidev.pinda.feign.OrderFeign;
+import org.iiidev.pinda.feign.PickupDispatchTaskFeign;
+import org.iiidev.pinda.feign.TransportOrderFeign;
+import org.iiidev.pinda.feign.TransportTaskFeign;
 import org.iiidev.pinda.feign.agency.AgencyScopeFeign;
 import org.iiidev.pinda.feign.user.CourierScopeFeign;
 import org.iiidev.pinda.future.PdCompletableFuture;
 import org.iiidev.pinda.service.IMemberService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.SneakyThrows;
-import lombok.extern.log4j.Log4j2;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -293,7 +320,7 @@ public class MailingController {
         areaIdSet.add(county);
 
         CompletableFuture<Map<Long, Area>> areaMapFuture = PdCompletableFuture.areaMapFuture(areaApi, null, areaIdSet);
-        Map<Long, Area> areaMap = areaMapFuture.get();
+        Map<Long, Area> areaMap = areaMapFuture.join();
 
         stringBuffer.append(areaMap.get(province).getName());
         stringBuffer.append(areaMap.get(city).getName());
@@ -415,7 +442,7 @@ public class MailingController {
         areaIdSet.add(county);
 
         CompletableFuture<Map<Long, Area>> areaMapFuture = PdCompletableFuture.areaMapFuture(areaApi, null, areaIdSet);
-        Map<Long, Area> areaMap = areaMapFuture.get();
+        Map<Long, Area> areaMap = areaMapFuture.join();
 
         stringBuffer.append(areaMap.get(province).getName());
         stringBuffer.append(areaMap.get(city).getName());
@@ -758,11 +785,11 @@ public class MailingController {
             CompletableFuture<Map<String, TaskPickupDispatchDTO>> taskPickupDispatchPushMapFuture = PdCompletableFuture.taskTranSportMapFuture(pickupDispatchTaskFeign, iPickupDispatchTaskSet, PickupDispatchTaskType.DISPATCH.getCode());
 
             // 统一获取
-            Map<Long, Area> areaMap = areaMapFuture.get();
-            Map<String, OrderCargoDto> cargoMap = cargoMapFuture.get();
-            Map<String, TransportOrderDTO> transportOrderMap = transportOrderMapFuture.get();
-            Map<String, TaskPickupDispatchDTO> taskPickupDispatchPullMap = taskPickupDispatchPullMapFuture.get();
-            Map<String, TaskPickupDispatchDTO> taskPickupDispatchPushMap = taskPickupDispatchPushMapFuture.get();
+            Map<Long, Area> areaMap = areaMapFuture.join();
+            Map<String, OrderCargoDto> cargoMap = cargoMapFuture.join();
+            Map<String, TransportOrderDTO> transportOrderMap = transportOrderMapFuture.join();
+            Map<String, TaskPickupDispatchDTO> taskPickupDispatchPullMap = taskPickupDispatchPullMapFuture.join();
+            Map<String, TaskPickupDispatchDTO> taskPickupDispatchPushMap = taskPickupDispatchPushMapFuture.join();
 
             List<CustomerOrderDTO> newItem = result.getItems().stream().map(item -> {
                 CustomerOrderDTO customerOrderDto = new CustomerOrderDTO(item, areaMap, cargoMap, transportOrderMap, taskPickupDispatchPullMap, taskPickupDispatchPushMap);
@@ -933,7 +960,7 @@ public class MailingController {
             agencySet.addAll(transportTaskDTOs.stream().map(item -> item.getEndAgencyId()).collect(Collectors.toSet()));
 
             CompletableFuture<Map<Long, Org>> orgMapFeture = PdCompletableFuture.agencyMapFuture(orgApi, null, agencySet, null);
-            Map<Long, Org> orgMap = orgMapFeture.get();
+            Map<Long, Org> orgMap = orgMapFeture.join();
             for (TaskTransportDTO taskTranSport : transportTaskDTOs) {
                 if (null != taskTranSport.getActualPickUpGoodsTime()) {
                     //实际提货时间 不为空证明已提货

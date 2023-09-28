@@ -1,5 +1,8 @@
 package org.iiidev.pinda.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.DTO.OrderPointDTO;
 import org.iiidev.pinda.authority.api.OrgApi;
 import org.iiidev.pinda.authority.entity.core.Org;
@@ -11,17 +14,17 @@ import org.iiidev.pinda.service.ICacheLineDetailService;
 import org.iiidev.pinda.service.ICacheLineService;
 import org.iiidev.pinda.service.ICacheLineUseService;
 import org.iiidev.pinda.service.IOrderClassifyOrderService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -66,7 +69,7 @@ public class OrderLocusController {
             agencySet.addAll(cacheLineDetailEntities.stream().map(cacheLineDetailEntity -> cacheLineDetailEntity.getEndAgencyId()).collect(Collectors.toSet()));
 
             CompletableFuture<Map<Long, Org>> agnecyMapFu = PdCompletableFuture.agencyMapFuture(orgApi, null, agencySet, null);
-            Map<Long, Org> agency = agnecyMapFu.get();
+            Map<Long, Org> agency = agnecyMapFu.join();
 
             cacheLineDetailEntities.forEach(cacheLineDetailEntity -> {
 

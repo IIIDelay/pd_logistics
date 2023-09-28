@@ -2,6 +2,11 @@ package org.iiidev.pinda.controller;
 
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.log4j.Log4j2;
 import org.iiidev.pinda.authority.api.AreaApi;
 import org.iiidev.pinda.authority.api.OrgApi;
 import org.iiidev.pinda.authority.entity.common.Area;
@@ -9,19 +14,17 @@ import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.common.utils.PageResponse;
 import org.iiidev.pinda.common.utils.RespResult;
 import org.iiidev.pinda.future.PdCompletableFuture;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.SneakyThrows;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -76,7 +79,7 @@ public class AgencyController {
         areaSet.addAll(records.stream().filter(item -> !ObjectUtils.isEmpty(item.get("cityId"))).map(item -> Long.valueOf(item.get("cityId").toString())).collect(Collectors.toSet()));
         areaSet.addAll(records.stream().filter(item -> !ObjectUtils.isEmpty(item.get("countyId"))).map(item -> Long.valueOf(item.get("countyId").toString())).collect(Collectors.toSet()));
         CompletableFuture<Map<Long, Area>> areaMapFuture = PdCompletableFuture.areaMapFuture(areaApi, null, areaSet);
-        Map<Long, Area> areaMap = areaMapFuture.get();
+        Map<Long, Area> areaMap = areaMapFuture.join();
 
         records = records.stream().map(item -> {
             Map newItem = writeMapNullToEmpty(item);

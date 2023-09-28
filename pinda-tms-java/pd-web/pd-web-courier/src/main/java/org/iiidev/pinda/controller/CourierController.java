@@ -1,11 +1,24 @@
 package org.iiidev.pinda.controller;
 
 
-import org.iiidev.pinda.DTO.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
+import org.iiidev.pinda.DTO.AppCourierQueryDTO;
+import org.iiidev.pinda.DTO.MailingSaveDTO;
+import org.iiidev.pinda.DTO.OrderCargoDto;
+import org.iiidev.pinda.DTO.OrderDTO;
+import org.iiidev.pinda.DTO.PickupDispatchDTO;
+import org.iiidev.pinda.DTO.PickupDispatchDetailDTO;
+import org.iiidev.pinda.DTO.RouteDTO;
+import org.iiidev.pinda.DTO.TaskPickupDispatchDTO;
+import org.iiidev.pinda.DTO.TaskTransportDTO;
+import org.iiidev.pinda.DTO.TransportOrderDTO;
 import org.iiidev.pinda.DTO.base.GoodsTypeDto;
 import org.iiidev.pinda.authority.api.AreaApi;
-
-
 import org.iiidev.pinda.authority.api.OrgApi;
 import org.iiidev.pinda.authority.entity.common.Area;
 import org.iiidev.pinda.authority.entity.core.Org;
@@ -22,24 +35,35 @@ import org.iiidev.pinda.enums.pickuptask.PickupDispatchTaskStatus;
 import org.iiidev.pinda.enums.pickuptask.PickupDispatchTaskType;
 import org.iiidev.pinda.enums.transportorder.TransportOrderSchedulingStatus;
 import org.iiidev.pinda.enums.transportorder.TransportOrderStatus;
-import org.iiidev.pinda.feign.*;
+import org.iiidev.pinda.feign.CargoFeign;
+import org.iiidev.pinda.feign.MemberFeign;
+import org.iiidev.pinda.feign.OrderFeign;
+import org.iiidev.pinda.feign.PickupDispatchTaskFeign;
+import org.iiidev.pinda.feign.TransportOrderFeign;
+import org.iiidev.pinda.feign.TransportTaskFeign;
 import org.iiidev.pinda.feign.common.GoodsTypeFeign;
 import org.iiidev.pinda.feign.courier.AppCourierFeign;
 import org.iiidev.pinda.future.PdCompletableFuture;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -135,7 +159,7 @@ public class CourierController {
         // 查询运单信息
         CompletableFuture<Map<String, TransportOrderDTO>> tranOrderMapFuture = PdCompletableFuture.tranOrderMapFuture(transportOrderFeign, orderSet);
 
-        Map<String, OrderDTO> orderMap = orderMapFuture.get();
+        Map<String, OrderDTO> orderMap = orderMapFuture.join();
         log.info("根据任务信息获取订单数据：{}，result:{}", orderSet, orderMap);
         Collection<OrderDTO> orderDTOs = orderMap.values();
 
@@ -149,9 +173,9 @@ public class CourierController {
         addressSet.addAll(orderDTOs.stream().filter(item -> item.getSenderCountyId() != null).map(item -> Long.valueOf(item.getSenderCountyId())).collect(Collectors.toSet()));
         CompletableFuture<Map<Long, Area>> areaMapFuture = PdCompletableFuture.areaMapFuture(areaApi, null, addressSet);
 
-        Map<String, TransportOrderDTO> tranOrderMap = tranOrderMapFuture.get();
+        Map<String, TransportOrderDTO> tranOrderMap = tranOrderMapFuture.join();
         log.info("根据任务信息获取运单数据：{}，result:{}", orderSet, tranOrderMap);
-        Map<Long, Area> areaMap = areaMapFuture.get();
+        Map<Long, Area> areaMap = areaMapFuture.join();
 
         List<PickupDispatchDTO> pickupDispatchDtos = result.getItems().stream().map(item -> new PickupDispatchDTO(item, tranOrderMap, orderMap, areaMap)).collect(Collectors.toList());
         return RespResult.ok().put("data", PageResponse.<PickupDispatchDTO>builder()
@@ -234,7 +258,7 @@ public class CourierController {
             addressSet.add(Long.valueOf(orderDTO.getSenderCountyId()));
         }
         CompletableFuture<Map<Long, Area>> areaMapFuture = PdCompletableFuture.areaMapFuture(areaApi, null, addressSet);
-        Map<Long, Area> areaMap = areaMapFuture.get();
+        Map<Long, Area> areaMap = areaMapFuture.join();
         log.info("查询物品类型：{}", orderCargoDto.getGoodsTypeId());
         GoodsTypeDto goodsType = null;
         if (StringUtils.isNotBlank(orderCargoDto.getGoodsTypeId())) {
