@@ -1,5 +1,6 @@
 package org.iiidev.pinda.future;
 
+import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.DTO.angency.FleetDto;
 import org.iiidev.pinda.DTO.base.GoodsTypeDto;
 import org.iiidev.pinda.DTO.transportline.TransportLineDto;
@@ -14,21 +15,28 @@ import org.iiidev.pinda.authority.enumeration.common.StaticStation;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.common.utils.Constant;
 import org.iiidev.pinda.feign.agency.FleetFeign;
+import org.iiidev.pinda.feign.common.GoodsTypeFeign;
 import org.iiidev.pinda.feign.transportline.TransportLineFeign;
 import org.iiidev.pinda.feign.transportline.TransportLineTypeFeign;
 import org.iiidev.pinda.feign.truck.TruckFeign;
-import org.iiidev.pinda.feign.common.GoodsTypeFeign;
 import org.iiidev.pinda.feign.truck.TruckTypeFeign;
 import org.iiidev.pinda.util.BeanUtil;
 import org.iiidev.pinda.vo.base.angency.AgencySimpleVo;
 import org.iiidev.pinda.vo.base.angency.AgencyVo;
 import org.iiidev.pinda.vo.base.businessHall.GoodsTypeVo;
-import org.iiidev.pinda.vo.base.transforCenter.business.*;
+import org.iiidev.pinda.vo.base.transforCenter.business.FleetVo;
+import org.iiidev.pinda.vo.base.transforCenter.business.TransportLineTypeVo;
+import org.iiidev.pinda.vo.base.transforCenter.business.TransportLineVo;
+import org.iiidev.pinda.vo.base.transforCenter.business.TruckTypeVo;
+import org.iiidev.pinda.vo.base.transforCenter.business.TruckVo;
 import org.iiidev.pinda.vo.base.userCenter.SysUserVo;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -42,7 +50,7 @@ public class PdCompletableFuture {
      */
     public static final CompletableFuture<Map> userMapFuture(UserApi api, Set<String> userSet, Integer station, String name, String agencyId) {
         return CompletableFuture.supplyAsync(() -> {
-            //查询创建者信息列表
+            // 查询创建者信息列表
             Long stationId = null;
             if (station != null && station == Constant.UserStation.COURIER.getStation()) {
                 stationId = StaticStation.COURIER_ID;
@@ -54,7 +62,9 @@ public class PdCompletableFuture {
             if (result.getIsSuccess() && result.getData() != null) {
                 userList.addAll(result.getData());
             }*/
-            return userList.stream().map(user -> BeanUtil.parseUser2Vo(user, null, null)).collect(Collectors.toMap(SysUserVo::getUserId, vo -> vo));
+            return userList.stream()
+                .map(user -> BeanUtil.parseUser2Vo(user, null, null))
+                .collect(Collectors.toMap(SysUserVo::getUserId, vo -> vo));
         });
     }
 
@@ -85,14 +95,14 @@ public class PdCompletableFuture {
      */
     public static final CompletableFuture<Map> agencyMapFuture(OrgApi api, Set<Long> agencySet) {
         return CompletableFuture.supplyAsync(() -> {
-            //查询所属机构信息列表
+            // 查询所属机构信息列表
             Result<List<Org>> result = api.list(null, new ArrayList<>(agencySet), null, null, null);
             if (result.isSuccess() && result.getData() != null) {
                 List<Org> orgList = result.getData();
                 Map<String, AgencyVo> voMap = new HashMap<>();
                 orgList.forEach(org -> {
                     AgencyVo agencyVo = new AgencyVo();
-                    agencyVo.setId(org.getId()+"");
+                    agencyVo.setId(org.getId() + "");
                     BeanUtils.copyProperties(org, agencyVo);
                     if (!voMap.containsKey(agencyVo.getId())) {
                         voMap.put(agencyVo.getId(), agencyVo);
@@ -149,7 +159,7 @@ public class PdCompletableFuture {
      */
     public static final CompletableFuture<Map> fleetMapFuture(FleetFeign feign, Set<String> fleetSet, String agencyId) {
         return CompletableFuture.supplyAsync(() -> {
-            //查询所属机构信息列表
+            // 查询所属机构信息列表
             List<FleetDto> fleetList = feign.findAll(new ArrayList<>(fleetSet), agencyId);
             return fleetList.stream().map(fleetDto -> {
                 FleetVo vo = new FleetVo();
@@ -222,7 +232,7 @@ public class PdCompletableFuture {
      */
     public static final CompletableFuture<TruckTypeVo> truckTypeFuture(TruckTypeFeign feign, String id) {
         return CompletableFuture.supplyAsync(() -> {
-            //查询角色信息列表
+            // 查询角色信息列表
             TruckTypeDto dto = feign.fineById(id);
             TruckTypeVo vo = new TruckTypeVo();
             BeanUtils.copyProperties(dto, vo);
@@ -239,7 +249,7 @@ public class PdCompletableFuture {
      */
     public static final CompletableFuture<FleetVo> fleetFuture(FleetFeign feign, String id) {
         return CompletableFuture.supplyAsync(() -> {
-            //查询角色信息列表
+            // 查询角色信息列表
             FleetDto dto = feign.fineById(id);
             FleetVo vo = new FleetVo();
             BeanUtils.copyProperties(dto, vo);

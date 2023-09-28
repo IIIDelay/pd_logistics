@@ -1,6 +1,8 @@
 package org.iiidev.pinda.controller.scope;
 
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.DTO.angency.AgencyScopeDto;
 import org.iiidev.pinda.DTO.user.CourierScopeDto;
 import org.iiidev.pinda.common.utils.RespResult;
@@ -8,10 +10,14 @@ import org.iiidev.pinda.entity.agency.PdAgencyScope;
 import org.iiidev.pinda.entity.user.PdCourierScope;
 import org.iiidev.pinda.service.agency.IPdAgencyScopeService;
 import org.iiidev.pinda.service.user.IPdCourierScopeService;
-import lombok.extern.java.Log;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -24,14 +30,13 @@ import java.util.stream.Collectors;
  * @author jpf
  * @since 2019-12-23
  */
+@Slf4j
 @RestController
 @RequestMapping("scope")
-@Log
+@RequiredArgsConstructor
 public class ScopeController {
-    @Autowired
-    private IPdAgencyScopeService agencyScopService;
-    @Autowired
-    private IPdCourierScopeService courierScopeService;
+    private final IPdAgencyScopeService agencyScopService;
+    private final IPdCourierScopeService courierScopeService;
 
     /**
      * 批量保存机构业务范围

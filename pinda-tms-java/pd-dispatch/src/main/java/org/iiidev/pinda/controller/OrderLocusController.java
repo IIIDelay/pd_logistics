@@ -46,7 +46,6 @@ public class OrderLocusController {
     @Autowired
     private ICacheLineDetailService cacheLineDetailService;
 
-    @SneakyThrows
     @GetMapping("point/{id}")
     @ApiOperation("查询订单轨迹经点坐标")
     public LinkedHashSet<OrderPointDTO> findPointByOrderId(@PathVariable("id") String id) {

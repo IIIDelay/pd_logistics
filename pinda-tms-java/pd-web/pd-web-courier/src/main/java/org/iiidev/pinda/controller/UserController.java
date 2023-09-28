@@ -54,7 +54,6 @@ public class UserController {
         this.areaApi = areaApi;
     }
 
-    @SneakyThrows
     @ApiOperation(value = "我的信息")
     @ResponseBody
     @GetMapping("profile")

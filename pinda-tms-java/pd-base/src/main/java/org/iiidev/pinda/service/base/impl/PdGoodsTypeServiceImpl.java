@@ -8,12 +8,13 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.iiidev.pinda.common.CustomIdGenerator;
+import org.iiidev.pinda.entity.base.PdGoodsType;
 import org.iiidev.pinda.entity.truck.PdTruckTypeGoodsType;
 import org.iiidev.pinda.mapper.base.PdGoodsTypeMapper;
-import org.iiidev.pinda.entity.base.PdGoodsType;
 import org.iiidev.pinda.service.base.IPdGoodsTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 /**
@@ -34,7 +35,7 @@ public class PdGoodsTypeServiceImpl extends ServiceImpl<PdGoodsTypeMapper, PdGoo
     @Override
     public List<PdGoodsType> findAll() {
         QueryWrapper<PdGoodsType> wrapper = new QueryWrapper<>();
-        wrapper.eq("status",1);
+        wrapper.eq("status", 1);
         return baseMapper.selectList(wrapper);
     }
 
@@ -54,6 +55,7 @@ public class PdGoodsTypeServiceImpl extends ServiceImpl<PdGoodsTypeMapper, PdGoo
         }
         return baseMapper.selectList(lambdaQueryWrapper);
     }
+
     @Override
     public void delete(String truckTypeId, String goodsTypeId) {
         LambdaQueryWrapper<PdTruckTypeGoodsType> lambdaQueryWrapper = new LambdaQueryWrapper<>();

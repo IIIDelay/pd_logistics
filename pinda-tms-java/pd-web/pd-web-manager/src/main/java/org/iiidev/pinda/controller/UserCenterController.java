@@ -1,5 +1,11 @@
 package org.iiidev.pinda.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.authority.api.OrgApi;
 import org.iiidev.pinda.authority.api.RoleApi;
 import org.iiidev.pinda.authority.api.UserApi;
@@ -9,28 +15,25 @@ import org.iiidev.pinda.common.utils.PageResponse;
 import org.iiidev.pinda.util.BeanUtil;
 import org.iiidev.pinda.vo.base.userCenter.MessageVo;
 import org.iiidev.pinda.vo.base.userCenter.SysUserVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Api(tags = "个人中心")
+@Slf4j
 @RestController
 @RequestMapping("userCenter")
-@Api(tags = "个人中心")
-@Log
+@RequiredArgsConstructor
 public class UserCenterController {
-    @Autowired
-    private OrgApi orgApi;
-    @Autowired
-    private UserApi userApi;
-    @Autowired
-    private RoleApi roleApi;
+    private final OrgApi orgApi;
+    private final UserApi userApi;
+    private final RoleApi roleApi;
 
     /**
      * 获取个人信息
@@ -52,9 +55,9 @@ public class UserCenterController {
 
     @ApiOperation(value = "获取通知公告")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "page", value = "页码", required = true, example = "1"),
-            @ApiImplicitParam(name = "pageSize", value = "页尺寸", required = true, example = "10"),
-            @ApiImplicitParam(name = "messageType", value = "消息类型：notice为通知,bulletin为公告", example = "notice")
+        @ApiImplicitParam(name = "page", value = "页码", required = true, example = "1"),
+        @ApiImplicitParam(name = "pageSize", value = "页尺寸", required = true, example = "10"),
+        @ApiImplicitParam(name = "messageType", value = "消息类型：notice为通知,bulletin为公告", example = "notice")
     })
     @GetMapping("/message")
     public PageResponse<MessageVo> info(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize") Integer pageSize, @RequestParam(value = "messageType", required = false) String messageType) {
@@ -67,7 +70,13 @@ public class UserCenterController {
         messageVo.setStatus(1);
         messageVo.setMessageType("notice");
         messageVoList.add(messageVo);
-        return PageResponse.<MessageVo>builder().pages(1L).counts(2L).page(page).pagesize(pageSize).items(messageVoList).build();
+        return PageResponse.<MessageVo>builder()
+            .pages(1L)
+            .counts(2L)
+            .page(page)
+            .pagesize(pageSize)
+            .items(messageVoList)
+            .build();
     }
 
     @ApiOperation(value = "打开未读消息")

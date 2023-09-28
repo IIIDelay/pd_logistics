@@ -1,14 +1,14 @@
 package org.iiidev.pinda.controller;
 
-import org.iiidev.pinda.authority.api.AreaApi;
-import org.iiidev.pinda.common.utils.RespResult;
-import org.iiidev.pinda.vo.AreaSimpleVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.iiidev.pinda.authority.api.AreaApi;
+import org.iiidev.pinda.common.utils.RespResult;
+import org.iiidev.pinda.vo.AreaSimpleVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("common")
 @Api(tags = "公共信息")
-@Log
+@Slf4j
 public class CommonController {
     @Autowired
     private AreaApi areaApi;

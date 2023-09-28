@@ -107,7 +107,6 @@ public class ScheduleJobLogController {
                 .build();
     }
 
-    @SneakyThrows
     @GetMapping("{id}")
     @ApiOperation("信息")
     public ScheduleJobLogDTO info(@PathVariable("id") Long id) {
@@ -148,7 +147,6 @@ public class ScheduleJobLogController {
      * @param item
      * @param orderClassifyLogDTO
      */
-    @SneakyThrows
     private void buildTripsTruckDriver(OrderClassifyEntity item, OrderClassifyLogDTO orderClassifyLogDTO) {
         LambdaQueryWrapper<OrderClassifyAttachEntity> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(OrderClassifyAttachEntity::getOrderClassifyId, item.getId());
@@ -185,7 +183,6 @@ public class ScheduleJobLogController {
      * @param item
      * @param orderClassifyLogDTO
      */
-    @SneakyThrows
     private void buildTransportLine(OrderClassifyEntity item, OrderClassifyLogDTO orderClassifyLogDTO) {
         CacheLineUseEntity cacheLineUseEntity = cacheLineUseService.getByOrderClassifyId(item.getId());
         Set<String> lineSet = new LinkedHashSet<>();

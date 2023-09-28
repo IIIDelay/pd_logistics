@@ -1,7 +1,7 @@
 package org.iiidev.pinda.DTO;
 
-import org.iiidev.pinda.vo.AgencyVo;
 import lombok.Data;
+import org.iiidev.pinda.vo.AgencyVo;
 
 @Data
 public class AgencyDTO {
@@ -26,11 +26,12 @@ public class AgencyDTO {
 
 
     private Position position;
+
     public AgencyDTO(AgencyVo agencyVo) {
         this.address = (agencyVo.getProvince() != null ? agencyVo.getProvince().getName() : "") +
-                (agencyVo.getCity() != null ? agencyVo.getCity().getName() : "") +
-                (agencyVo.getCounty() != null ? agencyVo.getCounty().getName() : "") +
-                (agencyVo.getAddress() != null ? agencyVo.getAddress() : "");
+            (agencyVo.getCity() != null ? agencyVo.getCity().getName() : "") +
+            (agencyVo.getCounty() != null ? agencyVo.getCounty().getName() : "") +
+            (agencyVo.getAddress() != null ? agencyVo.getAddress() : "");
         this.transport = agencyVo.getName();
         this.contactsNumber = agencyVo.getContractNumber();
         this.contacts = agencyVo.getManager() != null ? agencyVo.getManager().getName() : "";

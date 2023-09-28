@@ -14,10 +14,10 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalTimeSerializer;
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.common.converter.EnumDeserializer;
 import org.iiidev.pinda.common.json.BigDecimalSerializer;
 import org.iiidev.pinda.utils.DateUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -62,10 +62,10 @@ public class ConfigurationSupport extends WebMvcConfigurationSupport {
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
         return builder -> builder
-                .deserializerByType(Enum.class, EnumDeserializer.INSTANCE)
-                .deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_DATE_TIME_FORMAT)))
-                .deserializerByType(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_DATE_FORMAT)))
-                .deserializerByType(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_TIME_FORMAT)));
+            .deserializerByType(Enum.class, EnumDeserializer.INSTANCE)
+            .deserializerByType(LocalDateTime.class, new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_DATE_TIME_FORMAT)))
+            .deserializerByType(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_DATE_FORMAT)))
+            .deserializerByType(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_TIME_FORMAT)));
 
     }
 
@@ -73,21 +73,21 @@ public class ConfigurationSupport extends WebMvcConfigurationSupport {
     public Docket createRestApi() {
         // 文档类型
         return new Docket(DocumentationType.SWAGGER_2)
-                // 创建api的基本信息
-                .apiInfo(apiInfo())
-                // 选择哪些接口去暴露
-                .select()
-                // 扫描的包
-                .apis(RequestHandlerSelectors.basePackage("org.iiidev.pinda.controller"))
-                .paths(PathSelectors.any())
-                .build();
+            // 创建api的基本信息
+            .apiInfo(apiInfo())
+            // 选择哪些接口去暴露
+            .select()
+            // 扫描的包
+            .apis(RequestHandlerSelectors.basePackage("org.iiidev.pinda.controller"))
+            .paths(PathSelectors.any())
+            .build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("品达物流管理客户端APP--Swagger文档")
-                .version("1.0")
-                .build();
+            .title("品达物流管理客户端APP--Swagger文档")
+            .version("1.0")
+            .build();
     }
 
     /**
@@ -115,23 +115,23 @@ public class ConfigurationSupport extends WebMvcConfigurationSupport {
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
         log.info("初始化jackson配置( null -> ''、枚举类型、时间格式 )");
-        //在json转换之前先进行string转换
+        // 在json转换之前先进行string转换
         converters.add(new StringHttpMessageConverter());
-        //添加json转换
+        // 添加json转换
         MappingJackson2HttpMessageConverter jackson2HttpMessageConverter = new MappingJackson2HttpMessageConverter();
         jackson2HttpMessageConverter.setObjectMapper(new JacksonObjectMapper());
         converters.add(jackson2HttpMessageConverter);
-        //追加默认转换器
+        // 追加默认转换器
         super.addDefaultHttpMessageConverters(converters);
     }
 
     class JacksonObjectMapper extends ObjectMapper {
         public JacksonObjectMapper() {
             super();
-            //收到未知属性时不报异常
+            // 收到未知属性时不报异常
             this.configure(FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-            //反序列化时，属性不存在的兼容处理
+            // 反序列化时，属性不存在的兼容处理
             this.getDeserializationConfig().withoutFeatures(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
             SimpleModule simpleModule = new SimpleModule()
@@ -140,40 +140,40 @@ public class ConfigurationSupport extends WebMvcConfigurationSupport {
 //                .addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_DATE_FORMAT)))
 //                .addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_TIME_FORMAT)))
 
-                    .addSerializer(BigInteger.class, ToStringSerializer.instance)
-                    .addSerializer(BigDecimal.class, new BigDecimalSerializer())
-                    .addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_DATE_TIME_FORMAT)))
-                    .addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_DATE_FORMAT)))
-                    .addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_TIME_FORMAT)))
-                    .addSerializer(Date.class, new DateSerializer(false, new SimpleDateFormat(DateUtils.DEFAULT_DATE_TIME_FORMAT)));
+                .addSerializer(BigInteger.class, ToStringSerializer.instance)
+                .addSerializer(BigDecimal.class, new BigDecimalSerializer())
+                .addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_DATE_TIME_FORMAT)))
+                .addSerializer(LocalDate.class, new LocalDateSerializer(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_DATE_FORMAT)))
+                .addSerializer(LocalTime.class, new LocalTimeSerializer(DateTimeFormatter.ofPattern(DateUtils.DEFAULT_TIME_FORMAT)))
+                .addSerializer(Date.class, new DateSerializer(false, new SimpleDateFormat(DateUtils.DEFAULT_DATE_TIME_FORMAT)));
 
             this.registerModule(simpleModule);
-            //处理空指针时设置的值
+            // 处理空指针时设置的值
             this.getSerializerProvider().setNullValueSerializer(new JsonSerializer<Object>() {
                 @Override
                 public void serialize(Object value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
                     String fieldName = gen.getOutputContext().getCurrentName();
                     try {
-                        //反射获取字段类型
+                        // 反射获取字段类型
                         Field field = gen.getCurrentValue().getClass().getDeclaredField(fieldName);
                         if (Objects.equals(field.getType(), String.class)) {
-                            //字符串型空值""
+                            // 字符串型空值""
                             gen.writeString("");
                             return;
                         } else if (Objects.equals(field.getType(), List.class)) {
-                            //列表型空值返回[]
+                            // 列表型空值返回[]
                             gen.writeStartArray();
                             gen.writeEndArray();
                             return;
                         } else if (Objects.equals(field.getType(), Map.class)) {
-                            //map型空值返回{}
+                            // map型空值返回{}
                             gen.writeStartObject();
                             gen.writeEndObject();
                             return;
                         }
                     } catch (NoSuchFieldException e) {
                     }
-                    //默认返回""
+                    // 默认返回""
                     gen.writeString("");
                 }
             });

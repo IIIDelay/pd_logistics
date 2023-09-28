@@ -280,7 +280,6 @@ public class MailingController {
         return respResult;
     }
 
-    @SneakyThrows
     private String receiverFullAddress(OrderDTO orderDTO) {
         StringBuffer stringBuffer = new StringBuffer();
 
@@ -403,7 +402,6 @@ public class MailingController {
         return respResult;
     }
 
-    @SneakyThrows
     private String senderFullAddress(OrderDTO orderDTO) {
         StringBuffer stringBuffer = new StringBuffer();
 
@@ -713,7 +711,6 @@ public class MailingController {
      * @return
      */
     @ApiOperation("分页查询")
-    @SneakyThrows
     @GetMapping("page")
     public RespResult page(MailingQueryDTO dto) {
         //获取userid
@@ -805,7 +802,6 @@ public class MailingController {
      * @return
      */
     @ApiOperation("明细")
-    @SneakyThrows
     @GetMapping("detail")
     public RespResult detail(String id) {
         CustomerOrderDetailDTO.CustomerOrderDetailDTOBuilder builder = CustomerOrderDetailDTO.builder();
@@ -869,7 +865,6 @@ public class MailingController {
      * @param id 订单id
      * @return
      */
-    @SneakyThrows
     @ApiOperation("路由")
     @GetMapping("route")
     public RespResult route(String id) {

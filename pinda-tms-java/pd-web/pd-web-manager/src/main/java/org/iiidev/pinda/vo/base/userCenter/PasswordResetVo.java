@@ -10,8 +10,11 @@ import java.io.Serializable;
 @Data
 public class PasswordResetVo implements Serializable {
     private static final long serialVersionUID = 3260392307623280638L;
+
     @ApiModelProperty(value = "原始密码")
     private String sourcePassword;
+
     @ApiModelProperty(value = "新密码")
     private String newPassword;
+
 }

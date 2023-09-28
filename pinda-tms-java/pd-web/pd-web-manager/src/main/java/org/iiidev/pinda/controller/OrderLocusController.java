@@ -8,6 +8,10 @@
 
 package org.iiidev.pinda.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.DTO.TaskPickupDispatchDTO;
 import org.iiidev.pinda.DTO.TaskTransportDTO;
 import org.iiidev.pinda.DTO.TransportOrderDTO;
@@ -16,10 +20,6 @@ import org.iiidev.pinda.feign.PickupDispatchTaskFeign;
 import org.iiidev.pinda.feign.TransportOrderFeign;
 import org.iiidev.pinda.feign.TransportTaskFeign;
 import org.iiidev.pinda.vo.oms.OrderLocusVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,22 +35,20 @@ import java.util.List;
  *
  * @author
  */
-@RestController
-@RequestMapping("/orderLocus")
 @Api(tags = "订单轨迹")
 @Slf4j
+@RestController
+@RequestMapping("/orderLocus")
+@RequiredArgsConstructor
 public class OrderLocusController {
 
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-    @Autowired
-    private TransportOrderFeign transportOrderFeign;
+    private final TransportOrderFeign transportOrderFeign;
 
-    @Autowired
-    private TransportTaskFeign transportTaskFeign;
+    private final TransportTaskFeign transportTaskFeign;
 
-    @Autowired
-    private PickupDispatchTaskFeign pickupDispatchTaskFeign;
+    private final PickupDispatchTaskFeign pickupDispatchTaskFeign;
 
     @GetMapping("{id}")
     @ApiOperation("查询订单轨迹参数")

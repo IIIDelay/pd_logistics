@@ -1,6 +1,11 @@
 package org.iiidev.pinda.controller;
 
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.DTO.DriverJobDTO;
 import org.iiidev.pinda.DTO.TaskTransportDTO;
 import org.iiidev.pinda.DTO.UserProfileDTO;
@@ -20,12 +25,6 @@ import org.iiidev.pinda.feign.TransportTaskFeign;
 import org.iiidev.pinda.feign.agency.FleetFeign;
 import org.iiidev.pinda.feign.truck.TruckFeign;
 import org.iiidev.pinda.feign.user.DriverFeign;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -50,31 +49,24 @@ import static org.iiidev.pinda.base.Result.success;
 @Api(tags = "用户管理")
 @Controller
 @RequestMapping("user")
+@RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
-    private UserApi userApi;
+    private final UserApi userApi;
 
-    @Autowired
-    private OrgApi orgApi;
+    private final OrgApi orgApi;
 
-    @Autowired
-    private FleetFeign fleetFeign;
+    private final FleetFeign fleetFeign;
 
-    @Autowired
-    private DriverFeign driverFeign;
+    private final DriverFeign driverFeign;
 
-    @Autowired
-    private DriverJobFeign driverJobFeign;
+    private final DriverJobFeign driverJobFeign;
 
-    @Autowired
-    private TransportTaskFeign transportTaskFeign;
+    private final TransportTaskFeign transportTaskFeign;
 
-    @Autowired
-    private TruckFeign truckFeign;
+    private final TruckFeign truckFeign;
 
 
-    @SneakyThrows
     @ApiOperation(value = "我的信息")
     @ResponseBody
     @GetMapping("profile")
@@ -130,28 +122,29 @@ public class UserController {
         }
 
         return RespResult.ok().put("data", UserProfileDTO.builder()
-                .id(user.getId().toString())
-                .avatar(user.getAvatar())
-                .name(user.getName())
-                .phone(user.getMobile())
-                .manager(org.getManager())
-                .team(fleetDto != null ? fleetDto.getName() : "")
-                .transport(org != null ? org.getName() : "")
-                .truckId(truckId)
-                .licensePlate(licensePlate)
-                .transportTaskId(transportTaskId)
-                .userNumber(driverId)
-                .build());
+            .id(user.getId().toString())
+            .avatar(user.getAvatar())
+            .name(user.getName())
+            .phone(user.getMobile())
+            .manager(org.getManager())
+            .team(fleetDto != null ? fleetDto.getName() : "")
+            .transport(org != null ? org.getName() : "")
+            .truckId(truckId)
+            .licensePlate(licensePlate)
+            .transportTaskId(transportTaskId)
+            .userNumber(driverId)
+            .build());
     }
-    //查询用户集合
+
+    // 查询用户集合
 /*@GetMapping({""})
 RespResult<List<User>> list(@RequestParam(name = "ids",required = false) List<Long> ids, @RequestParam(name = "stationId",required = false) Long stationId, @RequestParam(name = "name",required = false) String name, @RequestParam(name = "orgId",required = false) Long orgId);*/
     @GetMapping
-    public Result<List<User>> list(@RequestParam(name = "ids",required = false) List<Long> ids, @RequestParam(name = "stationId",required = false) Long stationId, @RequestParam(name = "name",required = false) String name, @RequestParam(name = "orgId",required = false) Long orgId){
-        List<User> list=new ArrayList<>();
+    public Result<List<User>> list(@RequestParam(name = "ids", required = false) List<Long> ids, @RequestParam(name = "stationId", required = false) Long stationId, @RequestParam(name = "name", required = false) String name, @RequestParam(name = "orgId", required = false) Long orgId) {
+        List<User> list = new ArrayList<>();
         for (Long id : ids) {
             Result<User> userResult = this.userApi.get(id);
-            User user= userResult.getData();
+            User user = userResult.getData();
             list.add(user);
         }
         return success(list);

@@ -2,13 +2,16 @@ package org.iiidev.pinda.common.utils;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 /**
  * 分页结果包装
- *
  */
 @Data
 @ApiModel(value = "分页数据消息体", description = "分页数据统一对象")

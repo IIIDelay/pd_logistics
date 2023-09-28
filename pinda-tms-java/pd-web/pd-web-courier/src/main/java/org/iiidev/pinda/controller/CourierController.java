@@ -91,7 +91,6 @@ public class CourierController {
         this.orgApi = orgApi;
     }
 
-    @SneakyThrows
     @ApiOperation(value = "待取件/待妥投")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "当前页数", required = true, example = "1"),
@@ -200,7 +199,6 @@ public class CourierController {
         return RespResult.ok().put("count", result.getCounts());
     }
 
-    @SneakyThrows
     @ApiOperation(value = "详情页")
     @ApiImplicitParam(name = "id", value = "主键", required = true, example = "")
     @ResponseBody
@@ -249,7 +247,6 @@ public class CourierController {
         return RespResult.ok().put("data", new PickupDispatchDetailDTO(pickupDispatchTaskDTO, orderDTO, orderCargoDto, goodsType, areaMap, transportOrder, member));
     }
 
-    @SneakyThrows
     @ApiOperation(value = "揽收")
     @ApiImplicitParam(name = "id", value = "主键", required = true, example = "")
     @ResponseBody
@@ -307,7 +304,6 @@ public class CourierController {
     }
 
 
-    @SneakyThrows
     @ApiOperation(value = "交件")
     @ApiImplicitParam(name = "tranOrderId", value = "运单号", required = true, example = "")
     @ResponseBody
@@ -336,7 +332,6 @@ public class CourierController {
         return RespResult.ok();
     }
 
-    @SneakyThrows
     @ApiOperation(value = "接件")
     @ApiImplicitParam(name = "tranOrderId", value = "运单号", required = true, example = "")
     @ResponseBody
@@ -364,7 +359,6 @@ public class CourierController {
         return RespResult.ok();
     }
 
-    @SneakyThrows
     @ApiOperation(value = "妥投")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "tranOrderId", value = "运单号", required = true, example = ""),
@@ -401,7 +395,6 @@ public class CourierController {
         return RespResult.ok();
     }
 
-    @SneakyThrows
     @ApiOperation(value = "验证身份证号是否合法")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "orderNumber", value = "订单号", required = true, example = ""),
@@ -444,7 +437,6 @@ public class CourierController {
     }
 
 
-    @SneakyThrows
     @ApiOperation(value = "路由")
     @ApiImplicitParam(name = "id", value = "主键", required = true, example = "")
     @ResponseBody

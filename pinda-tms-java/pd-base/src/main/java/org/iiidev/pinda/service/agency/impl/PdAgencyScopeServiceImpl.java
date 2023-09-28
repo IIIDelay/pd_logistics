@@ -2,12 +2,12 @@ package org.iiidev.pinda.service.agency.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.common.CustomIdGenerator;
 import org.iiidev.pinda.entity.agency.PdAgencyScope;
 import org.iiidev.pinda.mapper.agency.PdAgencyScopMapper;
 import org.iiidev.pinda.service.agency.IPdAgencyScopeService;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,10 +20,10 @@ import java.util.List;
  * @since 2019-12-20
  */
 @Service
+@RequiredArgsConstructor
 public class PdAgencyScopeServiceImpl extends ServiceImpl<PdAgencyScopMapper, PdAgencyScope> implements IPdAgencyScopeService {
-    @Autowired
-    private CustomIdGenerator idGenerator;
 
+    private final CustomIdGenerator idGenerator;
 
     @Override
     public void batchSave(List<PdAgencyScope> scopeList) {

@@ -1,9 +1,12 @@
 package org.iiidev.pinda.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.DTO.DriverJobDTO;
 import org.iiidev.pinda.DTO.webManager.DriverJobQueryDTO;
 import org.iiidev.pinda.authority.api.AreaApi;
-
 import org.iiidev.pinda.authority.api.OrgApi;
 import org.iiidev.pinda.authority.api.UserApi;
 import org.iiidev.pinda.common.utils.PageResponse;
@@ -15,11 +18,10 @@ import org.iiidev.pinda.feign.truck.TruckFeign;
 import org.iiidev.pinda.feign.webManager.WebManagerFeign;
 import org.iiidev.pinda.util.BeanUtil;
 import org.iiidev.pinda.vo.work.DriverJobVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,25 +34,17 @@ import java.util.stream.Collectors;
 @Slf4j
 @Api(tags = "司机作业单相关API")
 @RequestMapping("driver-job-manager")
+@RequiredArgsConstructor
 public class DriverJobController {
-    @Autowired
-    private WebManagerFeign webManagerFeign;
-    @Autowired
-    private TransportTaskFeign transportTaskFeign;
-    @Autowired
-    private TransportTripsFeign transportTripsFeign;
-    @Autowired
-    private OrgApi orgApi;
-    @Autowired
-    private UserApi userApi;
-    @Autowired
-    private TruckFeign truckFeign;
-    @Autowired
-    private TransportOrderFeign transportOrderFeign;
-    @Autowired
-    private OrderFeign orderFeign;
-    @Autowired
-    private AreaApi areaApi;
+    private final WebManagerFeign webManagerFeign;
+    private final TransportTaskFeign transportTaskFeign;
+    private final TransportTripsFeign transportTripsFeign;
+    private final OrgApi orgApi;
+    private final UserApi userApi;
+    private final TruckFeign truckFeign;
+    private final TransportOrderFeign transportOrderFeign;
+    private final OrderFeign orderFeign;
+    private final AreaApi areaApi;
 
     @ApiOperation(value = "获取司机作业单分页数据")
     @PostMapping("/page")

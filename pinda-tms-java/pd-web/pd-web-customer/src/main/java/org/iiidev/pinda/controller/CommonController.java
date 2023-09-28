@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("common")
 @Api(tags = "公共信息")
-@Log
+@Slf4j
 public class CommonController {
     @Autowired
     private AreaApi areaApi;

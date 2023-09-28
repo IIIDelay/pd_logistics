@@ -11,16 +11,24 @@ import org.iiidev.pinda.authority.enumeration.common.StaticStation;
 import org.iiidev.pinda.authority.enumeration.core.OrgEnum;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.common.utils.Constant;
-import org.iiidev.pinda.vo.*;
+import org.iiidev.pinda.vo.AgencySimpleVo;
+import org.iiidev.pinda.vo.AgencyVo;
+import org.iiidev.pinda.vo.AreaSimpleVo;
+import org.iiidev.pinda.vo.RoleVo;
+import org.iiidev.pinda.vo.SysUserVo;
 import org.springframework.beans.BeanUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class BeanUtil {
     public static SysUserVo parseUser2Vo(User user, RoleApi roleApi, OrgApi orgApi) {
         SysUserVo vo = new SysUserVo();
-        //填充基本信息
+        // 填充基本信息
         vo.setUserId(String.valueOf(user.getId()));
         vo.setAvatar(user.getAvatar());
         vo.setEmail(user.getEmail());
@@ -28,7 +36,7 @@ public class BeanUtil {
         vo.setUsername(user.getAccount());
         vo.setName(user.getName());
         // TODO: 2020/3/19 员工编号待实现
-        //处理角色信息
+        // 处理角色信息
         if (roleApi != null) {
             Result<List<RoleDTO>> result = roleApi.list(user.getId());
             List<RoleVo> roles = new ArrayList<>();
@@ -39,14 +47,14 @@ public class BeanUtil {
             }
             vo.setRoles(roles);
         }
-        //处理所属机构信息
+        // 处理所属机构信息
         if (orgApi != null && user.getOrgId() != null && user.getOrgId() != 0) {
             Result<Org> result = orgApi.get(user.getOrgId());
             if (result.isSuccess() && result.getData() != null) {
                 vo.setAgency(parseOrg2SimpleVo(result.getData()));
             }
         }
-        //处理岗位信息
+        // 处理岗位信息
         if (user.getStationId() != null && user.getStationId() != 0) {
             if (user.getStationId() == StaticStation.COURIER_ID) {
                 vo.setStation(Constant.UserStation.COURIER.getStation());
@@ -96,7 +104,7 @@ public class BeanUtil {
         agencyVo.setContractNumber(org.getContractNumber());
         agencyVo.setStatus(org.getStatus() ? 0 : 1);
         // TODO: 2020/3/17 处理负责人信息
-        //处理父级信息
+        // 处理父级信息
         if (org.getParentId() != null && org.getParentId() != 0 && orgApi != null) {
             Result<Org> result = orgApi.get(org.getParentId());
             if (result.isSuccess() && result.getData() != null && result.getData().getId() != null) {
@@ -106,7 +114,7 @@ public class BeanUtil {
                 agencyVo.setParent(simpleVo);
             }
         }
-        //处理省市区信息
+        // 处理省市区信息
         Set<Long> areaIds = new HashSet<>();
         boolean provinceOk = org.getProvinceId() != null && org.getProvinceId() != 0;
         boolean cityOk = org.getCityId() != null && org.getCityId() != 0;
@@ -123,7 +131,9 @@ public class BeanUtil {
         if (areaIds.size() > 0 && areaApi != null) {
             Result<List<Area>> result = areaApi.findAll(null, new ArrayList<>(areaIds));
             if (result.isSuccess()) {
-                Map<Long, Area> areaMap = result.getData().stream().collect(Collectors.toMap(Area::getId, area -> area));
+                Map<Long, Area> areaMap = result.getData()
+                    .stream()
+                    .collect(Collectors.toMap(Area::getId, area -> area));
                 if (provinceOk) {
                     agencyVo.setProvince(parseArea2Vo(areaMap.get(org.getProvinceId())));
                 }

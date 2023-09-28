@@ -55,7 +55,6 @@ public class AgencyController {
      * @param pagesize
      * @return
      */
-    @SneakyThrows
     @ApiOperation(value = "网点自寄分页")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "当前页数", required = true, example = "1"),

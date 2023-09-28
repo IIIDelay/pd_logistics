@@ -39,7 +39,6 @@ public class UserController {
         this.memberService = memberService;
     }
 
-    @SneakyThrows
     @ApiOperation(value = "我的信息")
     @ResponseBody
     @GetMapping("profile")

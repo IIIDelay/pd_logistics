@@ -1,5 +1,12 @@
 package org.iiidev.pinda.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.iiidev.pinda.DTO.TaskPickupDispatchDTO;
 import org.iiidev.pinda.DTO.TransportOrderDTO;
 import org.iiidev.pinda.DTO.webManager.TransportOrderQueryDTO;
@@ -18,14 +25,12 @@ import org.iiidev.pinda.feign.webManager.WebManagerFeign;
 import org.iiidev.pinda.util.BeanUtil;
 import org.iiidev.pinda.vo.work.TaskTransportVo;
 import org.iiidev.pinda.vo.work.TransportOrderVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,99 +48,99 @@ import java.util.stream.Collectors;
 @Api(tags = "运单相关Api")
 @RestController
 @RequestMapping("transport-order-manager")
+@RequiredArgsConstructor
 public class TransportOrderController {
-    @Autowired
-    private TransportOrderFeign transportOrderFeign;
-    @Autowired
-    private OrderFeign orderFeign;
-    @Autowired
-    private AreaApi areaApi;
-    @Autowired
-    private PickupDispatchTaskFeign pickupDispatchTaskFeign;
-    @Autowired
-    private OrgApi orgApi;
-    @Autowired
-    private UserApi userApi;
-    @Autowired
-    private TransportTaskFeign transportTaskFeign;
-    @Autowired
-    private TransportTripsFeign transportTripsFeign;
-    @Autowired
-    private TruckFeign truckFeign;
-    @Autowired
-    private WebManagerFeign webManagerFeign;
+    private final TransportOrderFeign transportOrderFeign;
+    private final OrderFeign orderFeign;
+    private final AreaApi areaApi;
+    private final PickupDispatchTaskFeign pickupDispatchTaskFeign;
+    private final OrgApi orgApi;
+    private final UserApi userApi;
+    private final TransportTaskFeign transportTaskFeign;
+    private final TransportTripsFeign transportTripsFeign;
+    private final TruckFeign truckFeign;
+    private final WebManagerFeign webManagerFeign;
 
     @ApiOperation(value = "获取运单分页数据")
     @PostMapping("/page")
     public PageResponse<TransportOrderVo> findByPage(@RequestBody TransportOrderVo vo) {
         TransportOrderQueryDTO dto = new TransportOrderQueryDTO();
-        if (vo != null) {
-            dto.setPage(vo.getPage());
-            dto.setPageSize(vo.getPageSize());
-            dto.setStatus(vo.getStatus());
-            dto.setId(vo.getId());
-            if (vo.getOrder() != null) {
-                dto.setSenderName(vo.getOrder().getSenderName());
-                dto.setSenderPhone(vo.getOrder().getSenderPhone());
-                if (vo.getOrder().getSenderProvince() != null) {
-                    dto.setSenderProvinceId(vo.getOrder().getSenderProvince().getId());
-                }
-                if (vo.getOrder().getSenderCity() != null) {
-                    dto.setSenderCityId(vo.getOrder().getSenderCity().getId());
-                }
-                if (vo.getOrder().getSenderCounty() != null) {
-                    dto.setSenderCountyId(vo.getOrder().getSenderCounty().getId());
-                }
-                dto.setReceiverName(vo.getOrder().getReceiverName());
-                dto.setReceiverPhone(vo.getOrder().getReceiverPhone());
-                if (vo.getOrder().getReceiverProvince() != null) {
-                    dto.setReceiverProvinceId(vo.getOrder().getReceiverProvince().getId());
-                }
-                if (vo.getOrder().getReceiverCity() != null) {
-                    dto.setReceiverCityId(vo.getOrder().getReceiverCity().getId());
-                }
-                if (vo.getOrder().getReceiverCounty() != null) {
-                    dto.setReceiverCountyId(vo.getOrder().getReceiverCounty().getId());
-                }
+        dto.setPage(vo.getPage());
+        dto.setPageSize(vo.getPageSize());
+        dto.setStatus(vo.getStatus());
+        dto.setId(vo.getId());
+        if (vo.getOrder() != null) {
+            dto.setSenderName(vo.getOrder().getSenderName());
+            dto.setSenderPhone(vo.getOrder().getSenderPhone());
+            if (vo.getOrder().getSenderProvince() != null) {
+                dto.setSenderProvinceId(vo.getOrder().getSenderProvince().getId());
+            }
+            if (vo.getOrder().getSenderCity() != null) {
+                dto.setSenderCityId(vo.getOrder().getSenderCity().getId());
+            }
+            if (vo.getOrder().getSenderCounty() != null) {
+                dto.setSenderCountyId(vo.getOrder().getSenderCounty().getId());
+            }
+            dto.setReceiverName(vo.getOrder().getReceiverName());
+            dto.setReceiverPhone(vo.getOrder().getReceiverPhone());
+            if (vo.getOrder().getReceiverProvince() != null) {
+                dto.setReceiverProvinceId(vo.getOrder().getReceiverProvince().getId());
+            }
+            if (vo.getOrder().getReceiverCity() != null) {
+                dto.setReceiverCityId(vo.getOrder().getReceiverCity().getId());
+            }
+            if (vo.getOrder().getReceiverCounty() != null) {
+                dto.setReceiverCountyId(vo.getOrder().getReceiverCounty().getId());
             }
         }
         PageResponse<TransportOrderDTO> dtoPageResponse = webManagerFeign.findTransportOrderByPage(dto);
         List<TransportOrderDTO> dtoList = dtoPageResponse.getItems();
-        List<TransportOrderVo> voList = dtoList.stream().map(transportOrderDTO -> BeanUtil.parseTransportOrderDTO2Vo(transportOrderDTO, orderFeign, areaApi)).collect(Collectors.toList());
-        return PageResponse.<TransportOrderVo>builder().items(voList).pagesize(vo.getPageSize()).page(vo.getPage()).counts(dtoPageResponse.getCounts()).pages(dtoPageResponse.getPages()).build();
+        List<TransportOrderVo> voList = dtoList.stream()
+            .map(transportOrderDTO -> BeanUtil.parseTransportOrderDTO2Vo(transportOrderDTO, orderFeign, areaApi))
+            .collect(Collectors.toList());
+        return PageResponse.<TransportOrderVo>builder()
+            .items(voList)
+            .pagesize(vo.getPageSize())
+            .page(vo.getPage())
+            .counts(dtoPageResponse.getCounts())
+            .pages(dtoPageResponse.getPages())
+            .build();
     }
 
     @ApiOperation(value = "获取运单详情")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "运单id", required = true, example = "1", paramType = "{path}")
+        @ApiImplicitParam(name = "id", value = "运单id", required = true, example = "1", paramType = "{path}")
     })
     @GetMapping("/{id}")
     public TransportOrderVo findById(@PathVariable(name = "id") String id) {
         TransportOrderDTO dto = transportOrderFeign.findById(id);
         TransportOrderVo vo = BeanUtil.parseTransportOrderDTO2Vo(dto, orderFeign, areaApi);
         if (vo.getOrder() != null && StringUtils.isNotEmpty(vo.getOrder().getId())) {
-            //查询取派件任务信息
+            // 查询取派件任务信息
             TaskPickupDispatchDTO taskPickupDispatchQueryDTO = new TaskPickupDispatchDTO();
             taskPickupDispatchQueryDTO.setOrderId(vo.getOrder().getId());
             List<TaskPickupDispatchDTO> taskPickupDispatchDTOList = pickupDispatchTaskFeign.findAll(taskPickupDispatchQueryDTO);
             if (taskPickupDispatchDTOList != null && taskPickupDispatchDTOList.size() > 0) {
                 taskPickupDispatchDTOList.forEach(taskPickupDispatchDTO -> {
-                    if (taskPickupDispatchDTO.getOrderId().equals(vo.getOrder().getId()) && taskPickupDispatchDTO.getTaskType() == PickupDispatchTaskType.PICKUP.getCode()) {
-                        //取件信息
+                    if (taskPickupDispatchDTO.getOrderId()
+                        .equals(vo.getOrder()
+                            .getId()) && taskPickupDispatchDTO.getTaskType() == PickupDispatchTaskType.PICKUP.getCode()) {
+                        // 取件信息
                         vo.setTaskPickup(BeanUtil.parseTaskPickupDispatchDTO2Vo(taskPickupDispatchDTO, orderFeign, areaApi, orgApi, userApi));
                     }
-                    if (taskPickupDispatchDTO.getOrderId().equals(vo.getOrder().getId()) && taskPickupDispatchDTO.getTaskType() == PickupDispatchTaskType.DISPATCH.getCode()) {
-                        //派件信息
+                    if (taskPickupDispatchDTO.getOrderId()
+                        .equals(vo.getOrder()
+                            .getId()) && taskPickupDispatchDTO.getTaskType() == PickupDispatchTaskType.DISPATCH.getCode()) {
+                        // 派件信息
                         vo.setTaskDispatch(BeanUtil.parseTaskPickupDispatchDTO2Vo(taskPickupDispatchDTO, orderFeign, areaApi, orgApi, userApi));
                     }
                 });
             }
         }
-        //获取运输信息
+        // 获取运输信息
         List<TaskTransportVo> taskTransportVoList = new ArrayList<>();
-        transportTaskFeign.findAllByOrderIdOrTaskId(vo.getId(), null).forEach(taskTransportDTO -> {
-            taskTransportVoList.add(BeanUtil.parseTaskTransportDTO2Vo(taskTransportDTO, transportTripsFeign, orgApi, userApi, truckFeign, transportOrderFeign, orderFeign, areaApi));
-        });
+        transportTaskFeign.findAllByOrderIdOrTaskId(vo.getId(), null)
+            .forEach(taskTransportDTO -> taskTransportVoList.add(BeanUtil.parseTaskTransportDTO2Vo(taskTransportDTO, transportTripsFeign, orgApi, userApi, truckFeign, transportOrderFeign, orderFeign, areaApi)));
         vo.setTaskTransports(taskTransportVoList);
         return vo;
     }

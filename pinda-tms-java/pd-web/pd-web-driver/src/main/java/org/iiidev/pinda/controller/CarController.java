@@ -46,7 +46,6 @@ public class CarController {
         this.truckLicenseFeign = truckLicenseFeign;
     }
 
-    @SneakyThrows
     @ApiOperation(value = "获取车辆信息")
     @ApiImplicitParam(name = "id", value = "主键", required = true)
     @ResponseBody

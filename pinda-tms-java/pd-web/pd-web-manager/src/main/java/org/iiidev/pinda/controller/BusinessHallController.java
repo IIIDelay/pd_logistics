@@ -2,7 +2,13 @@ package org.iiidev.pinda.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringUtils;
 import org.iiidev.pinda.DTO.base.GoodsTypeDto;
 import org.iiidev.pinda.DTO.truck.TruckTypeDto;
 import org.iiidev.pinda.DTO.user.CourierScopeDto;
@@ -27,17 +33,23 @@ import org.iiidev.pinda.vo.base.businessHall.CourierScopeVo;
 import org.iiidev.pinda.vo.base.businessHall.GoodsTypeVo;
 import org.iiidev.pinda.vo.base.transforCenter.business.TruckTypeVo;
 import org.iiidev.pinda.vo.base.userCenter.SysUserVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.java.Log;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
@@ -47,7 +59,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("business-hall")
 @Api(tags = "网点管理")
-@Log
+@Slf4j
 @RequiredArgsConstructor(onConstructor = @_(@Autowired))
 public class BusinessHallController {
     private final GoodsTypeFeign goodsTypeFeign;

@@ -1,5 +1,11 @@
 package org.iiidev.pinda.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.DTO.TaskTransportDTO;
 import org.iiidev.pinda.DTO.transportline.TransportTripsTruckDriverDto;
 import org.iiidev.pinda.DTO.truck.TruckDto;
@@ -13,12 +19,6 @@ import org.iiidev.pinda.feign.transportline.TransportTripsFeign;
 import org.iiidev.pinda.feign.truck.TruckFeign;
 import org.iiidev.pinda.feign.truck.TruckTypeFeign;
 import org.iiidev.pinda.vo.base.transforCenter.business.TruckLocationVo;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import lombok.extern.java.Log;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,26 +28,22 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Api(tags = "位置查询")
+@Slf4j
 @RestController
 @RequestMapping("transfor-center")
-@Api(tags = "位置查询")
-@Log
+@RequiredArgsConstructor
 public class TruckLocationController {
-    @Autowired
-    private UserApi userApi;
-    @Autowired
-    private TruckFeign truckFeign;
-    @Autowired
-    private TruckTypeFeign truckTypeFeign;
-    @Autowired
-    private TransportTaskFeign transportTaskFeign;
-    @Autowired
-    private TransportTripsFeign transportTripsFeign;
+    private final UserApi userApi;
+    private final TruckFeign truckFeign;
+    private final TruckTypeFeign truckTypeFeign;
+    private final TransportTaskFeign transportTaskFeign;
+    private final TransportTripsFeign transportTripsFeign;
 
 
     @ApiOperation(value = "获取车辆位置详情")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "车辆id", required = true, example = "1", paramType = "{path}")
+        @ApiImplicitParam(name = "id", value = "车辆id", required = true, example = "1", paramType = "{path}")
     })
     @GetMapping("truck-place-info/{id}")
     public TruckLocationVo findTruckById(@PathVariable(name = "id") String id) {

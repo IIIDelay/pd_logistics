@@ -211,7 +211,6 @@ public class TaskOrderClassifyServiceImpl implements ITaskOrderClassifyService {
      * @param order
      * @return
      */
-    @SneakyThrows
     private String senderFullAddress(Order order) {
         StringBuffer stringBuffer = new StringBuffer();
 
@@ -475,7 +474,6 @@ public class TaskOrderClassifyServiceImpl implements ITaskOrderClassifyService {
      * @param order
      * @return
      */
-    @SneakyThrows
     private String receiverFullAddress(Order order) {
         StringBuffer stringBuffer = new StringBuffer();
 

@@ -9,10 +9,13 @@ import lombok.Data;
 public class OrderLocusVo {
     @ApiModelProperty("业务id")
     private String businessId;
+
     @ApiModelProperty("开始时间")
     private String ge___time;
+
     @ApiModelProperty("结束时间")
     private String le___time;
+
     @ApiModelProperty("运输任务id")
     private String transportTaskId;
 }

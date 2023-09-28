@@ -56,7 +56,6 @@ public class AddressBookController {
      * @param pageSize
      * @return
      */
-    @SneakyThrows
     @ApiOperation(value = "地址簿分页查询")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "page", value = "当前页数", required = true, example = "1"),
@@ -145,7 +144,6 @@ public class AddressBookController {
      * @param id
      * @return
      */
-    @SneakyThrows
     @ApiOperation(value = "明细")
     @ApiImplicitParam(name = "id", value = "主键", required = true)
     @GetMapping("detail/{id}")

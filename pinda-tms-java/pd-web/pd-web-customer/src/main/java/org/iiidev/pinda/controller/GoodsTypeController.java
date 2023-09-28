@@ -35,7 +35,6 @@ public class GoodsTypeController {
         this.goodsTypeFeign = goodsTypeFeign;
     }
 
-    @SneakyThrows
     @ApiOperation(value = "全部类型")
     @ResponseBody
     @GetMapping("all")

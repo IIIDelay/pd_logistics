@@ -1,5 +1,6 @@
 package org.iiidev.pinda.future;
 
+import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.DTO.TaskTransportDTO;
 import org.iiidev.pinda.DTO.transportline.TransportTripsDto;
 import org.iiidev.pinda.authority.api.AreaApi;
@@ -16,7 +17,6 @@ import org.iiidev.pinda.feign.transportline.TransportTripsFeign;
 import org.iiidev.pinda.util.BeanUtil;
 import org.iiidev.pinda.vo.AreaSimpleVo;
 import org.iiidev.pinda.vo.SysUserVo;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,7 @@ public class PdCompletableFuture {
      */
     public static final CompletableFuture<Map> userMapFuture(UserApi api, Set<Long> userSet, Integer station, String name, String agencyId) {
         return CompletableFuture.supplyAsync(() -> {
-            //查询创建者信息列表
+            // 查询创建者信息列表
             Long stationId = null;
             if (station != null && station == Constant.UserStation.COURIER.getStation()) {
                 stationId = StaticStation.COURIER_ID;
@@ -47,7 +47,9 @@ public class PdCompletableFuture {
             if (result.isSuccess() && result.getData() != null) {
                 userList.addAll(result.getData());
             }
-            return userList.stream().map(user -> BeanUtil.parseUser2Vo(user, null, null)).collect(Collectors.toMap(SysUserVo::getUserId, vo -> vo));
+            return userList.stream()
+                .map(user -> BeanUtil.parseUser2Vo(user, null, null))
+                .collect(Collectors.toMap(SysUserVo::getUserId, vo -> vo));
         });
     }
 
@@ -61,7 +63,10 @@ public class PdCompletableFuture {
      */
     public static final CompletableFuture<List<Org>> agencyListFuture(OrgApi api, Integer agencyType, Set<String> ids, Long countyId) {
         return CompletableFuture.supplyAsync(() -> {
-            Result<List<Org>> result = api.list(agencyType, ids.stream().mapToLong(id -> Long.valueOf(id)).boxed().collect(Collectors.toList()), countyId, null, null);
+            Result<List<Org>> result = api.list(agencyType, ids.stream()
+                .mapToLong(id -> Long.valueOf(id))
+                .boxed()
+                .collect(Collectors.toList()), countyId, null, null);
             if (result.isSuccess()) {
                 return result.getData();
             }
@@ -71,13 +76,17 @@ public class PdCompletableFuture {
 
     public static final CompletableFuture<Map> areaMapFuture(AreaApi api, Long parentId, Set<Long> areaSet) {
         Result<List<Area>> result = api.findAll(parentId, new ArrayList<>(areaSet));
-        return CompletableFuture.supplyAsync(() -> result.getData().stream().map(area -> BeanUtil.parseArea2Vo(area)).collect(Collectors.toMap(AreaSimpleVo::getId, vo -> vo)));
+        return CompletableFuture.supplyAsync(() -> result.getData()
+            .stream()
+            .map(area -> BeanUtil.parseArea2Vo(area))
+            .collect(Collectors.toMap(AreaSimpleVo::getId, vo -> vo)));
     }
 
     public static CompletableFuture<Map> tripMapFuture(TransportTripsFeign feign, Set<String> tripSet) {
         return CompletableFuture.supplyAsync(() -> {
             List<TransportTripsDto> transportTripsDtoList = feign.findAll(null, new ArrayList<>(tripSet));
-            return transportTripsDtoList.stream().collect(Collectors.toMap(TransportTripsDto::getId, value -> value.getName()));
+            return transportTripsDtoList.stream()
+                .collect(Collectors.toMap(TransportTripsDto::getId, value -> value.getName()));
         });
     }
 
