@@ -10,7 +10,7 @@ import org.iiidev.pinda.enums.transportorder.TransportOrderSchedulingStatus;
 import org.iiidev.pinda.enums.transportorder.TransportOrderStatus;
 import org.iiidev.pinda.mapper.TransportOrderMapper;
 import org.iiidev.pinda.service.ITransportOrderService;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

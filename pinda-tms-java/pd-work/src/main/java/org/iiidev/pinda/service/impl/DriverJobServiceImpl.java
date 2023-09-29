@@ -9,7 +9,7 @@ import org.iiidev.pinda.entity.DriverJob;
 import org.iiidev.pinda.enums.driverjob.DriverJobStatus;
 import org.iiidev.pinda.mapper.DriverJobMapper;
 import org.iiidev.pinda.service.IDriverJobService;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

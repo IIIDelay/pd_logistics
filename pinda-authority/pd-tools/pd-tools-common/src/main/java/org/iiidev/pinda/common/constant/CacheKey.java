@@ -2,6 +2,7 @@ package org.iiidev.pinda.common.constant;
 
 import org.iiidev.pinda.utils.StrPool;
 import cn.hutool.core.util.StrUtil;
+
 /**
  * 用于同一管理和生成缓存的region和key， 避免多个项目使用的key重复
  */

@@ -8,7 +8,7 @@ import org.iiidev.pinda.common.CustomIdGenerator;
 import org.iiidev.pinda.entity.TransportOrderTask;
 import org.iiidev.pinda.mapper.TransportOrderTaskMapper;
 import org.iiidev.pinda.service.ITransportOrderTaskService;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

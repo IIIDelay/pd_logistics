@@ -17,7 +17,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -73,7 +77,9 @@ public class CollectionHelper {
 
         Map<K, OUT> outMap = Optional.ofNullable(supMapType).map(Supplier::get).orElse(Maps.newHashMap());
         inCollection.stream()
-            .filter(in -> Optional.ofNullable(filter).map(condition-> in!=null && condition.test(in)).orElse(in!=null))
+            .filter(in -> Optional.ofNullable(filter)
+                .map(condition -> in != null && condition.test(in))
+                .orElse(in != null))
             .forEach(in -> {
                 if (isCover) {
                     outMap.put(keyFunc.apply(in), valFunc.apply(in));
@@ -276,7 +282,7 @@ public class CollectionHelper {
      * @param defaultVal defaultVal
      * @return T
      */
-    public static <T> T getIf(Collection<T> ins, Predicate<T> test, T defaultVal) {
+    public static <T> T findFirst(Collection<T> ins, Predicate<T> test, T defaultVal) {
         if (CollectionUtils.isEmpty(ins)) {
             return defaultVal;
         }
@@ -284,7 +290,17 @@ public class CollectionHelper {
         return ins.stream().filter(test).findFirst().orElse(defaultVal);
     }
 
-    public static <T> T getIf(Collection<T> ins, Predicate<T> test) {
-        return getIf(ins, test, null);
+    public static <IN> Consumer<IN> action(BiConsumer<Integer, IN> consumer) {
+        AtomicInteger count = new AtomicInteger(0);
+        return in -> consumer.accept(count.getAndIncrement(), in);
+    }
+
+    public static <IN,OUT> Function<IN, OUT> mapper(BiFunction<Integer, IN, OUT> function) {
+        AtomicInteger count = new AtomicInteger(0);
+        return in -> function.apply(count.getAndIncrement(), in);
+    }
+
+    public static <T> T findFirst(Collection<T> ins, Predicate<T> test) {
+        return findFirst(ins, test, null);
     }
 }

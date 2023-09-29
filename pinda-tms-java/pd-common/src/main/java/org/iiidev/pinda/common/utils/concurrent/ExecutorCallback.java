@@ -6,7 +6,6 @@ package org.iiidev.pinda.common.utils.concurrent;
  * @author: zhangdongjiang
  * @date: 2019-06-26 14:43
  */
-@SuppressWarnings("unused")
 public interface ExecutorCallback<T> {
     /**
      * 获得执行许可时回调

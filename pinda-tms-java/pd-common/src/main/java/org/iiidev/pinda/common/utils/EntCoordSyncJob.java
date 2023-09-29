@@ -3,7 +3,7 @@ package org.iiidev.pinda.common.utils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.awt.geom.Path2D;
 import java.io.BufferedReader;
@@ -77,7 +77,8 @@ public class EntCoordSyncJob {
                 JSONArray jsonArray = (JSONArray) childMap.get("routes");
                 JSONObject jsonObject = (JSONObject) jsonArray.get(0);
                 Map posMap = (Map) jsonObject.get("routes");
-                int duration = Integer.parseInt(jsonObject.get("duration") == null ? "0" : jsonObject.get("duration").toString());
+                int duration = Integer.parseInt(jsonObject.get("duration") == null ? "0" : jsonObject.get("duration")
+                    .toString());
                 return duration;
             }
         }
@@ -100,7 +101,8 @@ public class EntCoordSyncJob {
                 JSONArray jsonArray = (JSONArray) childMap.get("routes");
                 JSONObject jsonObject = (JSONObject) jsonArray.get(0);
                 Map posMap = (Map) jsonObject.get("routes");
-                double distance = Double.parseDouble(jsonObject.get("distance") == null ? "0" : jsonObject.get("distance").toString());
+                double distance = Double.parseDouble(jsonObject.get("distance") == null ? "0" : jsonObject.get("distance")
+                    .toString());
                 return distance;
             }
         }
@@ -126,25 +128,24 @@ public class EntCoordSyncJob {
     }
 
     /**
-     *
      * @param location
      * @return map
      * formatted_address:结构化地址信息
-     *       "country":"国家",
-     *             "country_code":国家编码,
-     *             "country_code_iso":"国家英文缩写（三位）",
-     *             "country_code_iso2":"国家英文缩写（两位）",
-     *             "province":"省名",
-     *             "city":"城市名",
-     *             "city_level":城市所在级别（仅国外有参考意义。国外行政区划与中国有差异，城市对应的层级不一定为『city』。country、province、city、district、town分别对应0-4级，若city_level=3，则district层级为该国家的city层级）,
-     *             "district":"区县名",
-     *             "town":"乡镇名",
-     *             "town_code":"乡镇id",
-     *             "adcode":"行政区划代码",
-     *             "street":"街道名（行政区划中的街道层级）",
-     *             "street_number":"街道门牌号",
-     *             "direction":"和当前坐标点的方向",
-     *             "distance":"离坐标点距离"
+     * "country":"国家",
+     * "country_code":国家编码,
+     * "country_code_iso":"国家英文缩写（三位）",
+     * "country_code_iso2":"国家英文缩写（两位）",
+     * "province":"省名",
+     * "city":"城市名",
+     * "city_level":城市所在级别（仅国外有参考意义。国外行政区划与中国有差异，城市对应的层级不一定为『city』。country、province、city、district、town分别对应0-4级，若city_level=3，则district层级为该国家的city层级）,
+     * "district":"区县名",
+     * "town":"乡镇名",
+     * "town_code":"乡镇id",
+     * "adcode":"行政区划代码",
+     * "street":"街道名（行政区划中的街道层级）",
+     * "street_number":"街道门牌号",
+     * "direction":"和当前坐标点的方向",
+     * "distance":"离坐标点距离"
      */
     public static Map getLocationByPosition(String location) {
         String[] originArray = location.split(",");
@@ -177,30 +178,33 @@ public class EntCoordSyncJob {
     public static boolean isInScope(List<Map> polygon, double longitude, double latitude) {
         Path2D.Double generalPath = new Path2D.Double();
 
-        //获取第一个起点经纬度的坐标
+        // 获取第一个起点经纬度的坐标
         Map first = polygon.get(0);
 
-        //通过移动到以double精度指定的指定坐标，把第一个起点添加到路径中
-        generalPath.moveTo(Double.parseDouble(first.getOrDefault("lng", "").toString()), Double.parseDouble(first.getOrDefault("lat", "").toString()));
+        // 通过移动到以double精度指定的指定坐标，把第一个起点添加到路径中
+        generalPath.moveTo(Double.parseDouble(first.getOrDefault("lng", "")
+            .toString()), Double.parseDouble(first.getOrDefault("lat", "").toString()));
 
-        //把集合中的第一个点删除防止重复添加
+        // 把集合中的第一个点删除防止重复添加
         polygon.remove(0);
 
-        //循环集合里剩下的所有经纬度坐标
+        // 循环集合里剩下的所有经纬度坐标
         for (Map d : polygon) {
-            //通过从当前坐标绘制直线到以double精度指定的新指定坐标，将路径添加到路径。
-            //从第一个点开始，不断往后绘制经纬度点
-            generalPath.lineTo(Double.parseDouble(d.getOrDefault("lng", "").toString()), Double.parseDouble(d.getOrDefault("lat", "").toString()));
+            // 通过从当前坐标绘制直线到以double精度指定的新指定坐标，将路径添加到路径。
+            // 从第一个点开始，不断往后绘制经纬度点
+            generalPath.lineTo(Double.parseDouble(d.getOrDefault("lng", "")
+                .toString()), Double.parseDouble(d.getOrDefault("lat", "").toString()));
 
         }
 
         // 最后要多边形进行封闭，起点及终点
-        generalPath.lineTo(Double.parseDouble(first.getOrDefault("lng", "").toString()), Double.parseDouble(first.getOrDefault("lat", "").toString()));
+        generalPath.lineTo(Double.parseDouble(first.getOrDefault("lng", "")
+            .toString()), Double.parseDouble(first.getOrDefault("lat", "").toString()));
 
-        //将直线绘制回最后一个 moveTo的坐标来关闭当前子路径。
+        // 将直线绘制回最后一个 moveTo的坐标来关闭当前子路径。
         generalPath.closePath();
 
-        //true如果指定的坐标在Shape边界内; 否则为false 。
+        // true如果指定的坐标在Shape边界内; 否则为false 。
         return generalPath.contains(longitude, latitude);
     }
 }

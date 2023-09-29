@@ -6,7 +6,7 @@ import org.iiidev.pinda.common.utils.CustomIdGenerator;
 import org.iiidev.pinda.entity.OrderCargo;
 import org.iiidev.pinda.mapper.OrderCargoMapper;
 import org.iiidev.pinda.service.IOrderCargoService;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;

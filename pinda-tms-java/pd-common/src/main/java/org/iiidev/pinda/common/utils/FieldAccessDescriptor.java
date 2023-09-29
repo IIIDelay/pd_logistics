@@ -58,7 +58,10 @@ public class FieldAccessDescriptor {
             int bracketIndex = fieldPath.indexOf('[');
             int commaIndex = fieldPath.indexOf('.');
             int optionalIndex = fieldPath.indexOf('?');
-            List<Integer> indexList = Arrays.asList(bracketIndex, commaIndex, optionalIndex).stream().filter(i -> i > -1).collect(Collectors.toList());
+            List<Integer> indexList = Arrays.asList(bracketIndex, commaIndex, optionalIndex)
+                .stream()
+                .filter(i -> i > -1)
+                .collect(Collectors.toList());
             int index = -1;
             if (indexList.size() > 0) {
                 index = indexList.stream().min((i, i2) -> (i - i2)).get().intValue();

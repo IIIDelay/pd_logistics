@@ -8,7 +8,6 @@ import java.util.concurrent.atomic.AtomicLong;
  * 3、支持最大16台机器的分布
  * 4、长度都是8位的字符串
  * 5、编码全部是大写字符，因为数据库一般期望不区分大小写
- *
  */
 public class CodeGenerate {
 
@@ -55,12 +54,12 @@ public class CodeGenerate {
     private String encoded(long id) {
 
         char[] result = new char[8];
-        //2021年前产生的编码长度不足8位，仅仅只有7位，故将首位固定为chars中
-        //的最后一位. 而且只能是最后一位  因为首位下一次出现此字符的时间将会是最远的
+        // 2021年前产生的编码长度不足8位，仅仅只有7位，故将首位固定为chars中
+        // 的最后一位. 而且只能是最后一位  因为首位下一次出现此字符的时间将会是最远的
         result[0] = CHARS[CHARS.length - 1];
-        //转换成为26个字母
+        // 转换成为26个字母
         int unit = CHARS_NUM;
-        //最大长度为8
+        // 最大长度为8
         int index = result.length - 1;
         do {
             result[index] = (CHARS[(int) (id % unit)]);

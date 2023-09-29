@@ -1,10 +1,11 @@
 package org.iiidev.pinda.vo;
 
-import org.iiidev.pinda.entity.OrderDetail;
-import org.iiidev.pinda.entity.Orders;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.iiidev.pinda.entity.OrderDetail;
+import org.iiidev.pinda.entity.Orders;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -13,10 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 public class OrderVO extends Orders implements Serializable {
 
-    //订单菜品信息
+    // 订单菜品信息
     private String orderDishes;
 
-    //订单详情
+    // 订单详情
     private List<OrderDetail> orderDetailList;
 
 }

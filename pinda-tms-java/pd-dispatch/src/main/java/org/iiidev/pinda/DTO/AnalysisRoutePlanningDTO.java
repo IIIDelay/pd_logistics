@@ -1,6 +1,6 @@
 package org.iiidev.pinda.DTO;
 
-import com.alibaba.nacos.common.utils.Md5Utils;
+import org.apache.commons.codec.digest.Md5Crypt;
 import org.iiidev.pinda.DTO.transportline.TransportLineDto;
 import org.iiidev.pinda.entity.CacheLineDetailEntity;
 import org.iiidev.pinda.entity.CacheLineEntity;
@@ -8,7 +8,11 @@ import org.iiidev.pinda.utils.IdUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AnalysisRoutePlanningDTO {
     private Map<Integer, List<CacheLineDetailEntity>> lineMap = new HashMap<>();
@@ -43,15 +47,15 @@ public class AnalysisRoutePlanningDTO {
                 cost = cost.add(transportLineDto.getCost());
                 estimatedTime = estimatedTime.add(transportLineDto.getEstimatedTime());
                 sbf.append(transportLineDto.getStartAgencyId())
-                        .append("#")
-                        .append(transportLineDto.getEndAgencyId())
-                        .append("#")
-                        .append(transportLineDto.getDistance().toString())
-                        .append("#")
-                        .append(transportLineDto.getCost().toString())
-                        .append("#")
-                        .append(transportLineDto.getEstimatedTime().toString())
-                        .append("#");
+                    .append("#")
+                    .append(transportLineDto.getEndAgencyId())
+                    .append("#")
+                    .append(transportLineDto.getDistance().toString())
+                    .append("#")
+                    .append(transportLineDto.getCost().toString())
+                    .append("#")
+                    .append(transportLineDto.getEstimatedTime().toString())
+                    .append("#");
 
             }
             CacheLineEntity cacheLineEntity = new CacheLineEntity();
@@ -63,7 +67,7 @@ public class AnalysisRoutePlanningDTO {
             cacheLineEntity.setEndAgencyId(this.endAgencyId);
             cacheLineEntity.setTransferCount(value.size());
             cacheLineEntity.setIsCurrent(1);
-            cacheLineEntity.setVerifyKey(Md5Utils.getMD5(sbf.toString().getBytes()));
+            cacheLineEntity.setVerifyKey(Md5Crypt.md5Crypt(sbf.toString().getBytes()));
             result.put(cacheLineEntity, value);
         }
         return result;
@@ -83,6 +87,7 @@ public class AnalysisRoutePlanningDTO {
     /**
      * 获取全部可到达线路
      * 遍历之前查找到的线路，feasibleTransportLineDtos 不为空的时候表示该条线路可以通行。
+     *
      * @param routePlanningDTO
      * @return
      */

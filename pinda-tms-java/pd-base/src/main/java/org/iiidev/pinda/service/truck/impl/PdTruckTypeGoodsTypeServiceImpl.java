@@ -7,7 +7,7 @@ import org.iiidev.pinda.mapper.truck.PdTruckTypeGoodsTypeMapper;
 import org.iiidev.pinda.entity.truck.PdTruckTypeGoodsType;
 import org.iiidev.pinda.service.truck.IPdTruckTypeGoodsTypeService;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -12,7 +12,7 @@ import org.iiidev.pinda.enums.transporttask.TransportTaskLoadingStatus;
 import org.iiidev.pinda.enums.transporttask.TransportTaskStatus;
 import org.iiidev.pinda.mapper.TaskTransportMapper;
 import org.iiidev.pinda.service.ITaskTransportService;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

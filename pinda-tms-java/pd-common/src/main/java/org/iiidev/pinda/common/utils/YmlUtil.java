@@ -20,6 +20,7 @@ public class YmlUtil {
 
     /**
      * 加载配置文件
+     *
      * @param fileName
      */
     private static void loadYml(String fileName) {
@@ -43,7 +44,8 @@ public class YmlUtil {
             } else {
                 return value;
             }
-        } throw new RuntimeException();
+        }
+        throw new RuntimeException();
     }
 
     public static Object getValue(String fileName, String key) throws Exception {

@@ -1,11 +1,11 @@
 package org.iiidev.pinda.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.common.utils.RespResult;
 import org.iiidev.pinda.entity.Member;
 import org.iiidev.pinda.feign.MemberFeign;
 import org.iiidev.pinda.feign.UserClient;
 import org.iiidev.pinda.service.IMemberService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,6 +1,7 @@
 package org.iiidev.pinda.dto;
 
 import lombok.Data;
+
 import java.io.Serializable;
 
 @Data

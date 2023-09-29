@@ -1,18 +1,17 @@
 package org.iiidev.pinda.common.converter;
 
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
+import cn.hutool.core.util.ReflectUtil;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-
-import cn.hutool.core.util.ReflectUtil;
 import lombok.extern.slf4j.Slf4j;
+
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 /**
  * enum反序列化工具
@@ -29,27 +28,27 @@ public class EnumDeserializer extends StdDeserializer<Enum<?>> {
     }
 
     @Override
-    public Enum<?> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
-        JsonToken token = p.getCurrentToken();
+    public Enum<?> deserialize(JsonParser jsonParser, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+        JsonToken token = jsonParser.getCurrentToken();
         String value = null;
         while (!token.isStructEnd()) {
-            if (ALL_ENUM_KEY_FIELD.equals(p.getText())) {
-                p.nextToken();
-                value = p.getValueAsString();
+            if (ALL_ENUM_KEY_FIELD.equals(jsonParser.getText())) {
+                jsonParser.nextToken();
+                value = jsonParser.getValueAsString();
             } else {
-                p.nextToken();
+                jsonParser.nextToken();
             }
-            token = p.getCurrentToken();
+            token = jsonParser.getCurrentToken();
         }
         if (value == null || "".equals(value)) {
             return null;
         }
 
-        Object obj = p.getCurrentValue();
+        Object obj = jsonParser.getCurrentValue();
         if (obj == null) {
             return null;
         }
-        Field field = ReflectUtil.getField(obj.getClass(), p.getCurrentName());
+        Field field = ReflectUtil.getField(obj.getClass(), jsonParser.getCurrentName());
         //找不到字段
         if (field == null) {
             return null;
