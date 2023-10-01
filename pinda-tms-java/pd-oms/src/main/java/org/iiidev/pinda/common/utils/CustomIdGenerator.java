@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomIdGenerator implements IdentifierGenerator {
     @Bean
-	public IdWorker idWorker(){
-		return new IdWorker(1, 1);
+    public IdWorker idWorker() {
+        return new IdWorker(1, 1);
     }
-    
+
     @Autowired
     private IdWorker idWorker;
 

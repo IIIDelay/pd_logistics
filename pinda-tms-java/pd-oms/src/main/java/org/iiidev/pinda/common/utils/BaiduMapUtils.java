@@ -7,10 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
@@ -123,8 +121,8 @@ public class BaiduMapUtils {
                 json.append(inputLine);
             }
             in.close();
-        } catch (MalformedURLException e) {
-        } catch (IOException e) {
+        } catch (Exception e) {
+            log.error("访问接口地址异常", e);
         }
         return json.toString();
     }

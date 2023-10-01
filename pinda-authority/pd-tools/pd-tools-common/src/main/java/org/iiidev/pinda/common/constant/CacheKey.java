@@ -1,7 +1,7 @@
 package org.iiidev.pinda.common.constant;
 
-import org.iiidev.pinda.utils.StrPool;
 import cn.hutool.core.util.StrUtil;
+import org.iiidev.pinda.utils.StrPool;
 
 /**
  * 用于同一管理和生成缓存的region和key， 避免多个项目使用的key重复
@@ -27,6 +27,27 @@ public interface CacheKey {
      * 所有需要鉴权的资源
      */
     String RESOURCE_NEED_TO_CHECK = "resource_need_to_check";
+
+    /**
+     * 单号流水号缓存Key前缀
+     */
+    public static final String SERIAL_CACHE_PREFIX = "UNIQUE_CACHE_";
+
+    /**
+     * 单号流水号yyMMdd前缀
+     */
+    public static final String SERIAL_YYMMDD_PREFIX = "yyMMdd";
+
+    /**
+     * 单号流水号yyyyMMdd前缀
+     */
+    public static final String SERIAL_YYYYMMDD_PREFIX = "yyyyMMdd";
+
+    /**
+     * 默认缓存天数
+     */
+    public static final int DEFAULT_CACHE_DAYS = 7;
+
     /**
      * 构建key
      */
