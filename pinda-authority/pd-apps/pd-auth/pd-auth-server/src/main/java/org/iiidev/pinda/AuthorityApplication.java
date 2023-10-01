@@ -37,7 +37,7 @@ public class AuthorityApplication {
         String hostAddress = InetAddress
             .getLocalHost()
             .getHostAddress();
-        log.info("应用{}启动成功!knife4j地址：http://{}:{}/doc.html", appName, hostAddress, port);
-        log.info("应用{}启动成功!swagger2地址：http://{}:{}/swagger-ui.html", appName, hostAddress, port);
+        log.info("应用{}启动成功!knife4j地址: http://{}:{}/doc.html", appName, hostAddress, port);
+        log.info("应用{}启动成功!swagger2地址: http://{}:{}/swagger-ui.html", appName, hostAddress, port);
     }
 }

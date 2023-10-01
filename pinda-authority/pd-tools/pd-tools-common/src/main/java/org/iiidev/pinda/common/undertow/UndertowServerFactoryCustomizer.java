@@ -16,7 +16,7 @@ import org.xnio.XnioWorker;
 /**
  * 设置Undertow服务器 XnioWorker Buffers
  *
- * 解决启动时警告：[io.undertow.websockets.jsr.handleDeployment:68] --> UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
+ * 解决启动时警告: [io.undertow.websockets.jsr.handleDeployment:68] --> UT026010: Buffer pool was not set on WebSocketDeploymentInfo, the default pool will be used
  *
  */
 public class UndertowServerFactoryCustomizer implements WebServerFactoryCustomizer<UndertowServletWebServerFactory> {

@@ -32,10 +32,10 @@ public class Resource extends Entity<Long> {
 
     /**
      * 资源编码
-     * 规则：
-     * 链接：
-     * 数据列：
-     * 按钮：
+     * 规则:
+     * 链接:
+     * 数据列:
+     * 按钮:
      */
     @ApiModelProperty(value = "资源编码")
     @Length(max = 255, message = "资源编码长度不能超过255")

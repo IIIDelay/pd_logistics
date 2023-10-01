@@ -23,7 +23,7 @@ public class DispatchTask{
      * @param logId
      */
     public void run(String businessId, String params, String jobId, String logId) {
-        log.info("智能调度正在执行，参数为：{},{},{},{}", businessId, params, jobId, logId);
+        log.info("智能调度正在执行，参数为: {},{},{},{}", businessId, params, jobId, logId);
         List<OrderClassifyGroupDTO> classifyGroupDTOS = taskOrderClassifyService.execute(businessId, jobId, logId);
     }
 }

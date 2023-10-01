@@ -101,7 +101,7 @@ public class PickupDispatchDTO implements Serializable {
 
     public PickupDispatchDTO(TaskPickupDispatchDTO item, Map<String, TransportOrderDTO> tranOrderMap, Map<String, OrderDTO> orderMap, Map<Long, Area> areaMap) {
         OrderDTO order = orderMap.get(item.getOrderId());
-        log.info("构建快递员取件任务：{},{}", item.getOrderId(), order);
+        log.info("构建快递员取件任务: {},{}", item.getOrderId(), order);
         this.id = item.getId();
         this.orderNumber = item.getOrderId();
         this.tranOrderId = tranOrderMap.get(item.getOrderId()) != null ? tranOrderMap.get(item.getOrderId()).getId() : "";
@@ -112,10 +112,10 @@ public class PickupDispatchDTO implements Serializable {
         this.estimatedTime = item.getEstimatedEndTime();
         this.actualTime = item.getActualEndTime();
         if (estimatedTime != null) {
-            log.info("时间计算：{},{}", LocalDateTime.now(), estimatedTime);
-            log.info("时间计算：{},{}", LocalDateTime.now(), DateUtils.getUTCTime(estimatedTime));
+            log.info("时间计算: {},{}", LocalDateTime.now(), estimatedTime);
+            log.info("时间计算: {},{}", LocalDateTime.now(), DateUtils.getUTCTime(estimatedTime));
             java.time.Duration duration = java.time.Duration.between(LocalDateTime.now(), DateUtils.getUTCTime(estimatedTime));
-            log.info("时间计算：{},{}", duration, duration.toMinutes());
+            log.info("时间计算: {},{}", duration, duration.toMinutes());
             this.finishTime = duration.toMinutes();
         } else {
             this.finishTime = 0L;

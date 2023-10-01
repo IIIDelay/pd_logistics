@@ -36,7 +36,7 @@ public class DishController {
     @ApiOperation("根据分类id查询菜品")
     public Result<List<DishVO>> list(Long categoryId) {
 
-        // 构造redis中的key，规则：dish_分类id
+        // 构造redis中的key，规则: dish_分类id
         String key = "dish_" + categoryId;
 
         // 查询redis中是否存在菜品数据

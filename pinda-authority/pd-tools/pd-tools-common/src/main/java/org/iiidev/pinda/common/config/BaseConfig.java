@@ -50,7 +50,7 @@ public abstract class BaseConfig {
 
     /**
      * 解决序列化和反序列化时，参数转换问题
-     * addSerializer：序列化 （Controller 返回 给前端的json）
+     * addSerializer: 序列化 （Controller 返回 给前端的json）
      * Long -> string
      * BigInteger -> string
      * BigDecimal -> string

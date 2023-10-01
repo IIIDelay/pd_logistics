@@ -63,7 +63,7 @@ export default {
       type: String,
       default: 'image/jpeg, image/gif, image/png, image/bmp'
     },
-    // 允许上传的文件大小 单位：字节
+    // 允许上传的文件大小 单位: 字节
     acceptSize: {
       type: Number,
       default: null
@@ -155,7 +155,7 @@ export default {
               vm.$message.error(
                 '只能上传' +
                   vm.renderSize(vm.acceptSize) +
-                  '的文件!已为您过滤文件：' +
+                  '的文件!已为您过滤文件: ' +
                   file.name
               )
             }, 10)

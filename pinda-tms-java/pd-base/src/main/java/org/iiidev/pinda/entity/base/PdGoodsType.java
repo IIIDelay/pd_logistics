@@ -27,11 +27,11 @@ public class PdGoodsType implements Serializable {
      */
     private String name;
     /**
-     * 默认重量，单位：千克
+     * 默认重量，单位: 千克
      */
     private BigDecimal defaultWeight;
     /**
-     * 默认体积，单位：方
+     * 默认体积，单位: 方
      */
     private BigDecimal defaultVolume;
     /**
@@ -39,7 +39,7 @@ public class PdGoodsType implements Serializable {
      */
     private String remark;
     /**
-     * 状态 0：禁用 1：正常
+     * 状态 0: 禁用 1: 正常
      */
     private Integer status;
 }

@@ -94,7 +94,7 @@ public abstract class BaseMybatisConfiguration {
      * Mybatis 自定义的类型处理器
      * 用于左模糊查询时使用
      * <p>
-     * eg：
+     * eg: 
      * and name like #{name,typeHandler=leftLike}
      *
      * @return
@@ -108,7 +108,7 @@ public abstract class BaseMybatisConfiguration {
      * Mybatis 自定义的类型处理器
      * 用于右模糊查询时使用
      * <p>
-     * eg：
+     * eg: 
      * and name like #{name,typeHandler=rightLike}
      *
      * @return
@@ -122,7 +122,7 @@ public abstract class BaseMybatisConfiguration {
      * Mybatis 自定义的类型处理器
      * 用于全模糊查询时使用
      * <p>
-     * eg：
+     * eg: 
      * and name like #{name,typeHandler=fullLike}
      *
      * @return

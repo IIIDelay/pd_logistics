@@ -7,7 +7,7 @@ import java.util.ArrayList;
 /**
  * 对象访问工具类
  * <br>
- * 支持的路径格式参考：
+ * 支持的路径格式参考: 
  * <p>
  * address.id
  * <br>
@@ -30,7 +30,7 @@ public class ObjectAccessUtils {
     /**
      * 以字段路径形式访问对象
      * <br>
-     * 字段路径支持所有常见访问场景。比如：<br>
+     * 字段路径支持所有常见访问场景。比如: <br>
      * address.id <br>
      * detailList[0].name <br>
      * payInfo.payMethodList[0].name <br>
@@ -54,7 +54,7 @@ public class ObjectAccessUtils {
     /**
      * 以字段路径形式访问对象
      * <br>
-     * 字段路径支持所有常见访问场景。比如：<br>
+     * 字段路径支持所有常见访问场景。比如: <br>
      * address.id <br>
      * detailList[0].name <br>
      * payInfo.payMethodList[0].name <br>
@@ -79,7 +79,7 @@ public class ObjectAccessUtils {
     /**
      * 以字段路径形式访问对象
      * <br>
-     * 字段路径支持所有常见访问场景。比如：<br>
+     * 字段路径支持所有常见访问场景。比如: <br>
      * address.id <br>
      * detailList[0].name <br>
      * payInfo.payMethodList[0].name <br>
@@ -176,7 +176,7 @@ public class ObjectAccessUtils {
         boolean needBreak = false;
         if (fieldAccessDescriptor.accessArray()) {
             if (!(targetElement instanceof JSONArray)) {
-                throw new IllegalAccessException("要访问的索引的目标不是对象：" + fieldAccessDescriptor.getCurrentIndex());
+                throw new IllegalAccessException("要访问的索引的目标不是对象: " + fieldAccessDescriptor.getCurrentIndex());
             }
             JSONArray jsonArray = (JSONArray) targetElement;
             if (fieldAccessDescriptor.getCurrentIndex() < 0 || jsonArray.size() <= fieldAccessDescriptor.getCurrentIndex()) {
@@ -184,7 +184,7 @@ public class ObjectAccessUtils {
                     valueElement = null;
                     needBreak = true;
                 } else {
-                    throw new IndexOutOfBoundsException("索引超界：" + fieldAccessDescriptor.getCurrentPath());
+                    throw new IndexOutOfBoundsException("索引超界: " + fieldAccessDescriptor.getCurrentPath());
                 }
             } else {
                 valueElement = jsonArray.get(fieldAccessDescriptor.getCurrentIndex());
@@ -199,7 +199,7 @@ public class ObjectAccessUtils {
                 }
             } else {
                 if (!(targetElement instanceof JSONObject)) {
-//                    throw new IllegalAccessException("要访问的字段的目标不是对象：" + fieldAccessDescriptor.getCurrentField());
+//                    throw new IllegalAccessException("要访问的字段的目标不是对象: " + fieldAccessDescriptor.getCurrentField());
                     if (targetElement instanceof JSONArray) {
                         JSONArray jsonArray = (JSONArray) targetElement;
                         String s = "";

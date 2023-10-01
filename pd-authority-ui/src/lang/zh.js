@@ -19,7 +19,7 @@ export default {
     password: '密码',
     code: '验证码',
     ortherLoginType: '其他登录方式',
-    chooseToSignIn: '选择以下账号登录：',
+    chooseToSignIn: '选择以下账号登录: ',
     type: {
       up: '账号密码登录',
       social: '第三方账号登录'
@@ -376,12 +376,12 @@ export default {
     neverLogin: '从未登录过系统',
     nothing: '这家伙很懒，什么都没留下',
     topId: '值为0时表示顶级节点',
-    choose: '已选择：',
+    choose: '已选择: ',
     chooseNothing: '尚未选择任何图标',
     onlyChooseOne: '只能选择一个节点作为父节点',
     noNodeSelected: '请先选择节点',
     confirmDeleteNode: '选中节点及其子结点将被永久删除, 是否继续？',
-    iframeGrant: '用户名：pinda 密码：pinda',
+    iframeGrant: '用户名: pinda 密码: pinda',
     notEqual: '两次输入不一致',
     oldPasswordIncorrect: '原密码不正确',
     uploadSuccess: '上传成功',
@@ -394,7 +394,7 @@ export default {
     resetPasswordSuccess: '所选用户密码重置已被重置为123456',
     getCodeImageFailed: '获取图形验证码失败',
     tooManyRequest: '获取验证码过于频繁，请1分钟后再试',
-    clientOriginSecret: '该客户端原始密码为：'
+    clientOriginSecret: '该客户端原始密码为: '
   },
   rules: {
     require: '不能为空',

@@ -29,7 +29,7 @@ public class StockController {
 //        if(stock > 0){
 //            stock --;
 //            redisTemplate.opsForValue().set("stock",stock+"");
-//            System.out.println("库存扣减成功，剩余库存：" + stock);
+//            System.out.println("库存扣减成功，剩余库存: " + stock);
 //        }else {
 //            System.out.println("库存不足！！！");
 //        }
@@ -49,7 +49,7 @@ public class StockController {
 //                if(stock > 0){
 //                    stock --;
 //                    redisTemplate.opsForValue().set("stock",stock+"");
-//                    System.out.println("库存扣减成功，剩余库存：" + stock);
+//                    System.out.println("库存扣减成功，剩余库存: " + stock);
 //                }else {
 //                    System.out.println("库存不足！！！");
 //                }
@@ -77,7 +77,7 @@ public class StockController {
             if (stock > 0) {
                 stock--;
                 redisTemplate.opsForValue().set("stock", stock + "");
-                System.out.println("库存扣减成功，剩余库存：" + stock);
+                System.out.println("库存扣减成功，剩余库存: " + stock);
             } else {
                 System.out.println("库存不足！！！");
             }

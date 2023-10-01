@@ -52,7 +52,7 @@ public class NettyServer implements CommandLineRunner {
     public void start() {
         // 启动服务端，绑定端口
         this.future = server.bind(nettyServer.port);
-        log.info("Netty Server 启动完毕!!!!  端口：" + nettyServer.port);
+        log.info("Netty Server 启动完毕!!!!  端口: " + nettyServer.port);
     }
 
     @Override

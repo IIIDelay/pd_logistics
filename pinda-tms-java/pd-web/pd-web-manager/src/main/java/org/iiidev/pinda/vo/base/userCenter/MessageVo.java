@@ -20,13 +20,13 @@ public class MessageVo implements Serializable {
     @ApiModelProperty(value = "消息正文")
     private String content;
 
-    @ApiModelProperty(value = "消息创建时间 格式：yyyy-MM-dd HH:mm:ss")
+    @ApiModelProperty(value = "消息创建时间 格式: yyyy-MM-dd HH:mm:ss")
     private String createTime;
 
-    @ApiModelProperty(value = "消息类型：notice为通知,bulletin为公告")
+    @ApiModelProperty(value = "消息类型: notice为通知,bulletin为公告")
     private String messageType;
 
-    @ApiModelProperty(value = "消息状态：0是已读，1是未读")
+    @ApiModelProperty(value = "消息状态: 0是已读，1是未读")
     private Integer status;
 
 }

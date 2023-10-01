@@ -6,8 +6,8 @@ import org.springframework.cache.interceptor.KeyGenerator;
  */
 public class MyCacheConfig extends CachingConfigurerSupport {
     /**
-     * 解决注解：Cacheable 没有指定key时，会将key生成为 ${value}:SimpleKey []
-     * eg： @Cacheable(value = "pinda") ->  pinda:SimpleKey []
+     * 解决注解: Cacheable 没有指定key时，会将key生成为 ${value}:SimpleKey []
+     * eg:  @Cacheable(value = "pinda") ->  pinda:SimpleKey []
      *
      * @return
      */

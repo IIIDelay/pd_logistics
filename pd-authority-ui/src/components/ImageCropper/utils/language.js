@@ -15,7 +15,7 @@ export default {
     error: {
       onlyImg: '仅限图片格式',
       outOfSize: '单文件大小不能超过 ',
-      lowestPx: '图片最低像素为（宽*高）：'
+      lowestPx: '图片最低像素为（宽*高）: '
     }
   },
   'zh-tw': {
@@ -34,7 +34,7 @@ export default {
     error: {
       onlyImg: '僅限圖片格式',
       outOfSize: '單文件大小不能超過 ',
-      lowestPx: '圖片最低像素為（寬*高）：'
+      lowestPx: '圖片最低像素為（寬*高）: '
     }
   },
   en: {

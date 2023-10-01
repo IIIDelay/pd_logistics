@@ -115,10 +115,10 @@ public class CustomerOrderDTO extends OrderDTO {
         }
 
         if (this.getCreateTime() != null) {
-            commonTimeStr = "下单时间：" + DateUtils.format(this.getCreateTime(), DateUtils.DEFAULT_DATE_TIME_FORMAT);
+            commonTimeStr = "下单时间: " + DateUtils.format(this.getCreateTime(), DateUtils.DEFAULT_DATE_TIME_FORMAT);
         }
         if (this.getActualDispathedTime() != null) {
-            commonTimeStr = "签收时间：" + DateUtils.format(this.getActualDispathedTime(), DateUtils.DEFAULT_DATE_TIME_FORMAT);
+            commonTimeStr = "签收时间: " + DateUtils.format(this.getActualDispathedTime(), DateUtils.DEFAULT_DATE_TIME_FORMAT);
         }
     }
 

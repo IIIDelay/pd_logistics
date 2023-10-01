@@ -37,7 +37,7 @@ public class ScheduleJob extends QuartzJobBean {
 
         try {
             //执行任务
-            logger.info("任务准备执行，任务ID：{}", scheduleJob.getId());
+            logger.info("任务准备执行，任务ID: {}", scheduleJob.getId());
             Object target = SpringContextUtils.getBean(scheduleJob.getBeanName());
             Method method = target.getClass().getDeclaredMethod("run", String.class, String.class, String.class, String.class);
             //通过反射调用目标方法，完成智能调度
@@ -49,7 +49,7 @@ public class ScheduleJob extends QuartzJobBean {
             //任务状态
             log.setStatus(1);
 
-            logger.info("任务执行完毕，任务ID：{}  总共耗时：{} 毫秒", scheduleJob.getId(), times);
+            logger.info("任务执行完毕，任务ID: {}  总共耗时: {} 毫秒", scheduleJob.getId(), times);
         } catch (Exception e) {
 
             //任务执行总时长

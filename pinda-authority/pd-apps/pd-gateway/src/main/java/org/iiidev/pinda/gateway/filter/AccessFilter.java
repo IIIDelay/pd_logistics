@@ -55,19 +55,19 @@ public class AccessFilter extends BaseFilter {
 
         log.info("验证信息过滤器接受url: {}", request.getURI().getPath());
 
-        // 第1步：判断当前请求uri是否需要忽略
+        // 第1步: 判断当前请求uri是否需要忽略
         if (isIgnoreToken(request)) {
             // 当前请求需要忽略，直接放行
             return chain.filter(exchange);
         }
-        // 第2步：获取当前请求的请求方式和uri，拼接成GET/user/page这种形式，称为权限标识符
+        // 第2步: 获取当前请求的请求方式和uri，拼接成GET/user/page这种形式，称为权限标识符
         String method = request.getMethod().name();
         String uri = request.getURI().getPath();
         uri = StringUtils.substring(uri, zuulPrefix.length());
         uri = StringUtils.substring(uri, uri.indexOf("/", 1));
         String permission = method + uri;// GET/user/page
 
-        // 第3步：从缓存中获取所有需要进行鉴权的资源(同样是由资源表的method字段值+url字段值拼接成)，如果没有获取到则通过Feign调用权限服务获取并放入缓存中
+        // 第3步: 从缓存中获取所有需要进行鉴权的资源(同样是由资源表的method字段值+url字段值拼接成)，如果没有获取到则通过Feign调用权限服务获取并放入缓存中
         String value = RedisHelper.getValue(CacheKey.RESOURCE, CacheKey.RESOURCE_NEED_TO_CHECK);
         List<String> uriList = JSONObject.parseArray(value, String.class);
         if (CollectionUtils.isEmpty(uriList)) {
@@ -81,14 +81,14 @@ public class AccessFilter extends BaseFilter {
             }
         }
 
-        // 第4步：判断这些资源是否包含当前请求的权限标识符，如果不包含当前请求的权限标识符，则返回未经授权错误提示
+        // 第4步: 判断这些资源是否包含当前请求的权限标识符，如果不包含当前请求的权限标识符，则返回未经授权错误提示
         boolean bool = CollectionHelper.matchAny(uriList, permission, MatchType.PREFIX);
         if (!bool) {
             // 当前请求是一个未知请求，直接返回未授权异常信息
             return errorResponse(response, ExceptionCode.UNAUTHORIZED.getMsg(), ExceptionCode.UNAUTHORIZED.getCode(), HttpStatus.OK);
         }
 
-        // 第5步：如果包含当前的权限标识符，则从gateway header中取出用户id，根据用户id取出缓存中的用户拥有的权限，如果没有取到则通过Feign
+        // 第5步: 如果包含当前的权限标识符，则从gateway header中取出用户id，根据用户id取出缓存中的用户拥有的权限，如果没有取到则通过Feign
         // 调用权限服务获取并放入缓存，判断用户拥有的权限是否包含当前请求的权限标识符
         log.info("网关获取用户请求头信息: {}", JSONObject.toJSONString(request.getHeaders()));
         String userId = request.getHeaders().get(BaseContextConstants.JWT_KEY_USER_ID).stream().findFirst().orElse("");
@@ -108,12 +108,12 @@ public class AccessFilter extends BaseFilter {
         }
 
 
-        // 第6步：如果用户拥有的权限包含当前请求的权限标识符则说明当前用户拥有权限，直接放行
+        // 第6步: 如果用户拥有的权限包含当前请求的权限标识符则说明当前用户拥有权限，直接放行
         long count = visibleResource.stream()
             .filter(permission::startsWith)
             .count();
         if (count <= 0) {
-            // 第7步：如果用户拥有的权限不包含当前请求的权限标识符则说明当前用户没有权限，返回未经授权错误提示
+            // 第7步: 如果用户拥有的权限不包含当前请求的权限标识符则说明当前用户没有权限，返回未经授权错误提示
             return errorResponse(response,ExceptionCode.UNAUTHORIZED.getMsg(), ExceptionCode.UNAUTHORIZED.getCode(), HttpStatus.OK);
         }
 

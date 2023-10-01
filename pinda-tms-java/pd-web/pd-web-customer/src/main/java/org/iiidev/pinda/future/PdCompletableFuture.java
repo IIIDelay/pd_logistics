@@ -80,9 +80,9 @@ public class PdCompletableFuture {
             queryDTO.setOrderIds(taskPickupDispatchSet.stream().collect(Collectors.toList()));
             List<TaskPickupDispatchDTO> result = api.findAll(queryDTO);
             if (!CollectionUtils.isEmpty(result)) {
-                log.info("TaskPickupDispatchDTO result：{}", result);
+                log.info("TaskPickupDispatchDTO result: {}", result);
                 result = result.stream().filter(item -> (!PickupDispatchTaskStatus.CANCELLED.getCode().equals(item.getStatus()))).collect(Collectors.toList());
-                log.info("TaskPickupDispatchDTO result by duplicate：{}", result);
+                log.info("TaskPickupDispatchDTO result by duplicate: {}", result);
                 return result.stream().collect(Collectors.toMap(TaskPickupDispatchDTO::getOrderId, item -> item, (v1, v2) -> v1));
             }
             return new HashMap<>();

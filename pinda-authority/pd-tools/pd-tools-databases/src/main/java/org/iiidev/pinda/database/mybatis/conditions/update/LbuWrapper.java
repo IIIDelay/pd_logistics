@@ -24,7 +24,7 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
 
     private static final long serialVersionUID = -4194344880194881367L;
     /**
-     * SQL 更新字段内容，例如：name='1', age=2
+     * SQL 更新字段内容，例如: name='1', age=2
      */
     private final List<String> sqlSet;
 
@@ -97,7 +97,7 @@ public class LbuWrapper<T> extends AbstractLambdaWrapper<T, LbuWrapper<T>>
 
     /**
      * 空值校验
-     * 传入空字符串("")时， 视为： 字段名 = ""
+     * 传入空字符串("")时， 视为:  字段名 = ""
      *
      * @param val 参数值
      */

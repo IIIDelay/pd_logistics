@@ -59,7 +59,7 @@ export default {
       type: String,
       default: ''
     },
-    // 允许上传的文件大小 单位：字节
+    // 允许上传的文件大小 单位: 字节
     acceptSize: {
       type: Number,
       default: null
@@ -137,7 +137,7 @@ export default {
         } else {
           setTimeout(() => {
             vm.$message({
-              message: file.name + '上传失败，原因：\n' + file.response.msg,
+              message: file.name + '上传失败，原因: \n' + file.response.msg,
               type: 'error',
               showClose: true,
               duration: 6000
@@ -156,7 +156,7 @@ export default {
               vm.$message.error(
                 '只能上传' +
                   vm.renderSize(vm.acceptSize) +
-                  '的文件!已为您过滤文件：' +
+                  '的文件!已为您过滤文件: ' +
                   file.name
               )
             }, 10)

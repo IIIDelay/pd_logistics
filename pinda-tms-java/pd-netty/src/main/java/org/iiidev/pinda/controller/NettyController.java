@@ -19,7 +19,7 @@ public class NettyController {
     @PostMapping(value = "/push")
     public RespResult push(@RequestBody LocationEntity locationEntity) {
         String message = JSON.toJSONString(locationEntity);
-        log.info("HTTP 方式推送位置信息：{}", message);
+        log.info("HTTP 方式推送位置信息: {}", message);
         KafkaSender.send(KafkaSender.MSG_TOPIC, message);
         return RespResult.ok();
     }

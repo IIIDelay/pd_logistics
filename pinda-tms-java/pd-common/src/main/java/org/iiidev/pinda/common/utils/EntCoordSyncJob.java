@@ -26,7 +26,7 @@ public class EntCoordSyncJob {
     public static void main(String[] args) {
 //        String dom = "北京金燕龙";
 //        String coordinate = getCoordinate(dom);
-//        System.out.println("'" + dom + "'的经纬度为：" + coordinate);
+//        System.out.println("'" + dom + "'的经纬度为: " + coordinate);
         // System.err.println("######同步坐标已达到日配额6000限制，请明天再试！#####");
         String begin = EntCoordSyncJob.getCoordinate("北京建材城金燕龙办公楼");
         String end = EntCoordSyncJob.getCoordinate("北京龙禧苑一区");

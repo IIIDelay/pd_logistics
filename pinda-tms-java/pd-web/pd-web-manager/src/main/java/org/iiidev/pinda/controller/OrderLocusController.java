@@ -56,7 +56,7 @@ public class OrderLocusController {
         List<OrderLocusVo> orderLocusVos = new ArrayList<>();
         // 根据订单号查询快递员取件任务
         TaskPickupDispatchDTO pickupDispatchTaskDto = pickupDispatchTaskFeign.findByOrderId(id, PickupDispatchTaskType.PICKUP.getCode());
-        log.info("订单轨迹-取件任务：{}", pickupDispatchTaskDto);
+        log.info("订单轨迹-取件任务: {}", pickupDispatchTaskDto);
         if (pickupDispatchTaskDto != null) {
             OrderLocusVo orderLocusVo = new OrderLocusVo();
 
@@ -73,7 +73,7 @@ public class OrderLocusController {
 
         // 根据订单号 查询运单信息
         TransportOrderDTO transportOrderDto = transportOrderFeign.findByOrderId(id);
-        log.info("订单轨迹-运输任务：{}", transportOrderDto);
+        log.info("订单轨迹-运输任务: {}", transportOrderDto);
         if (transportOrderDto != null) {
             List<TaskTransportDTO> transportTaskDto = transportTaskFeign.findAllByOrderIdOrTaskId(transportOrderDto.getId(), null);
 
@@ -86,7 +86,7 @@ public class OrderLocusController {
 
         // 根据订单号查询快递员派件任务
         TaskPickupDispatchDTO pickupDispatchTaskPushDto = pickupDispatchTaskFeign.findByOrderId(id, PickupDispatchTaskType.DISPATCH.getCode());
-        log.info("订单轨迹-派件任务：{}", pickupDispatchTaskPushDto);
+        log.info("订单轨迹-派件任务: {}", pickupDispatchTaskPushDto);
         if (pickupDispatchTaskPushDto != null) {
             OrderLocusVo orderLocusVo = new OrderLocusVo();
 
@@ -100,7 +100,7 @@ public class OrderLocusController {
             orderLocusVos.add(orderLocusVo);
         }
 
-        log.info("订单轨迹-轨迹参数：{}", orderLocusVos);
+        log.info("订单轨迹-轨迹参数: {}", orderLocusVos);
         return orderLocusVos;
     }
 }

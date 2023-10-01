@@ -3,7 +3,7 @@ package org.iiidev.pinda.entity.fact;
 import java.math.BigDecimal;
 
 public class AddressCheckResult {
-    private boolean postCodeResult = false; // true:通过校验；false：未通过校验
+    private boolean postCodeResult = false; // true:通过校验；false: 未通过校验
     private String result;
 
     public String getResult() {

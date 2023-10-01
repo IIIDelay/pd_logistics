@@ -24,7 +24,7 @@ public class BaiduMapUtils {
     public static void main(String[] args) {
 //        String dom = "北京金燕龙";
 //        String coordinate = getCoordinate(dom);
-//        System.out.println("'" + dom + "'的经纬度为：" + coordinate);
+//        System.out.println("'" + dom + "'的经纬度为: " + coordinate);
         String begin = getCoordinate("北京金燕龙");
         String end = getCoordinate("北京龙禧苑一区");
         int time = getTime(begin, end);
@@ -84,7 +84,7 @@ public class BaiduMapUtils {
         return null;
     }
 
-    // 根据起止位置经纬度获取距离，单位：米
+    // 根据起止位置经纬度获取距离，单位: 米
     public static Double getDistance(String origin, String destination) {
         String[] originArray = origin.split(",");
         String[] destinationArray = destination.split(",");

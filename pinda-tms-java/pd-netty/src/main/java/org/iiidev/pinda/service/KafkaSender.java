@@ -24,9 +24,9 @@ public class KafkaSender {
     public static boolean send(String topic, String message) {
         try {
             template.send(topic, message);
-            log.info("消息发送成功：{} , {}", topic, message);
+            log.info("消息发送成功: {} , {}", topic, message);
         } catch (Exception e) {
-            log.error("消息发送失败：{} , {}", topic, message, e);
+            log.error("消息发送失败: {} , {}", topic, message, e);
             return false;
         }
         return true;

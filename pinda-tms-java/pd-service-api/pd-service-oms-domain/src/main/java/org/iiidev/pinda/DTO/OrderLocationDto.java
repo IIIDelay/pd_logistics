@@ -42,7 +42,7 @@ public class OrderLocationDto implements Serializable {
     @ApiModelProperty(value = "接受的终止网点", required = false)
     private String receiveAgentId;
     /**
-     * 记录状态 0：无效，1有效
+     * 记录状态 0: 无效，1有效
      */
     @ApiModelProperty(value = "记录状态", required = false)
     private String status;

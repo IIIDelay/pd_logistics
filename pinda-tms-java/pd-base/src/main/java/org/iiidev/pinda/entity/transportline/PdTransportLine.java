@@ -70,7 +70,7 @@ public class PdTransportLine implements Serializable {
     private BigDecimal estimatedTime;
 
     /**
-     * 状态 0：禁用 1：正常
+     * 状态 0: 禁用 1: 正常
      */
     private Integer status;
 }

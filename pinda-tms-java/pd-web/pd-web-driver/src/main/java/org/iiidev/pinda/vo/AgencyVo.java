@@ -49,6 +49,6 @@ public class AgencyVo implements Serializable {
     @ApiModelProperty(value = "联系电话")
     private String contractNumber;
 
-    @ApiModelProperty(value = "状态 0：禁用 1：正常")
+    @ApiModelProperty(value = "状态 0: 禁用 1: 正常")
     private Integer status;
 }

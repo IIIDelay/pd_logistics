@@ -10,4 +10,4 @@ docker run --name pd_auth_ui --restart=always \
     -e TZ=Asia/Shanghai \
     -d pinda-authority-ui:latest
 
-# 启动项目时， 请将：DOCKER_REQUEST_DOMAIN_PREFIX替换成自己的后端服务(不能用127.0.0.1和localhost)。 NGINX_HOST替换成nginx服务器的IP或者域名
+# 启动项目时， 请将: DOCKER_REQUEST_DOMAIN_PREFIX替换成自己的后端服务(不能用127.0.0.1和localhost)。 NGINX_HOST替换成nginx服务器的IP或者域名

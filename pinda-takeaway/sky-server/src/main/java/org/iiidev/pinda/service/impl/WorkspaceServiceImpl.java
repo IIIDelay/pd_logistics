@@ -42,11 +42,11 @@ public class WorkspaceServiceImpl implements WorkspaceService {
      */
     public BusinessDataVO getBusinessData(LocalDateTime begin, LocalDateTime end) {
         /**
-         * 营业额：当日已完成订单的总金额
-         * 有效订单：当日已完成订单的数量
-         * 订单完成率：有效订单数 / 总订单数
-         * 平均客单价：营业额 / 有效订单数
-         * 新增用户：当日新增用户的数量
+         * 营业额: 当日已完成订单的总金额
+         * 有效订单: 当日已完成订单的数量
+         * 订单完成率: 有效订单数 / 总订单数
+         * 平均客单价: 营业额 / 有效订单数
+         * 新增用户: 当日新增用户的数量
          */
 
         Map map = new HashMap();

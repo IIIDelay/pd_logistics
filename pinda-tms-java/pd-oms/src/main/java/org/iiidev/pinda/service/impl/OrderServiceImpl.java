@@ -172,7 +172,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         session.destroy();
 
         if (addressCheckResult.isPostCodeResult()) {
-            System.out.println("规则匹配成功,订单价格为：" + addressCheckResult.getResult());
+            System.out.println("规则匹配成功,订单价格为: " + addressCheckResult.getResult());
             orderDTO.setAmount(new BigDecimal(addressCheckResult.getResult()));
 
             Map map = new HashMap();

@@ -42,7 +42,7 @@ public abstract class BaseMapper {
             try {
                 connection.close();
             } catch (SQLException e) {
-                log.error("关闭连接异常：", e);
+                log.error("关闭连接异常: ", e);
             }
         }
         return null;
@@ -71,7 +71,7 @@ public abstract class BaseMapper {
             try {
                 connection.close();
             } catch (SQLException e) {
-                log.error("关闭连接异常：", e);
+                log.error("关闭连接异常: ", e);
             }
         }
         return null;

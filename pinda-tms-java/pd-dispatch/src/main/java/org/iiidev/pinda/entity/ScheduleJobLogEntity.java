@@ -44,7 +44,7 @@ public class ScheduleJobLogEntity implements Serializable {
      */
     private String params;
     /**
-     * 任务状态    0：失败    1：成功
+     * 任务状态    0: 失败    1: 成功
      */
     private Integer status;
     /**
@@ -52,7 +52,7 @@ public class ScheduleJobLogEntity implements Serializable {
      */
     private String error;
     /**
-     * 耗时(单位：毫秒)
+     * 耗时(单位: 毫秒)
      */
     private Integer times;
     /**

@@ -82,7 +82,7 @@ public class OrderVo implements Serializable {
     @JsonFormat(shape =JsonFormat.Shape.STRING,pattern ="yyyy-MM-dd HH:mm:ss",timezone ="GMT+8")
     private LocalDateTime estimatedArrivalTime;
 
-    @ApiModelProperty(value = "距离，单位：公里")
+    @ApiModelProperty(value = "距离，单位: 公里")
     private BigDecimal distance;
 
     @ApiModelProperty(value = "订单状态: 23000为待取件,23001为已取件，23002为网点自寄，" +

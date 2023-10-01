@@ -36,7 +36,7 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
 
     /**
      * 所有的继承了Entity、SuperEntity的实体，在insert时，
-     * id： 会通过IdGenerate生成唯一ID
+     * id:  会通过IdGenerate生成唯一ID
      * createUser, updateUser: 自动赋予 当前线程上的登录人id
      * createTime, updateTime: 自动赋予 服务器的当前时间
      *

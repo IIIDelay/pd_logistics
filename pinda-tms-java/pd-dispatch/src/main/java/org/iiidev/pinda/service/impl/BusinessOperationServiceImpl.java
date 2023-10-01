@@ -58,7 +58,7 @@ public class BusinessOperationServiceImpl implements IBusinessOperationService {
         orderLineSimpleDTOS.forEach((orderLineSimpleDTO) -> {
             CacheLineDetailEntity cacheLineDetail = orderLineSimpleDTO.getCacheLineDetailEntity();
             List<OrderClassifyGroupDTO> orderClassifys = orderLineSimpleDTO.getOrderClassifyGroupDTOS();
-            log.info("当前线路：{} ,分组订单：{}", cacheLineDetail, orderClassifys);
+            log.info("当前线路: {} ,分组订单: {}", cacheLineDetail, orderClassifys);
             List<String> transportOrderIds = new ArrayList<>();
             orderClassifys.forEach(orderClassify -> {
                 if (orderClassify.isNew()) {
@@ -112,7 +112,7 @@ public class BusinessOperationServiceImpl implements IBusinessOperationService {
             TripsTruckDriverDTO tripsTruckDriver = orderLineTripsTruckDriverDTO.getTripsTruckDriverDTO();
 
             TransportTripsDto transportTrips = transportTripsFeign.fineById(tripsTruckDriver.getTripsId());
-            log.info("查询线路信息：{}", transportTrips);
+            log.info("查询线路信息: {}", transportTrips);
             String[] departures = transportTrips.getDepartureTime().split(":");
             LocalDateTime departureDate = LocalDateTime.now().withHour(Integer.parseInt(departures[0])).withMinute(Integer.parseInt(departures[1])).withSecond(00);
 

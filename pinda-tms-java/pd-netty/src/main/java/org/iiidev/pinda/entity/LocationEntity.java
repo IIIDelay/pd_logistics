@@ -38,7 +38,7 @@ public class LocationEntity {
     /**
      * 类型
      */
-    @ApiModelProperty("类型，车辆：truck,快递员：courier")
+    @ApiModelProperty("类型，车辆: truck,快递员: courier")
     private String type;
 
     /**
@@ -56,7 +56,7 @@ public class LocationEntity {
     /**
      * 当前时间
      */
-    @ApiModelProperty("当前时间 格式：yyyyMMddHHmmss")
+    @ApiModelProperty("当前时间 格式: yyyyMMddHHmmss")
     private String currentTime;
 
     @ApiModelProperty("所属车队")

@@ -20,7 +20,7 @@ public class AsyncTaskConfig {
         executor.setMaxPoolSize(8);
         executor.setQueueCapacity(1000);
         executor.setThreadNamePrefix("async-core-");
-        // CALLER_RUNS：不在新线程中执行任务，而是有调用者所在的线程来执行
+        // CALLER_RUNS: 不在新线程中执行任务，而是有调用者所在的线程来执行
         executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         executor.initialize();
         return executor;

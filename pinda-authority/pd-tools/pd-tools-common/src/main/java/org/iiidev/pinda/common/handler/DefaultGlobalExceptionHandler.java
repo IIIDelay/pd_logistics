@@ -47,7 +47,7 @@ public abstract class DefaultGlobalExceptionHandler {
         log.error("HttpMessageNotReadableException:", ex);
         String message = ex.getMessage();
         if (StrUtil.containsAny(message, "Could not read document:")) {
-            String msg = String.format("无法正确的解析json类型的参数：%s", StrUtil.subBetween(message, "Could not read document:", " at "));
+            String msg = String.format("无法正确的解析json类型的参数: %s", StrUtil.subBetween(message, "Could not read document:", " at "));
             return Result.result(ExceptionCode.PARAM_EX.getCode(), StrPool.EMPTY, msg).setPath(request.getRequestURI());
         }
         return Result.result(ExceptionCode.PARAM_EX.getCode(), StrPool.EMPTY, ExceptionCode.PARAM_EX.getMsg()).setPath(request.getRequestURI());
@@ -78,9 +78,9 @@ public abstract class DefaultGlobalExceptionHandler {
     public Result methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex, HttpServletRequest request) {
         log.error("MethodArgumentTypeMismatchException:", ex);
         MethodArgumentTypeMismatchException eee = (MethodArgumentTypeMismatchException) ex;
-        StringBuilder msg = new StringBuilder("参数：[").append(eee.getName())
-                .append("]的传入值：[").append(eee.getValue())
-                .append("]与预期的字段类型：[").append(eee.getRequiredType().getName()).append("]不匹配");
+        StringBuilder msg = new StringBuilder("参数: [").append(eee.getName())
+                .append("]的传入值: [").append(eee.getValue())
+                .append("]与预期的字段类型: [").append(eee.getRequiredType().getName()).append("]不匹配");
         return Result.result(ExceptionCode.PARAM_EX.getCode(), StrPool.EMPTY, msg.toString()).setPath(request.getRequestURI());
     }
 

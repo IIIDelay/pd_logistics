@@ -5,12 +5,12 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 
 /**
- * <p>名称：IdWorker.java</p>
- * <p>描述：分布式自增长ID</p>
+ * <p>名称: IdWorker.java</p>
+ * <p>描述: 分布式自增长ID</p>
  * <pre>
  *     Twitter的 Snowflake　JAVA实现方案
  * </pre>
- * 核心代码为其IdWorker这个类实现，其原理结构如下，我分别用一个0表示一位，用—分割开部分的作用：
+ * 核心代码为其IdWorker这个类实现，其原理结构如下，我分别用一个0表示一位，用—分割开部分的作用: 
  * 1||0---0000000000 0000000000 0000000000 0000000000 0 --- 00000 ---00000 ---000000000000
  * 在上面的字符串中，第一位为未使用（实际上也可作为long的符号位），接下来的41位为毫秒级时间，
  * 然后5位datacenter标识位，5位机器ID（并不算标识符，实际是为线程标识），

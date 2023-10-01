@@ -13,10 +13,10 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 /**
- * 网关：
+ * 网关: 
  * 获取token，并解析，然后将所有的用户、应用信息封装到请求头
  * <p>
- * 拦截器：
+ * 拦截器: 
  * 解析请求头数据， 将用户信息、应用信息封装到BaseContextHandler
  * 考虑请求来源是否网关（ip等）
  * <p>

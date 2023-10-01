@@ -165,11 +165,11 @@ public class MailingController {
     @ApiOperation("预估总价")
     @PostMapping("totalPrice")
     public RespResult totalPrice(@RequestBody MailingSaveDTO entity) {
-        log.info("预估总价：{}", entity);
+        log.info("预估总价: {}", entity);
         OrderDTO orderAddDto = buildOrderAndPrice(entity);
-        log.info("结果：{}", orderAddDto);
+        log.info("结果: {}", orderAddDto);
         RespResult respResult = RespResult.ok().put("amount", orderAddDto.getAmount().toString());
-        log.info("返回结果：{}", respResult);
+        log.info("返回结果: {}", respResult);
         return respResult;
     }
 
@@ -182,14 +182,14 @@ public class MailingController {
     @ApiOperation("下单")
     @PostMapping("")
     public RespResult save(@RequestBody MailingSaveDTO entity) {
-        log.info("下单：{}", entity);
+        log.info("下单: {}", entity);
         //获取userid
         String userId = RequestContext.getUserId();
 
         // 获取地址详细信息
         OrderDTO orderDTO = buildOrderAndPrice(entity);
         orderDTO.setMemberId(userId);
-        log.info("构建订单信息：{}", orderDTO);
+        log.info("构建订单信息: {}", orderDTO);
 
         // 根据下单发货地址调用百度坐标计算分配的网点
         RespResult respResult = getAgencyId(orderDTO);
@@ -502,12 +502,12 @@ public class MailingController {
     @ApiOperation("修改订单")
     @PutMapping("/{id}")
     public RespResult update(@PathVariable("id") String id, @RequestBody MailingSaveDTO entity) {
-        log.info("修改订单 id:{} params：{}", id, entity);
+        log.info("修改订单 id:{} params: {}", id, entity);
         //获取userid
         String userId = RequestContext.getUserId();
 
         OrderDTO order = orderFeign.findById(id);
-        log.info("原订单 id:{} respResult：{}", id, order);
+        log.info("原订单 id:{} respResult: {}", id, order);
         String oldSenderCountId = order.getSenderCountyId();
         String oldSendAdress = order.getSenderAddress();
         // 获取地址详细信息
@@ -515,16 +515,16 @@ public class MailingController {
         orderDTO.setMemberId(userId);
         orderDTO.setCreateTime(LocalDateTime.now());
         orderDTO = orderFeign.updateById(order.getId(), orderDTO);
-        log.info("新订单 id:{} params：{}", id, orderDTO);
+        log.info("新订单 id:{} params: {}", id, orderDTO);
 
         if (orderDTO.getId() != null) {
             List<OrderCargoDto> cargoDtos = cargoFeign.findAll(null, orderDTO.getId());
-            log.info("原订单附加信息 id:{} respResult：{}", id, cargoDtos);
+            log.info("原订单附加信息 id:{} respResult: {}", id, cargoDtos);
             for (OrderCargoDto item : cargoDtos) {
                 OrderCargoDto cargoDto = buildOrderCargo(entity);
                 cargoDto.setOrderId(orderDTO.getId());
                 OrderCargoDto resultCargoDto = cargoFeign.update(item.getId(), cargoDto);
-                log.info("原订单附加信息修改 id:{} params：{} respResult:{}", id, cargoDto, resultCargoDto);
+                log.info("原订单附加信息修改 id:{} params: {} respResult:{}", id, cargoDto, resultCargoDto);
             }
         }
 
@@ -603,7 +603,7 @@ public class MailingController {
                 String[] pickupTimes = entity.getPickUpTime().split("-");
                 String[] pickupTimeStrs = pickupTimes[1].split(":");
                 LocalDateTime pickupDateTime = LocalDateTime.now().withHour(Integer.parseInt(pickupTimeStrs[0])).withMinute(Integer.parseInt(pickupTimeStrs[1])).withSecond(00);
-                log.info("预计取件时间：{}  {}", pickupDateTime, LocalDateTime.now());
+                log.info("预计取件时间: {}  {}", pickupDateTime, LocalDateTime.now());
                 pickupDispatchTaskDTO.setEstimatedStartTime(LocalDateTime.now());
                 pickupDispatchTaskDTO.setEstimatedEndTime(DateUtils.getUTCTime(pickupDateTime));
                 if (StringUtils.isNotBlank(courierId)) {
@@ -640,7 +640,7 @@ public class MailingController {
             }
 
             pickupDispatchTaskFeign.updateById(taskPickupDispatchDTO.getId(), pickupDispatchTaskDTO);
-            log.info("修改取件任务信息：{} , {}", taskPickupDispatchDTO.getId(), pickupDispatchTaskDTO);
+            log.info("修改取件任务信息: {} , {}", taskPickupDispatchDTO.getId(), pickupDispatchTaskDTO);
         }
 
         return RespResult.ok();
@@ -673,10 +673,10 @@ public class MailingController {
     @ApiOperation("取消")
     @PutMapping("/cancel/{id}")
     public RespResult cancel(@PathVariable("id") String id) {
-        log.info("客户取消订单：{}", id);
+        log.info("客户取消订单: {}", id);
         // 增加分布式锁，防止用户在揽收时取消订单，造成脏数据
         try {
-            log.info("加锁成功：{}", id);
+            log.info("加锁成功: {}", id);
             // 获取地址详细信息
             OrderDTO orderDTO = new OrderDTO();
             orderDTO.setStatus(OrderStatus.CANCELLED.getCode());
@@ -842,7 +842,7 @@ public class MailingController {
         TaskPickupDispatchDTO queryDTO = new TaskPickupDispatchDTO();
         queryDTO.setOrderId(id);
         List<TaskPickupDispatchDTO> pickupDispatchTasks = pickupDispatchTaskFeign.findAll(queryDTO);
-        log.info("根据订单id查询取件任务：{}", pickupDispatchTasks);
+        log.info("根据订单id查询取件任务: {}", pickupDispatchTasks);
         if (orderDTO.getStatus().equals(OrderStatus.CANCELLED.getCode())) {
             pickupDispatchTasks = pickupDispatchTasks.stream().filter(item -> (PickupDispatchTaskStatus.CANCELLED.getCode().equals(item.getStatus()))).collect(Collectors.toList());
         } else {
@@ -850,7 +850,7 @@ public class MailingController {
         }
         Map<Integer, TaskPickupDispatchDTO> taskPickupDispatchDTOMap = pickupDispatchTasks.stream().
                 collect(Collectors.toMap(TaskPickupDispatchDTO::getTaskType, taskPickupDispatchDTO -> taskPickupDispatchDTO, (v1, v2) -> v1));
-        log.info("解析取件任务：{}", taskPickupDispatchDTOMap);
+        log.info("解析取件任务: {}", taskPickupDispatchDTOMap);
         //预计上门取件时间
         TaskPickupDispatchDTO taskPickupDispatchPullDTO = taskPickupDispatchDTOMap.get(PickupDispatchTaskType.PICKUP.getCode());//iPickupDispatchTaskClient.findByOrderIdAndTaskType(id, 1);
         //派送时间
@@ -903,7 +903,7 @@ public class MailingController {
         queryDTO.setOrderId(id);
 
         List<TaskPickupDispatchDTO> pickupDispatchTasks = pickupDispatchTaskFeign.findAll(queryDTO);
-        log.info("根据订单id查询取件任务：{}", pickupDispatchTasks);
+        log.info("根据订单id查询取件任务: {}", pickupDispatchTasks);
         if (orderDTO.getStatus().equals(OrderStatus.CANCELLED.getCode())) {
             pickupDispatchTasks = pickupDispatchTasks.stream().filter(item -> (PickupDispatchTaskStatus.CANCELLED.getCode().equals(item.getStatus()))).collect(Collectors.toList());
         } else {
@@ -911,7 +911,7 @@ public class MailingController {
         }
         Map<Integer, TaskPickupDispatchDTO> taskPickupDispatchDTOMap = pickupDispatchTasks.stream().
                 collect(Collectors.toMap(TaskPickupDispatchDTO::getTaskType, taskPickupDispatchDTO -> taskPickupDispatchDTO, (v1, v2) -> v1));
-        log.info("解析取件任务：{}", taskPickupDispatchDTOMap);
+        log.info("解析取件任务: {}", taskPickupDispatchDTOMap);
         //取件任务
         TaskPickupDispatchDTO taskPickupDispatchPullDTO = taskPickupDispatchDTOMap.get(1);
         //派送任务
@@ -1010,7 +1010,7 @@ public class MailingController {
                     User user = userResult.getData();
                     String mobile = user.getMobile();
                     String name = user.getName();
-                    builder.msg("快件交给" + name + "，正在派送中（联系电话：" + mobile + "）");
+                    builder.msg("快件交给" + name + "，正在派送中（联系电话: " + mobile + "）");
                 }
                 result.add(builder.build());
             }
@@ -1038,7 +1038,7 @@ public class MailingController {
         }
         Collections.reverse(result);
         result.forEach(item -> {
-            log.info("路由信息：{}", item);
+            log.info("路由信息: {}", item);
         });
         return RespResult.ok().put("data", result);
     }

@@ -57,7 +57,7 @@ public class UserCenterController {
     @ApiImplicitParams({
         @ApiImplicitParam(name = "page", value = "页码", required = true, example = "1"),
         @ApiImplicitParam(name = "pageSize", value = "页尺寸", required = true, example = "10"),
-        @ApiImplicitParam(name = "messageType", value = "消息类型：notice为通知,bulletin为公告", example = "notice")
+        @ApiImplicitParam(name = "messageType", value = "消息类型: notice为通知,bulletin为公告", example = "notice")
     })
     @GetMapping("/message")
     public PageResponse<MessageVo> info(@RequestParam(name = "page") Integer page, @RequestParam(name = "pageSize") Integer pageSize, @RequestParam(value = "messageType", required = false) String messageType) {

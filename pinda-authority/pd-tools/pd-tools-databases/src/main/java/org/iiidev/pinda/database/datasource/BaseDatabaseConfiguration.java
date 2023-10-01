@@ -145,7 +145,7 @@ public abstract class BaseDatabaseConfiguration implements InitializingBean {
                         if (clazz.getAnnotation(aop) == null) {
                             continue;
                         }
-                        log.debug("允许带事务的类为：{}", clazz);
+                        log.debug("允许带事务的类为: {}", clazz);
                         return true;
                     }
                     return false;

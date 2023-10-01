@@ -77,7 +77,7 @@ j2cache:
     config_section: lettuce
   sync_ttl_to_redis: true
   default_cache_null_object: false
-  serialization: fst  #序列化方式：fst、kyro、Java
+  serialization: fst  #序列化方式: fst、kyro、Java
 caffeine:
   properties: /caffeine.properties   # 这个配置文件需要放在项目中
 lettuce:

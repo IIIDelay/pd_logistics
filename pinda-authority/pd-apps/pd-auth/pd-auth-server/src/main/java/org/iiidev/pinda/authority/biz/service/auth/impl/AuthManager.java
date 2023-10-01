@@ -54,7 +54,7 @@ public class AuthManager {
             .userId(user.getId())
             .build();
         List<Resource> userResource = resourceService.findVisibleResource(resourceQueryDTO);
-        log.info("当前用户拥有的资源权限为：{}", JSON.toJSONString(userResource));
+        log.info("当前用户拥有的资源权限为: {}", JSON.toJSONString(userResource));
 
         List<String> permissionList = null;
         if (userResource != null && userResource.size() > 0) {

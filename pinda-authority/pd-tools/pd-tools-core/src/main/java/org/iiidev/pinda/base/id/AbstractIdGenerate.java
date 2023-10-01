@@ -52,7 +52,7 @@ public abstract class AbstractIdGenerate<T extends Serializable> implements IdGe
 
         /*
          * 序列号自增1和获取
-         * 注意：先增加再取值。
+         * 注意: 先增加再取值。
          */
         int orderNo = this.orderNo.incrementAndGet();
         do {
@@ -62,7 +62,7 @@ public abstract class AbstractIdGenerate<T extends Serializable> implements IdGe
                     //这里使用cas操作，所以不需要加锁    1、操作失败了   则表示别的线程已经更改了数据，则直接进行自增并获取则可以了
                     orderNo = 0;
                 } else {
-                    //注意：先增加再取值。
+                    //注意: 先增加再取值。
                     orderNo = this.orderNo.incrementAndGet();
                 }
             }

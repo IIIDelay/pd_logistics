@@ -173,7 +173,7 @@ public class CargoController {
                     .map(item -> new CargoTranTaskDTO(item, taskTransportMap, agencyMap))
                     .collect(Collectors.toList());
 
-            log.info("待提货列表,转换后的数据：{}", cargoTranTaskDTOS);
+            log.info("待提货列表,转换后的数据: {}", cargoTranTaskDTOS);
             if (CollectionUtils.isEmpty(cargoTranTaskDTOS)) {
                 return RespResult.ok().put("data", PageResponse.<CargoTranTaskDTO>builder()
                     .counts(0L).page(page).pagesize(pagesize).pages(0L)
@@ -236,7 +236,7 @@ public class CargoController {
             .status(item.getStatus())
             .id(item.getId())
             .build()).collect(Collectors.toList());
-        log.info("历史列表 返回：{}", cargoTranTaskDTOS);
+        log.info("历史列表 返回: {}", cargoTranTaskDTOS);
         return RespResult.ok().put("data", PageResponse.<CargoTranTaskDTO>builder()
             .counts(result.getCounts()).page(page).pagesize(pagesize).pages(result.getPages())
             .items(cargoTranTaskDTOS).build());
@@ -364,27 +364,27 @@ public class CargoController {
     @ResponseBody
     @GetMapping("orders")
     public RespResult orders(String keyword, String id) {
-        log.info("获取货物明细：{} {}", keyword, id);
+        log.info("获取货物明细: {} {}", keyword, id);
         if (StringUtils.isBlank(id)) {
             return RespResult.ok().put("data", PageResponse.<String>builder()
                 .counts(0L).page(0).pagesize(0).pages(0L).build());
         }
 
         DriverJobDTO driverJob = driverJobFeign.findById(id);
-        log.info("获取货物明细 司机任务： {}", driverJob);
+        log.info("获取货物明细 司机任务:  {}", driverJob);
         if (driverJob == null) {
             return RespResult.ok().put("data", PageResponse.<String>builder()
                 .counts(0L).page(0).pagesize(0).pages(0L).build());
         }
         TaskTransportDTO transportTaskDTO = transportTaskFeign.findById(driverJob.getTaskTransportId());
         List<String> result = transportTaskDTO.getTransportOrderIds();
-        log.info("获取货物明细 运输任务： {}", transportTaskDTO);
+        log.info("获取货物明细 运输任务:  {}", transportTaskDTO);
 
         if (StringUtils.isNotBlank(keyword)) {
             result = result.stream().filter(item -> item.contains(keyword)).collect(Collectors.toList());
         }
 
-        log.info("获取货物明细 最终返回： {}", result);
+        log.info("获取货物明细 最终返回:  {}", result);
 
         return RespResult.ok().put("data", PageResponse.<String>builder()
             .counts(Long.valueOf(transportTaskDTO.getTransportOrderCount()))
@@ -500,7 +500,7 @@ public class CargoController {
 
         transportTaskFeign.updateById(taskTransportId, taskTransportUpdate);
 
-        log.info("到达机构：{}.运输任务更新状态：{}", endAgencyId, taskTransportUpdate);
+        log.info("到达机构: {}.运输任务更新状态: {}", endAgencyId, taskTransportUpdate);
 
         List<String> transportOrderIds = taskTransport.getTransportOrderIds();
 
@@ -508,7 +508,7 @@ public class CargoController {
         List<AgencyScopeDto> agencyScope = agencyScopeFeign.findAllAgencyScope(null, endAgencyId, null, null);
         // 当前网点业务范围
         List<String> areaIds = agencyScope.stream().map(item -> item.getAreaId()).collect(Collectors.toList());
-        log.info("当点机构：{} 业务范围：{}", endAgencyId, areaIds);
+        log.info("当点机构: {} 业务范围: {}", endAgencyId, areaIds);
         // 修改订单
         for (String transportOrderId : transportOrderIds) {
             // 修改运单
@@ -536,7 +536,7 @@ public class CargoController {
             }
             // if (areaIds.contains(orderDTO.getReceiverCountyId())) {
             if (isFinal) {
-                log.info("订单到达最终网点：{},{}", transportOrderId, orderId);
+                log.info("订单到达最终网点: {},{}", transportOrderId, orderId);
                 // 到达目的地
                 transportOrderDTO.setStatus(TransportOrderStatus.ARRIVED_END.getCode());
                 orderDTOUpdate.setStatus(OrderStatus.OUTLETS_EX_WAREHOUSE.getCode());
@@ -569,7 +569,7 @@ public class CargoController {
                 pickupDispatchTaskDTO.setEstimatedStartTime(LocalDateTime.now());
                 pickupDispatchTaskDTO.setEstimatedEndTime(LocalDateTime.now().plusHours(1));
                 pickupDispatchTaskFeign.save(pickupDispatchTaskDTO);
-                log.info("保存快递员派件任务信息：{}", pickupDispatchTaskDTO);
+                log.info("保存快递员派件任务信息: {}", pickupDispatchTaskDTO);
             } else {
                 transportOrderDTO.setStatus(TransportOrderStatus.ARRIVED.getCode());
                 orderDTOUpdate.setStatus(OrderStatus.IN_TRANSIT.getCode());

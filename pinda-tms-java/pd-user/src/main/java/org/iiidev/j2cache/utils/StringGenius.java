@@ -9,7 +9,7 @@ public class StringGenius {
      * 是否是整数
      *
      * @param text 文本
-     * @return true：是；false：否
+     * @return true: 是；false: 否
      */
     public static boolean isInteger(String text) {
         if (!StringUtils.hasText(text)) {

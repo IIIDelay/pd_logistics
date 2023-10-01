@@ -41,7 +41,7 @@ public abstract class AbstractCacheAnnotationProcessor {
         try {
             annotationInfo.setKey(generateKey(proceedingJoinPoint, annotationInfo.getAnnotation()));
         } catch (IllegalAccessException e) {
-            throw new IllegalArgumentException("生成键出错：", e);
+            throw new IllegalArgumentException("生成键出错: ", e);
         }
         return annotationInfo;
     }

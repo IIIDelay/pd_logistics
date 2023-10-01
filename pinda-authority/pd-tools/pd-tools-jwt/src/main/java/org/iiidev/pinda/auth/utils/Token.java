@@ -22,7 +22,7 @@ public class Token implements Serializable {
     @ApiModelProperty(value = "token")
     private String token;
     /**
-     * 有效时间：单位：秒
+     * 有效时间: 单位: 秒
      */
     @ApiModelProperty(value = "有效期")
     private Integer expire;

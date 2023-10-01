@@ -14,7 +14,7 @@ public class RequestContext {
         ServletRequestAttributes servletRequestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = servletRequestAttributes.getRequest();
         String userid = request.getHeader(USER_ID);
-        log.info("获取上下文用户id：{}", userid);
+        log.info("获取上下文用户id: {}", userid);
         return userid;
     }
 }

@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 /**
- * 描述：日期工具类
+ * 描述: 日期工具类
  */
 @Slf4j
 public class DateUtils {
@@ -250,7 +250,7 @@ public class DateUtils {
 
     /**
      * 获取指定日期的开始时间
-     * 如：00:00:00
+     * 如: 00:00:00
      *
      * @param value
      * @return
@@ -261,7 +261,7 @@ public class DateUtils {
 
     /**
      * 获取指定日期的开始时间
-     * 如：00:00:00
+     * 如: 00:00:00
      *
      * @param value
      * @return
@@ -272,7 +272,7 @@ public class DateUtils {
 
     /**
      * 获取指定日期的开始时间
-     * 如：00:00:00
+     * 如: 00:00:00
      *
      * @param value
      * @return
@@ -284,7 +284,7 @@ public class DateUtils {
 
     /**
      * 获取指定日期的结束时间
-     * 如：23:59:59
+     * 如: 23:59:59
      *
      * @param value
      * @return
@@ -296,7 +296,7 @@ public class DateUtils {
 
     /**
      * 获取指定日期的结束时间
-     * 如：23:59:59
+     * 如: 23:59:59
      *
      * @param value
      * @return
@@ -307,7 +307,7 @@ public class DateUtils {
 
     /**
      * 获取指定日期的结束时间
-     * 如：23:59:59
+     * 如: 23:59:59
      *
      * @param value
      * @return

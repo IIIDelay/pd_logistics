@@ -22,10 +22,10 @@ public class GoodsTypeVo implements Serializable {
     @ApiModelProperty(value = "货物类型名称")
     private String name;
 
-    @ApiModelProperty(value = "默认重量，单位：千克")
+    @ApiModelProperty(value = "默认重量，单位: 千克")
     private BigDecimal defaultWeight;
 
-    @ApiModelProperty(value = "默认体积，单位：方")
+    @ApiModelProperty(value = "默认体积，单位: 方")
     private BigDecimal defaultVolume;
 
     @ApiModelProperty(value = "说明")

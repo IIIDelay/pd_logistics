@@ -70,8 +70,8 @@ const httpServer = (opts) => {
   // http默认配置
   const method = opts.method.toUpperCase()
   // baseURL
-  // 开发环境： /api                 // 开发环境在 vue.config.js 中有 devServer.proxy 代理
-  // 生产环境： http://IP:PORT/api   // 生产环境中 代理失效， 故需要配置绝对路径
+  // 开发环境:  /api                 // 开发环境在 vue.config.js 中有 devServer.proxy 代理
+  // 生产环境:  http://IP:PORT/api   // 生产环境中 代理失效， 故需要配置绝对路径
   const httpDefaultOpts = {
     method,
     baseURL: process.env.VUE_APP_DEV_REQUEST_DOMAIN_PREFIX + process.env.VUE_APP_BASE_API,

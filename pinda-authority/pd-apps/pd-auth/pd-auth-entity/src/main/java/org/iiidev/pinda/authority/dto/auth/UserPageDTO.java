@@ -74,7 +74,7 @@ public class UserPageDTO {
     private String photo;
     /**
      * 工作描述
-     * 比如：  市长、管理员、局长等等   用于登陆展示
+     * 比如:   市长、管理员、局长等等   用于登陆展示
      */
     @ApiModelProperty(value = "工作描述")
     private String workDescribe;

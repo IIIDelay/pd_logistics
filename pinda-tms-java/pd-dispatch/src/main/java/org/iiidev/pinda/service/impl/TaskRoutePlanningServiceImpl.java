@@ -60,7 +60,7 @@ public class TaskRoutePlanningServiceImpl implements ITaskRoutePlanningService {
             AnalysisRoutePlanningDTO analysisRoutePlanningDTO = new AnalysisRoutePlanningDTO(routePlanningDTO, item.getStartAgencyId(), item.getEndAgencyId()).build();
             Map<CacheLineEntity, List<CacheLineDetailEntity>> map = analysisRoutePlanningDTO.get();
             log.info("CacheLine:{}", JSON.toJSONString(map));
-            log.info("线路分析完成：{}", map);
+            log.info("线路分析完成: {}", map);
             // 与数据库中的数据和并
             map = mergeLine(map);
             // 选举出当前默认线路的第一阶段线路
@@ -93,7 +93,7 @@ public class TaskRoutePlanningServiceImpl implements ITaskRoutePlanningService {
     /**
      * 构建精简订单分类模型
      * 根据不同线路的第一个中转点在此分配
-     * 例：北京到上海  北京到深圳 两个种类订单，第一个中转点都会经过沿途的天津转运中心，那么这两个种类的订单就合成一类
+     * 例: 北京到上海  北京到深圳 两个种类订单，第一个中转点都会经过沿途的天津转运中心，那么这两个种类的订单就合成一类
      *
      * @param orderLineDTOS
      * @return
@@ -131,7 +131,7 @@ public class TaskRoutePlanningServiceImpl implements ITaskRoutePlanningService {
      * @return
      */
     private CacheLineDetailEntity findBeforeLine(String id, String agencyId) {
-        log.info("查找之前使用的线路，分组id：{},机构id：{}", id, agencyId);
+        log.info("查找之前使用的线路，分组id: {},机构id: {}", id, agencyId);
         LambdaQueryWrapper<CacheLineUseEntity> wrapper = new LambdaQueryWrapper<>();
         wrapper.eq(CacheLineUseEntity::getOrderClassifyId, id);
         CacheLineUseEntity cacheLineUseEntity = cacheLineUseService.getOne(wrapper);
@@ -271,7 +271,7 @@ public class TaskRoutePlanningServiceImpl implements ITaskRoutePlanningService {
         RoutePlanningDTO routePlanningDTO = new RoutePlanningDTO(++depth);
         List<String> feasibleIds = new ArrayList<>();
         List<TransportLineDto> transportLineDtos = findDirectLine(start, end, agencyId);
-        log.info("【{}】查找直达路线【{}】->【{}】：{}条 深度:{}", agencyId, start, end, transportLineDtos.size(), depth);
+        log.info("【{}】查找直达路线【{}】->【{}】: {}条 深度:{}", agencyId, start, end, transportLineDtos.size(), depth);
         if (transportLineDtos != null && transportLineDtos.size() > 0) {
             routePlanningDTO.addFeasible(transportLineDtos);
             feasibleIds.addAll(transportLineDtos.stream().map(item -> item.getId()).collect(Collectors.toList()));
@@ -283,7 +283,7 @@ public class TaskRoutePlanningServiceImpl implements ITaskRoutePlanningService {
         transportLineDtos = transportLineDtos.stream()
                 .filter(item -> ((!feasibleIds.contains(item.getId())) && (!superiorStarts.contains(item.getEndAgencyId()))))
                 .collect(Collectors.toList());
-        log.info("【{}】查找起始机构路线【{}】->【{}】：{}条 深度:{}", agencyId, start, end, transportLineDtos.size(), depth);
+        log.info("【{}】查找起始机构路线【{}】->【{}】: {}条 深度:{}", agencyId, start, end, transportLineDtos.size(), depth);
         if (transportLineDtos.size() > 0) {
             routePlanningDTO.add(transportLineDtos);
             for (TransportLineDto transportLineDto : transportLineDtos) {

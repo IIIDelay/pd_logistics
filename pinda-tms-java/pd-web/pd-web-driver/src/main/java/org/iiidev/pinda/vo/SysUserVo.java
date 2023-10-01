@@ -33,7 +33,7 @@ public class SysUserVo implements Serializable {
     private String stationName;
     @ApiModelProperty(value = "头像")
     private String avatar;
-    @ApiModelProperty(value = "账号状态 0：禁用   1：正常")
+    @ApiModelProperty(value = "账号状态 0: 禁用   1: 正常")
     private Integer status;
     @ApiModelProperty(value = "创建者信息")
     private SysUserVo creator;

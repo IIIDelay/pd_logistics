@@ -54,7 +54,7 @@ export const readUserAgent = ua => {
   return data
 }
 
-// 格式化文件大小 单位：B、KB、MB、GB
+// 格式化文件大小 单位: B、KB、MB、GB
 const renderSize = value => {
   if (null == value || value == '') {
     return "0 B"

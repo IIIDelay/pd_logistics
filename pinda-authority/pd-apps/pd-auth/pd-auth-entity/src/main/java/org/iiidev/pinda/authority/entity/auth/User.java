@@ -110,7 +110,7 @@ public class User extends Entity<Long> {
 
     /**
      * 工作描述
-     * 比如：  市长、管理员、局长等等   用于登陆展示
+     * 比如:   市长、管理员、局长等等   用于登陆展示
      */
     @ApiModelProperty(value = "工作描述")
     @Length(max = 255, message = "工作描述长度不能超过255")

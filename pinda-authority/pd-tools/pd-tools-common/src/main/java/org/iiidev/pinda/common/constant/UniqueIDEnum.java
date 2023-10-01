@@ -23,7 +23,7 @@ public enum UniqueIDEnum {
 
     /**
      * 时间格式表达式
-     * 例如：yyyyMMdd
+     * 例如: yyyyMMdd
      */
     private String datePattern;
 

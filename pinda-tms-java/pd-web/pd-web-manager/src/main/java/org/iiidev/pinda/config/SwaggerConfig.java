@@ -13,7 +13,7 @@ import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
- * 地址：http://localhost:8186/pd-oms/swagger-ui.html
+ * 地址: http://localhost:8186/pd-oms/swagger-ui.html
  */
 @Configuration
 @EnableSwagger2

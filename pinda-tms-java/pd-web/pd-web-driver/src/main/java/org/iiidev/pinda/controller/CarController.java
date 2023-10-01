@@ -51,16 +51,16 @@ public class CarController {
     @ResponseBody
     @GetMapping("info")
     public RespResult info(String id) {
-        log.info("获取车辆信息：{}", id);
+        log.info("获取车辆信息: {}", id);
         TruckDto truckDto = truckFeign.fineById(id);
-        log.info("获取车辆信息：{}", truckDto);
+        log.info("获取车辆信息: {}", truckDto);
         TruckTypeDto truckTypeDto = truckTypeFeign.fineById(truckDto.getTruckTypeId());
-        log.info("获取车辆信息 车辆类型：{}", truckTypeDto);
+        log.info("获取车辆信息 车辆类型: {}", truckTypeDto);
 
         TruckLicenseDto truckLicenseDto = null;
         if (StringUtils.isNotEmpty(truckDto.getTruckLicenseId())) {
             truckLicenseDto = truckLicenseFeign.fineById(truckDto.getTruckLicenseId());
-            log.info("获取车辆信息 车辆行驶证信息：{}", truckLicenseDto);
+            log.info("获取车辆信息 车辆行驶证信息: {}", truckLicenseDto);
         }
 
         return RespResult.ok().put("data", CarInfoDTO.builder()

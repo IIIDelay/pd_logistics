@@ -86,7 +86,7 @@ public class HttpRequestUtil {
     }
 
     /**
-     * post访问，设置等待超时时长(单位：ms)
+     * post访问，设置等待超时时长(单位: ms)
      *
      * @param url
      * @param timeout
@@ -272,13 +272,13 @@ public class HttpRequestUtil {
             post.addHeader("Content-Type", "application/json");
             post.setEntity(s);
             HttpResponse res = httpclient.execute(post);
-            result = EntityUtils.toString(res.getEntity());// 返回json格式：
+            result = EntityUtils.toString(res.getEntity());// 返回json格式:
             logger.info("返回结果-->" + result);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         long end = System.currentTimeMillis();
-        logger.info(url + "vpn-server耗时：" + (end - begin) / 1000);
+        logger.info(url + "vpn-server耗时: " + (end - begin) / 1000);
         return result;
     }
 
@@ -295,13 +295,13 @@ public class HttpRequestUtil {
             post.addHeader("Content-Type", "application/json");
             post.setEntity(s);
             HttpResponse res = httpclient.execute(post);
-            result = EntityUtils.toString(res.getEntity());// 返回json格式：
+            result = EntityUtils.toString(res.getEntity());// 返回json格式:
             logger.info("返回结果-->" + result);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         long end = System.currentTimeMillis();
-        logger.info(url + "耗时：" + (end - begin) / 1000);
+        logger.info(url + "耗时: " + (end - begin) / 1000);
         return result;
     }
 
@@ -390,7 +390,7 @@ public class HttpRequestUtil {
 
     /**
      * 根据map对象元素构建get请求拼接参数
-     * 形如：a=v1&b=v2
+     * 形如: a=v1&b=v2
      *
      * @param params
      * @return 空则返回空串
@@ -409,7 +409,7 @@ public class HttpRequestUtil {
                                 .append(e.getValue() == null ? "" :
                                         URLEncoder.encode(e.getValue().toString(), StandardCharsets.UTF_8.name()));
                     } catch (UnsupportedEncodingException ex) {
-                        logger.error("构建参数编码错误：params: {}, error: {}", params, ex);
+                        logger.error("构建参数编码错误: params: {}, error: {}", params, ex);
                     }
                 });
         return urlParams.length() > 0 ? urlParams.substring(1) : "";

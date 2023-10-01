@@ -32,13 +32,13 @@ public class GoodsTypeDto implements Serializable {
     private String name;
 
     /**
-     * 默认重量，单位：千克
+     * 默认重量，单位: 千克
      */
     @ApiModelProperty("默认重量")
     private BigDecimal defaultWeight;
 
     /**
-     * 默认体积，单位：方
+     * 默认体积，单位: 方
      */
     @ApiModelProperty("默认体积")
     private BigDecimal defaultVolume;
@@ -55,9 +55,9 @@ public class GoodsTypeDto implements Serializable {
     private List<String> truckTypeIds;
 
     /**
-     * 状态 0：禁用 1：正常
+     * 状态 0: 禁用 1: 正常
      */
-    @ApiModelProperty("状态 0：禁用 1：正常")
+    @ApiModelProperty("状态 0: 禁用 1: 正常")
     @NotNull
     @Max(value = 1)
     @Min(value = 0)

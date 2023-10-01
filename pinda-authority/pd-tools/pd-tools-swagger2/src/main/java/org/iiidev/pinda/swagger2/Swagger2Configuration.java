@@ -11,9 +11,9 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * Swagger2 启动类
- * 启动条件：
+ * 启动条件:
  * 1，配置文件中pinda.swagger.enabled=true
- * 2，配置文件中不存在：pinda.swagger.enabled 值
+ * 2，配置文件中不存在: pinda.swagger.enabled 值
  *
  */
 @Configuration

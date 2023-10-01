@@ -29,17 +29,17 @@ import java.util.function.Function;
 public class ClientHolder implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
-    @Lazy // 重点：这里必须使用@Lazy
+    @Lazy // 重点: 这里必须使用@Lazy
     @Autowired
     private ResourceApi resourceApi;
 
-    @Async("taskExecutor") // 重点：这里必须在异步线程中执行，执行结果返回Future
+    @Async("taskExecutor") // 重点: 这里必须在异步线程中执行，执行结果返回Future
     public Future<Result<List<Resource>>> visible(ResourceQueryDTO resource) {
         Result<List<Resource>> list = resourceApi.visible(resource);
         return new AsyncResult<>(list);
     }
 
-    @Async("taskExecutor") // 重点：这里必须在异步线程中执行，执行结果返回Future
+    @Async("taskExecutor") // 重点: 这里必须在异步线程中执行，执行结果返回Future
     public <T, IN, EX extends Throwable>Future<T> returnGet(Function<ClientHolder,IN> apiFunc, FailableFunction<IN, T, EX> callFunc) {
         Assert.notNull(apiFunc, () -> BizException.wrap("input apiFunc must have value."));
         Assert.notNull(callFunc, () -> BizException.wrap("input callSupplier must have value."));

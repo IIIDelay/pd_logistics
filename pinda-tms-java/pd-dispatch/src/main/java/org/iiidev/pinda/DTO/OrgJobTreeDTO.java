@@ -20,7 +20,7 @@ public class OrgJobTreeDTO extends OrgTreeDTO {
      */
     private String cronExpression;
     /**
-     * 任务状态  0：暂停  1：正常
+     * 任务状态  0: 暂停  1: 正常
      */
     private Integer jobStatus;
     /**

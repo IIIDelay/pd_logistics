@@ -124,7 +124,7 @@ public class TaskOrderClassifyServiceImpl implements ITaskOrderClassifyService {
             } else {
                 log.info("中转订单，查询分组信息");
                 List<String> orderIds = item.getOrders().stream().map(order -> order.getId()).collect(Collectors.toList());
-                log.info("当前分组的订单id：{}", orderIds);
+                log.info("当前分组的订单id: {}", orderIds);
                 LambdaQueryWrapper<OrderClassifyOrderEntity> wrapper = new LambdaQueryWrapper<>();
                 wrapper.in(OrderClassifyOrderEntity::getOrderId, orderIds);
                 List<OrderClassifyOrderEntity> orderClassifyOrders = orderClassifyOrderService.list(wrapper);
@@ -152,7 +152,7 @@ public class TaskOrderClassifyServiceImpl implements ITaskOrderClassifyService {
         //订单当前所在机构
         orderSearchDTO.setCurrentAgencyId(agencyId);
         List<Order> orders = orderFeign.list(orderSearchDTO);
-        log.info("查询[运输中]状态订单：{} 条", orders.size());
+        log.info("查询[运输中]状态订单: {} 条", orders.size());
 
         OrderClassifyDTO.OrderClassifyDTOBuilder builder = OrderClassifyDTO.builder();
         builder.currentAgencyId(agencyId);
@@ -164,7 +164,7 @@ public class TaskOrderClassifyServiceImpl implements ITaskOrderClassifyService {
 
             return builder.build();
         }).collect(Collectors.toList());
-        log.info("订单分类：中转订单{}条", orderClassifyDTOS.size());
+        log.info("订单分类: 中转订单{}条", orderClassifyDTOS.size());
         return orderClassifyDTOS;
     }
 
@@ -252,7 +252,7 @@ public class TaskOrderClassifyServiceImpl implements ITaskOrderClassifyService {
         orderSearchDTO.setCurrentAgencyId(agencyId);
         //调用feign接口实现远程调用,查询当前机构下的新订单
         List<Order> orders = orderFeign.list(orderSearchDTO);
-        log.info("查询[网点入库]状态订单：{} 条", orders.size());
+        log.info("查询[网点入库]状态订单: {} 条", orders.size());
 
         OrderClassifyDTO.OrderClassifyDTOBuilder builder = OrderClassifyDTO.builder();
         builder.currentAgencyId(agencyId);
@@ -265,7 +265,7 @@ public class TaskOrderClassifyServiceImpl implements ITaskOrderClassifyService {
             builder.order(item);
             return builder.build();
         }).collect(Collectors.toList());
-        log.info("订单分类：首次发出订单{}条", orderClassifyDTOS.size());
+        log.info("订单分类: 首次发出订单{}条", orderClassifyDTOS.size());
         return orderClassifyDTOS;
     }
 

@@ -74,14 +74,14 @@ public class UserController {
 
         //  获取司机id  并放入参数
         String driverId = RequestContext.getUserId();
-        log.info("司机端-登录用户：{}", driverId);
+        log.info("司机端-登录用户: {}", driverId);
         // 基本信息
         Result<User> userResult = userApi.get(Long.valueOf(driverId));
         User user = userResult.getData();
-        log.info("司机端-登录用户：{}", user);
+        log.info("司机端-登录用户: {}", user);
         // 司机信息
         TruckDriverDto truckDriverDto = driverFeign.findOneDriver(driverId);
-        log.info("司机端-司机信息：{}", truckDriverDto);
+        log.info("司机端-司机信息: {}", truckDriverDto);
 
         // 司机任务信息
         String truckId = null;
@@ -91,17 +91,17 @@ public class UserController {
         driverJobDto.setStatus(DriverJobStatus.PROCESSING.getCode());
         driverJobDto.setDriverId(driverId);
         List<DriverJobDTO> driverJobDtos = driverJobFeign.findAll(driverJobDto);
-        log.info("司机端-在途任务：{}", driverJobDtos);
+        log.info("司机端-在途任务: {}", driverJobDtos);
         if (!CollectionUtils.isEmpty(driverJobDtos)) {
             driverJobDto = driverJobDtos.get(0);
             String taskTransportId = driverJobDto.getTaskTransportId();
             TaskTransportDTO transportTaskDto = transportTaskFeign.findById(taskTransportId);
-            log.info("司机端-在途任务详情：{}", transportTaskDto);
+            log.info("司机端-在途任务详情: {}", transportTaskDto);
             if (transportTaskDto != null) {
                 transportTaskId = transportTaskDto.getId();
                 truckId = transportTaskDto.getTruckId();
                 TruckDto truckDto = truckFeign.fineById(truckId);
-                log.info("司机端-车辆信息：{}", truckDto);
+                log.info("司机端-车辆信息: {}", truckDto);
                 licensePlate = truckDto.getLicensePlate();
             }
         }
@@ -113,7 +113,7 @@ public class UserController {
         if (StringUtils.isNotEmpty(truckDriverDto.getFleetId())) {
             // 车队信息
             fleetDto = fleetFeign.fineById(truckDriverDto.getFleetId());
-            log.info("司机端-车队信息：{}", fleetDto);
+            log.info("司机端-车队信息: {}", fleetDto);
             // 运转中心
             if (StringUtils.isNotEmpty(fleetDto.getAgencyId())) {
                 Result<Org> fleetOrgResult = orgApi.get(Long.valueOf(fleetDto.getAgencyId()));

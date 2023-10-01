@@ -31,7 +31,7 @@ public class Result<T> {
     public static final int OPERATION_EX_CODE = -10;
 
     /**
-     * 调用是否成功标识，0：成功，-1:系统繁忙，此时请开发者稍候再试 详情见[ExceptionCode]
+     * 调用是否成功标识，0: 成功，-1:系统繁忙，此时请开发者稍候再试 详情见[ExceptionCode]
      */
     @ApiModelProperty(value = "响应编码:0/200-请求处理成功")
     private int code;

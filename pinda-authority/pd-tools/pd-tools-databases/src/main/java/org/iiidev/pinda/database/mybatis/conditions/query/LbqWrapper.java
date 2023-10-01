@@ -385,7 +385,7 @@ public class LbqWrapper<T> extends AbstractLambdaWrapper<T, LbqWrapper<T>>
 
     /**
      * 空值校验
-     * 传入空字符串("")时， 视为： 字段名 = ""
+     * 传入空字符串("")时， 视为:  字段名 = ""
      *
      * @param val 参数值
      */

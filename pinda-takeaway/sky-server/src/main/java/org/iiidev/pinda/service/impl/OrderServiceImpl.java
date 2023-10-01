@@ -266,7 +266,7 @@ public class OrderServiceImpl implements OrderService {
         Map map = new HashMap();
         map.put("type", 1); // 1表示来单提醒 2表示客户催单
         map.put("orderId", ordersDB.getId());
-        map.put("content", "订单号：" + outTradeNo);
+        map.put("content", "订单号: " + outTradeNo);
 
         String json = JSON.toJSONString(map);
         webSocketServer.sendToAllClient(json);
@@ -449,7 +449,7 @@ public class OrderServiceImpl implements OrderService {
         // 查询订单菜品详情信息（订单中的菜品和数量）
         List<OrderDetail> orderDetailList = orderDetailMapper.getByOrderId(orders.getId());
 
-        // 将每一条订单菜品信息拼接为字符串（格式：宫保鸡丁*3；）
+        // 将每一条订单菜品信息拼接为字符串（格式: 宫保鸡丁*3；）
         List<String> orderDishList = orderDetailList.stream().map(x -> {
             String orderDish = x.getName() + "*" + x.getNumber() + ";";
             return orderDish;
@@ -515,7 +515,7 @@ public class OrderServiceImpl implements OrderService {
                 ordersDB.getNumber(),
                 new BigDecimal(0.01),
                 new BigDecimal(0.01));
-            log.info("申请退款：{}", refund);
+            log.info("申请退款: {}", refund);
         }
 
         // 拒单需要退款，根据订单id更新订单状态、拒单原因、取消时间
@@ -546,7 +546,7 @@ public class OrderServiceImpl implements OrderService {
                 ordersDB.getNumber(),
                 new BigDecimal(0.01),
                 new BigDecimal(0.01));
-            log.info("申请退款：{}", refund);
+            log.info("申请退款: {}", refund);
         }
 
         // 管理端取消订单需要退款，根据订单id更新订单状态、取消原因、取消时间
@@ -620,7 +620,7 @@ public class OrderServiceImpl implements OrderService {
         Map map = new HashMap();
         map.put("type", 2); // 1表示来单提醒 2表示客户催单
         map.put("orderId", id);
-        map.put("content", "订单号：" + ordersDB.getNumber());
+        map.put("content", "订单号: " + ordersDB.getNumber());
 
         // 通过websocket向客户端浏览器推送消息
         webSocketServer.sendToAllClient(JSON.toJSONString(map));

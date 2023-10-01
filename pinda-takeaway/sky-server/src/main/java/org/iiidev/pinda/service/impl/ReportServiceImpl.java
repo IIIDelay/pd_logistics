@@ -65,7 +65,7 @@ public class ReportServiceImpl implements ReportService {
         // 存放每天的营业额
         List<Double> turnoverList = new ArrayList<>();
         for (LocalDate date : dateList) {
-            // 查询date日期对应的营业额数据，营业额是指：状态为“已完成”的订单金额合计
+            // 查询date日期对应的营业额数据，营业额是指: 状态为“已完成”的订单金额合计
             LocalDateTime beginTime = LocalDateTime.of(date, LocalTime.MIN);
             LocalDateTime endTime = LocalDateTime.of(date, LocalTime.MAX);
 
@@ -263,7 +263,7 @@ public class ReportServiceImpl implements ReportService {
             XSSFSheet sheet = excel.getSheet("Sheet1");
 
             // 填充数据--时间
-            sheet.getRow(1).getCell(1).setCellValue("时间：" + dateBegin + "至" + dateEnd);
+            sheet.getRow(1).getCell(1).setCellValue("时间: " + dateBegin + "至" + dateEnd);
 
             // 获得第4行
             XSSFRow row = sheet.getRow(3);

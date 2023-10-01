@@ -137,7 +137,7 @@ public class RedisHelper {
     }
 
     /**
-     * 生成单号前缀：自定义前缀 + 一定格式的时间
+     * 生成单号前缀: 自定义前缀 + 一定格式的时间
      *
      * @param uniqueIdEnum 自定义的枚举
      * @return 单号前缀
@@ -207,7 +207,7 @@ public class RedisHelper {
      * @return String
      */
     public static String generateUniqueId(UniqueIDEnum uniqueIdEnum) {
-        // 获得单号前缀 格式 固定前缀 +时间前缀 示例 ：YF20190101
+        // 获得单号前缀 格式 固定前缀 +时间前缀 示例 : YF20190101
         String prefix = getFormNoPrefix(uniqueIdEnum);
         // 获得缓存key
         String cacheKey = getCacheKey(prefix);

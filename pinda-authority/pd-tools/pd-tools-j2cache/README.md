@@ -47,8 +47,8 @@ j2cache.l2-cache-open=false（默认开启）
 
 
 
-## 场景1： 开发环境，只开启1级缓存（内存缓存）, 通知使用 jgroups, 不连redis 
-### 注意： 该场景下无需连接 redis
+## 场景1:  开发环境，只开启1级缓存（内存缓存）, 通知使用 jgroups, 不连redis 
+### 注意:  该场景下无需连接 redis
 1. 引入pom
 ```
     <dependency>
@@ -90,7 +90,7 @@ caffeine:
 
 ```
 
-## 场景2： 正式环境 开启2级缓存，1级缓存用： caffeine 2级缓存用： SpringRedisProvider  广播用：SpringRedisPubSubPolicy
+## 场景2:  正式环境 开启2级缓存，1级缓存用:  caffeine 2级缓存用:  SpringRedisProvider  广播用: SpringRedisPubSubPolicy
 ```
 pinda:
   redis:
@@ -138,7 +138,7 @@ lettuce:
 ```
 
 
-## 场景3： 正式环境 开启2级缓存，1级缓存用： caffeine 2级缓存用： lettuce  广播用：lettuce
+## 场景3:  正式环境 开启2级缓存，1级缓存用:  caffeine 2级缓存用:  lettuce  广播用: lettuce
 ```
 pinda:
   redis:

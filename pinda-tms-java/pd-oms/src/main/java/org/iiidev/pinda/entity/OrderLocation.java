@@ -42,7 +42,7 @@ public class OrderLocation implements Serializable {
      */
     private String receiveAgentId;
     /**
-     * 记录状态 0：无效，1有效
+     * 记录状态 0: 无效，1有效
      */
     private String status;
 

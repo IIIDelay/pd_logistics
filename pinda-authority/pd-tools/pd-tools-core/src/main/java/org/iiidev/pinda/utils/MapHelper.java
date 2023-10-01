@@ -15,13 +15,13 @@ public class MapHelper {
     /**
      * 增强 guava 的 Maps.uniqueIndex方法
      * <p>
-     * guava 的 Maps.uniqueIndex方法可以实现：
+     * guava 的 Maps.uniqueIndex方法可以实现: 
      * <br>
      * 将 list&lt;V&gt 转成 Map&lt;K , V&gt
      * K 需要自己指定， V不能指定
      * </p>
      * <p>
-     * 本方法实现了：
+     * 本方法实现了: 
      * <p>
      * 将 list&lt;V&gt 转成 Map&lt;K , M&gt
      * K 需要自己指定， M需要自己指定

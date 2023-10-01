@@ -31,11 +31,11 @@ public class HttpClientTest {
 
         //获取服务端返回的状态码
         int statusCode = response.getStatusLine().getStatusCode();
-        System.out.println("服务端返回的状态码为：" + statusCode);
+        System.out.println("服务端返回的状态码为: " + statusCode);
 
         HttpEntity entity = response.getEntity();
         String body = EntityUtils.toString(entity);
-        System.out.println("服务端返回的数据为：" + body);
+        System.out.println("服务端返回的数据为: " + body);
 
         //关闭资源
         response.close();
@@ -70,11 +70,11 @@ public class HttpClientTest {
 
         //解析返回结果
         int statusCode = response.getStatusLine().getStatusCode();
-        System.out.println("响应码为：" + statusCode);
+        System.out.println("响应码为: " + statusCode);
 
         HttpEntity entity1 = response.getEntity();
         String body = EntityUtils.toString(entity1);
-        System.out.println("响应数据为：" + body);
+        System.out.println("响应数据为: " + body);
 
         //关闭资源
         response.close();

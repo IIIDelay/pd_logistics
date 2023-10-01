@@ -89,7 +89,7 @@ public class OrderLocusController {
             });
         }
 
-        log.info("订单轨迹-经点坐标：{}", OrderPointDTOs);
+        log.info("订单轨迹-经点坐标: {}", OrderPointDTOs);
         return OrderPointDTOs;
     }
 }
