@@ -79,7 +79,7 @@ public class RedisHelper {
      * @param timeout
      * @param unit
      */
-    public void setAtomicValue(String key, int value, long timeout, TimeUnit unit) {
+    private static void setAtomicValue(String key, int value, long timeout, TimeUnit unit) {
         RedisAtomicLong redisAtomicLong = new RedisAtomicLong(key, REDIS_TEMPLATE.getConnectionFactory(), value);
         redisAtomicLong.expire(timeout, unit);
     }
@@ -90,7 +90,7 @@ public class RedisHelper {
      * @param key 键
      * @return 自增后的值
      */
-    public long incr(String key) {
+    private static long incr(String key) {
         RedisAtomicLong redisAtomicLong = new RedisAtomicLong(key, REDIS_TEMPLATE.getConnectionFactory());
         return redisAtomicLong.incrementAndGet();
     }
@@ -103,7 +103,7 @@ public class RedisHelper {
      * @param unit    过期时间单位
      * @return 自增后的值
      */
-    public long incr(String key, long timeout, TimeUnit unit) {
+    private static long incr(String key, long timeout, TimeUnit unit) {
         RedisAtomicLong redisAtomicLong = new RedisAtomicLong(key, REDIS_TEMPLATE.getConnectionFactory());
         redisAtomicLong.expire(timeout, unit);
         return redisAtomicLong.incrementAndGet();
@@ -198,5 +198,24 @@ public class RedisHelper {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * 生成分布式Id的方法
+     *
+     * @param uniqueIdEnum uniqueIdEnum
+     * @return String
+     */
+    public static String generateUniqueId(UniqueIDEnum uniqueIdEnum) {
+        // 获得单号前缀 格式 固定前缀 +时间前缀 示例 ：YF20190101
+        String prefix = getFormNoPrefix(uniqueIdEnum);
+        // 获得缓存key
+        String cacheKey = getCacheKey(prefix);
+        // 获得当日自增数，并设置时间
+        Long incrementalSerial = incr(cacheKey, CacheKey.DEFAULT_CACHE_DAYS, TimeUnit.DAYS);
+        // 组合单号并补全流水号
+        String serialWithPrefix = completionSerial(prefix, incrementalSerial, uniqueIdEnum);
+        // 补全随机数
+        return completionRandom(serialWithPrefix, uniqueIdEnum);
     }
 }
