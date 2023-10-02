@@ -1,10 +1,9 @@
 package org.iiidev.pinda.DTO;
 
+import lombok.Data;
+import lombok.ToString;
 import org.iiidev.pinda.authority.entity.common.Area;
 import org.iiidev.pinda.utils.DateUtils;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 import org.springframework.beans.BeanUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
@@ -14,7 +13,6 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @Data
-@EqualsAndHashCode(callSuper = false)
 @ToString
 public class CustomerOrderDTO extends OrderDTO {
 

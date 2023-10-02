@@ -23,10 +23,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
 @ApiModel(value = "RoleSaveDTO", description = "角色")
 public class RoleQueryDTO implements Serializable {
 

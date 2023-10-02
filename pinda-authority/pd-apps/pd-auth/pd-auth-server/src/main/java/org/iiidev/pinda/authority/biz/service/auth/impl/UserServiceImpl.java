@@ -2,6 +2,7 @@ package org.iiidev.pinda.authority.biz.service.auth.impl;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,8 +13,10 @@ import org.iiidev.pinda.authority.biz.service.auth.UserService;
 import org.iiidev.pinda.authority.dto.auth.UserUpdatePasswordDTO;
 import org.iiidev.pinda.authority.entity.auth.User;
 import org.iiidev.pinda.authority.entity.auth.UserRole;
+import org.iiidev.pinda.authority.vo.UserVO;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.database.mybatis.conditions.query.LbqWrapper;
+import org.iiidev.pinda.utils.BeanHelper;
 import org.iiidev.pinda.utils.BizAssert;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,8 +34,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private final UserRoleService userRoleService;
 
     @Override
-    public IPage<User> findPage(IPage<User> page, LbqWrapper<User> wrapper) {
-        return baseMapper.findPage(page, wrapper);
+    public IPage<UserVO> findPage(LbqWrapper<User> wrapper) {
+        IPage<User> pageList = baseMapper.findPage(new Page<>(), wrapper);
+        IPage<UserVO> convert = pageList.convert(user -> BeanHelper.copyCopier(user, new UserVO(), false));
+        return convert;
     }
 
     @Override
@@ -49,12 +54,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         String oldPassword = DigestUtils.md5Hex(data.getOldPassword());
         BizAssert.equals(user.getPassword(), oldPassword, "旧密码错误");
 
-        User build = User
-            .builder()
-            .password(data.getPassword())
-            .id(data.getId())
-            .build();
-        this.updateUser(build);
+        User updateUser = new User();
+        updateUser.setPassword(data.getPassword());
+        updateUser.setId(data.getId());
+
+        this.updateUser(updateUser);
         return true;
     }
 

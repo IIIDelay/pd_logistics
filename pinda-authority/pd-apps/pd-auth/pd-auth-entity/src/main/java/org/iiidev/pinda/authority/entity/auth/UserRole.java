@@ -1,22 +1,16 @@
 package org.iiidev.pinda.authority.entity.auth;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotNull;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import org.iiidev.pinda.base.entity.SuperEntity;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
+import org.iiidev.pinda.base.entity.SuperEntity;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -29,7 +23,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
+@Builder
 @TableName("pd_auth_user_role")
 @ApiModel(value = "UserRole", description = "角色分配")
 public class UserRole extends SuperEntity<Long> {
@@ -53,16 +47,5 @@ public class UserRole extends SuperEntity<Long> {
     @NotNull(message = "用户ID不能为空")
     @TableField("user_id")
     private Long userId;
-
-
-    @Builder
-    public UserRole(Long id, Long createUser, LocalDateTime createTime,
-                    Long roleId, Long userId) {
-        this.id = id;
-        this.createUser = createUser;
-        this.createTime = createTime;
-        this.roleId = roleId;
-        this.userId = userId;
-    }
 
 }

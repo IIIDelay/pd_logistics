@@ -20,6 +20,7 @@ import org.iiidev.pinda.authority.dto.auth.UserUpdatePasswordDTO;
 import org.iiidev.pinda.authority.entity.auth.Role;
 import org.iiidev.pinda.authority.entity.auth.User;
 import org.iiidev.pinda.authority.entity.core.Org;
+import org.iiidev.pinda.authority.vo.UserVO;
 import org.iiidev.pinda.base.BaseController;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.base.entity.SuperEntity;
@@ -32,6 +33,7 @@ import org.iiidev.pinda.user.model.SysRole;
 import org.iiidev.pinda.user.model.SysStation;
 import org.iiidev.pinda.user.model.SysUser;
 import org.iiidev.pinda.utils.BeanHelper;
+import org.iiidev.pinda.utils.CollectionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -74,8 +76,7 @@ public class UserController extends BaseController {
     })
     @GetMapping("/page")
     @SysLog("分页查询用户")
-    public Result<IPage<User>> page(UserPageDTO userPage) {
-        IPage<User> page = getPage();
+    public Result<IPage<UserVO>> page(UserPageDTO userPage) {
         User user = BeanHelper.copyCopier(userPage, new User(), true);
         if (userPage.getOrgId() != null && userPage.getOrgId() >= 0) {
             user.setOrgId(null);
@@ -99,10 +100,8 @@ public class UserController extends BaseController {
             .eq(User::getSex, userPage.getSex())
             .eq(User::getStatus, userPage.getStatus())
             .orderByDesc(User::getId);
-//        userService.page(page, wrapper);
 
-        userService.findPage(page, wrapper);
-        return success(page);
+        return success(userService.findPage(wrapper));
     }
 
     /**
@@ -226,16 +225,11 @@ public class UserController extends BaseController {
     @ApiOperation(value = "查询角色的已关联用户", notes = "查询角色的已关联用户")
     @GetMapping(value = "/role/{roleId}")
     public Result<UserRoleDTO> findUserByRoleId(@PathVariable("roleId") Long roleId, @RequestParam(value = "keyword", required = false) String keyword) {
-        List<User> list = userService.findUserByRoleId(roleId, keyword);
-        List<Long> idList = list
-            .stream()
-            .mapToLong(User::getId)
-            .boxed()
-            .collect(Collectors.toList());
-        return success(UserRoleDTO
-            .builder()
-            .idList(idList)
-            .userList(list)
-            .build());
+        List<User> userList = userService.findUserByRoleId(roleId, keyword);
+        List<Long> idList = CollectionHelper.toList(userList, User::getId);
+        UserRoleDTO dto = new UserRoleDTO();
+        dto.setIdList(idList);
+        dto.setUserList(userList);
+        return success(dto);
     }
 }

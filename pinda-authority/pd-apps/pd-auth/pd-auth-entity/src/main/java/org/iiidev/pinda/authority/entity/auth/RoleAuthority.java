@@ -1,23 +1,17 @@
 package org.iiidev.pinda.authority.entity.auth;
 
-import java.time.LocalDateTime;
-
-import javax.validation.constraints.NotNull;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import org.iiidev.pinda.authority.enumeration.auth.AuthorizeType;
-import org.iiidev.pinda.base.entity.SuperEntity;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
+import org.iiidev.pinda.authority.enumeration.auth.AuthorizeType;
+import org.iiidev.pinda.base.entity.SuperEntity;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * <p>
@@ -29,7 +23,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
+@Builder
 @TableName("pd_auth_role_authority")
 @ApiModel(value = "RoleAuthority", description = "角色的资源")
 public class RoleAuthority extends SuperEntity<Long> {
@@ -64,16 +58,5 @@ public class RoleAuthority extends SuperEntity<Long> {
     @TableField("role_id")
     private Long roleId;
 
-
-    @Builder
-    public RoleAuthority(Long id, LocalDateTime createTime, Long createUser,
-                         Long authorityId, AuthorizeType authorityType, Long roleId) {
-        this.id = id;
-        this.createTime = createTime;
-        this.createUser = createUser;
-        this.authorityId = authorityId;
-        this.authorityType = authorityType;
-        this.roleId = roleId;
-    }
 
 }

@@ -8,6 +8,7 @@ import com.google.common.collect.Maps;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.iiidev.pinda.constant.MatchType;
+import org.springframework.util.AntPathMatcher;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -260,6 +261,19 @@ public class CollectionHelper {
         return resultBool;
     }
 
+    public static boolean pathMatch(List<String> ins, String anyPath) {
+        if (CollectionUtils.isEmpty(ins) || anyPath == null) {
+            return false;
+        }
+        // 增强uri支持/{id}
+        CollectionUtils.addAll(ins, toList(ins, Objects::nonNull, in -> StringUtils.join(in, "/{id}")));
+
+        AntPathMatcher pathMatcher = new AntPathMatcher();
+        return ins.stream()
+            .filter(Objects::nonNull)
+            .anyMatch(in -> pathMatcher.match(in, anyPath));
+    }
+
     private static <IN, OUT> boolean checkNon(IN in, Function<IN, OUT> func) {
         if (in != null && func.apply(in) != null) {
             return true;
@@ -295,7 +309,7 @@ public class CollectionHelper {
         return in -> consumer.accept(count.getAndIncrement(), in);
     }
 
-    public static <IN,OUT> Function<IN, OUT> mapper(BiFunction<Integer, IN, OUT> function) {
+    public static <IN, OUT> Function<IN, OUT> mapper(BiFunction<Integer, IN, OUT> function) {
         AtomicInteger count = new AtomicInteger(0);
         return in -> function.apply(count.getAndIncrement(), in);
     }

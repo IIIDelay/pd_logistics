@@ -13,7 +13,6 @@ import java.io.Serializable;
 @ApiModel(value = "RoleOrgUpdateDTO", description = "角色组织关系")
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class RoleOrgUpdateDTO implements Serializable {
     private static final long serialVersionUID = 1;
 

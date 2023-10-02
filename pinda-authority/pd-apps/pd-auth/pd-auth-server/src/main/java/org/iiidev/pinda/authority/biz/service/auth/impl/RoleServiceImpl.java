@@ -110,11 +110,10 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements Ro
         if (orgList != null && !orgList.isEmpty()) {
             List<RoleOrg> list = orgList
                 .stream()
-                .map(orgId ->
-                    RoleOrg.builder()
-                        .orgId(orgId)
-                        .roleId(role.getId())
-                        .build()
+                .map(orgId -> RoleOrg.builder()
+                    .orgId(orgId)
+                    .roleId(role.getId())
+                    .build()
                 ).collect(Collectors.toList());
             roleOrgService.saveBatch(list);
         }

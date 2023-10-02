@@ -1,7 +1,6 @@
 package org.iiidev.pinda.entity;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * @author diesel
@@ -9,7 +8,6 @@ import lombok.EqualsAndHashCode;
  * 用户表
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 public class Member {
 
     private String id;

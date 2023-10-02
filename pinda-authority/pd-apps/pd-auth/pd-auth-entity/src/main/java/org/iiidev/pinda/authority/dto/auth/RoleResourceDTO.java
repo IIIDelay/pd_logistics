@@ -13,7 +13,6 @@ import org.hibernate.validator.constraints.Length;
 
 @ApiModel(value = "RoleResourceDTO", description = "角色")
 @Data
-@Builder
 public class RoleResourceDTO implements Serializable {
     private static final long serialVersionUID = 1;
     private Long id;

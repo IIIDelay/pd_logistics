@@ -1,21 +1,16 @@
 package org.iiidev.pinda.authority.dto.core;
 
-import java.io.Serializable;
-
-import javax.validation.constraints.NotNull;
-
-import org.iiidev.pinda.base.entity.SuperEntity;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+import org.iiidev.pinda.base.entity.SuperEntity;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -27,10 +22,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
 @ApiModel(value = "StationUpdateDTO", description = "岗位")
 public class StationUpdateDTO implements Serializable {
 

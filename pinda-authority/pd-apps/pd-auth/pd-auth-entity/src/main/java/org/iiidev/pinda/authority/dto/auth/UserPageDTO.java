@@ -20,9 +20,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
 @ApiModel(value = "UserPageDTO", description = "用户分页对象")
 public class UserPageDTO {
     /**

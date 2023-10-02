@@ -13,10 +13,7 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
 @ApiModel(value = "LoginParamDTO", description = "登录参数")
 public class LoginParamDTO {
     @ApiModelProperty(value = "验证码KEY")

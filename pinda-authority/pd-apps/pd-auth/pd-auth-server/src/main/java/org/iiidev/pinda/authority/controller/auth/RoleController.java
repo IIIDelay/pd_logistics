@@ -28,6 +28,7 @@ import org.iiidev.pinda.database.mybatis.conditions.Wraps;
 import org.iiidev.pinda.database.mybatis.conditions.query.LbqWrapper;
 import org.iiidev.pinda.log.annotation.SysLog;
 import org.iiidev.pinda.utils.BeanHelper;
+import org.iiidev.pinda.utils.CollectionHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,6 +42,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -153,15 +155,12 @@ public class RoleController extends BaseController {
     @ApiOperation(value = "查询角色的用户", notes = "查询角色的用户")
     @GetMapping("/user/{roleId}")
     @SysLog("查询角色的用户")
-    public Result<List<Long>> findUserIdByRoleId(@PathVariable Long roleId) {
-        List<UserRole> list = userRoleService.list(Wraps
+    public Result<List<String>> findUserIdByRoleId(@PathVariable Long roleId) {
+        List<UserRole> userRoles = userRoleService.list(Wraps
             .<UserRole>lbQ()
             .eq(UserRole::getRoleId, roleId));
-        return success(list
-            .stream()
-            .mapToLong(UserRole::getUserId)
-            .boxed()
-            .collect(Collectors.toList()));
+        List<String> date = CollectionHelper.toList(userRoles, Objects::nonNull, in -> String.valueOf(in.getUserId()));
+        return success(date);
     }
 
     /**

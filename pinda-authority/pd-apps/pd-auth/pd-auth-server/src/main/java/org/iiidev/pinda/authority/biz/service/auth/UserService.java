@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.iiidev.pinda.authority.dto.auth.UserUpdatePasswordDTO;
 import org.iiidev.pinda.authority.entity.auth.User;
+import org.iiidev.pinda.authority.vo.UserVO;
 import org.iiidev.pinda.database.mybatis.conditions.query.LbqWrapper;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public interface UserService extends IService<User> {
     /**
      * 分页
      */
-    IPage<User> findPage(IPage<User> page, LbqWrapper<User> wrapper);
+    IPage<UserVO> findPage(LbqWrapper<User> wrapper);
 
     /**
      * 修改密码

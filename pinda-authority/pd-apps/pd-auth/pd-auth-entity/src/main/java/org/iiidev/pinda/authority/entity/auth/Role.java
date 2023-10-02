@@ -31,7 +31,6 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 @TableName("pd_auth_role")
 @ApiModel(value = "Role", description = "角色")
 public class Role extends Entity<Long> {
@@ -87,8 +86,7 @@ public class Role extends Entity<Long> {
     private DataScopeType dsType;*/
 
 
-    @Builder
-    public Role(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
+        public Role(Long id, Long createUser, LocalDateTime createTime, Long updateUser, LocalDateTime updateTime,
                 String name, String code, String describe, Boolean status, Boolean readonly) {
         this.id = id;
         this.createUser = createUser;

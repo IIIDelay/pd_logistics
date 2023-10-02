@@ -1,19 +1,16 @@
 package org.iiidev.pinda.authority.dto.auth;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.validation.constraints.NotNull;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.Accessors;
+
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  * <p>
@@ -25,9 +22,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
 @Builder
 @ApiModel(value = "RoleAuthoritySaveDTO", description = "角色的资源")
 public class RoleAuthoritySaveDTO implements Serializable {

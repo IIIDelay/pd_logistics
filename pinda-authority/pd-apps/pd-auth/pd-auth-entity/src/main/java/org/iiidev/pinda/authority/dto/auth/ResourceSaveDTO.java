@@ -1,19 +1,15 @@
 package org.iiidev.pinda.authority.dto.auth;
 
-import java.io.Serializable;
-
-import javax.validation.constraints.NotEmpty;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * <p>
@@ -25,10 +21,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
 @ApiModel(value = "ResourceSaveDTO", description = "资源")
 public class ResourceSaveDTO implements Serializable {
 

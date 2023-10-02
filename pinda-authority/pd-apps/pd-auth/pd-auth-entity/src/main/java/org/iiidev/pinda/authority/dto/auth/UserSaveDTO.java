@@ -27,10 +27,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
 @ApiModel(value = "UserSaveDTO", description = "用户")
 public class UserSaveDTO implements Serializable {
 

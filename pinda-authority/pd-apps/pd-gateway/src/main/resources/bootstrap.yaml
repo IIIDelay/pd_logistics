@@ -24,6 +24,7 @@ spring:
         enabled: true
         username: nacos
         password: nacos
+        timeout: 10000
       discovery:
         server-addr: ${pinda.nacos.ip}:${pinda.nacos.port}
         namespace: ${pinda.nacos.namespace}

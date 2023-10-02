@@ -27,10 +27,7 @@ import lombok.experimental.Accessors;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
 @ApiModel(value = "UserRoleSaveDTO", description = "角色分配 账号角色绑定")
 public class UserRoleSaveDTO implements Serializable {
 

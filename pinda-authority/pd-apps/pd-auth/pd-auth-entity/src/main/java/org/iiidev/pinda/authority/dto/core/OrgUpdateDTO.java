@@ -26,10 +26,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = false)
-@Builder
 @ApiModel(value = "OrgUpdateDTO", description = "组织")
 public class OrgUpdateDTO implements Serializable {
 

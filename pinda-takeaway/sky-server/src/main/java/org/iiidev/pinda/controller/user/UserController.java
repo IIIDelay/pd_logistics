@@ -2,6 +2,7 @@ package org.iiidev.pinda.controller.user;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.constant.JwtClaimsConstant;
 import org.iiidev.pinda.dto.UserLoginDTO;
@@ -11,7 +12,6 @@ import org.iiidev.pinda.result.Result;
 import org.iiidev.pinda.service.UserService;
 import org.iiidev.pinda.utils.JwtUtil;
 import org.iiidev.pinda.vo.UserLoginVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,12 +24,11 @@ import java.util.Map;
 @RequestMapping("/user/user")
 @Api(tags = "C端用户相关接口")
 @Slf4j
+@RequiredArgsConstructor
 public class UserController {
+    private final UserService userService;
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private JwtProperties jwtProperties;
+    private final JwtProperties jwtProperties;
 
     /**
      * 微信登录
@@ -50,11 +49,10 @@ public class UserController {
         claims.put(JwtClaimsConstant.USER_ID, user.getId());
         String token = JwtUtil.createJWT(jwtProperties.getUserSecretKey(), jwtProperties.getUserTtl(), claims);
 
-        UserLoginVO userLoginVO = UserLoginVO.builder()
-            .id(user.getId())
-            .openid(user.getOpenid())
-            .token(token)
-            .build();
+        UserLoginVO userLoginVO = new UserLoginVO();
+        userLoginVO.setToken(token);
+        userLoginVO.setId(user.getId());
+        userLoginVO.setOpenid(user.getOpenid());
         return Result.success(userLoginVO);
     }
 }

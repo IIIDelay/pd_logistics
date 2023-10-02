@@ -21,8 +21,6 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
-@Builder
 @ApiModel(value = "UserDTO", description = "用户")
 public class UserDTO implements Serializable {
 

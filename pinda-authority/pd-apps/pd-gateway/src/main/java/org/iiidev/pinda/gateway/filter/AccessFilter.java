@@ -10,7 +10,6 @@ import org.iiidev.pinda.authority.entity.auth.Resource;
 import org.iiidev.pinda.base.Result;
 import org.iiidev.pinda.common.constant.CacheKey;
 import org.iiidev.pinda.common.utils.RedisHelper;
-import org.iiidev.pinda.constant.MatchType;
 import org.iiidev.pinda.context.BaseContextConstants;
 import org.iiidev.pinda.exception.code.ExceptionCode;
 import org.iiidev.pinda.gateway.api.ResourceApi;
@@ -82,9 +81,10 @@ public class AccessFilter extends BaseFilter {
         }
 
         // 第4步: 判断这些资源是否包含当前请求的权限标识符，如果不包含当前请求的权限标识符，则返回未经授权错误提示
-        boolean bool = CollectionHelper.matchAny(uriList, permission, MatchType.PREFIX);
+        boolean bool = CollectionHelper.pathMatch(uriList, permission);
         if (!bool) {
             // 当前请求是一个未知请求，直接返回未授权异常信息
+            log.warn("当前请求: {} 是一个未知请求", uri);
             return errorResponse(response, ExceptionCode.UNAUTHORIZED.getMsg(), ExceptionCode.UNAUTHORIZED.getCode(), HttpStatus.OK);
         }
 
@@ -114,6 +114,7 @@ public class AccessFilter extends BaseFilter {
             .count();
         if (count <= 0) {
             // 第7步: 如果用户拥有的权限不包含当前请求的权限标识符则说明当前用户没有权限，返回未经授权错误提示
+            log.warn("用户拥有的权限不包含当前请求: {} ", uri);
             return errorResponse(response,ExceptionCode.UNAUTHORIZED.getMsg(), ExceptionCode.UNAUTHORIZED.getCode(), HttpStatus.OK);
         }
 

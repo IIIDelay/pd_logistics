@@ -1,9 +1,8 @@
 package org.iiidev.pinda.DTO;
 
-import org.iiidev.pinda.entity.AddressBook;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import org.iiidev.pinda.entity.AddressBook;
 
 /**
  * @author diesel
@@ -11,7 +10,6 @@ import lombok.EqualsAndHashCode;
  * 地址簿
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 public class AddressBookDTO extends AddressBook {
 
     /**

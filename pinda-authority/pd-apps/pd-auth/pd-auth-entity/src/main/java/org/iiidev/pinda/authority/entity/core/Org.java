@@ -24,7 +24,6 @@ import javax.validation.constraints.NotEmpty;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 @TableName("pd_core_org")
 @ApiModel(value = "Org", description = "组织")
 public class Org extends Entity<Long> {

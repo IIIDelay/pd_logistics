@@ -4,7 +4,6 @@ import com.google.common.collect.Maps;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.experimental.Accessors;
 import org.iiidev.pinda.exception.BizException;
 import org.iiidev.pinda.exception.code.BaseExceptionCode;
 
@@ -16,7 +15,6 @@ import java.util.Map;
 @Getter
 @Setter
 @SuppressWarnings({"AlibabaClassNamingShouldBeCamel"})
-@Accessors(chain = true)
 public class Result<T> {
     public static final String DEF_ERROR_MESSAGE = "系统繁忙，请稍候再试";
     public static final String HYSTRIX_ERROR_MESSAGE = "请求超时，请稍候再试";
@@ -74,6 +72,12 @@ public class Result<T> {
 
     public static <E> Result<E> result(int code, E data, String msg) {
         return new Result<>(code, data, msg);
+    }
+
+    public static <E> Result<E> result(int code, E data, String msg, String path) {
+        Result<E> result = new Result<>(code, data, msg);
+        result.setPath(path);
+        return result;
     }
 
     /**

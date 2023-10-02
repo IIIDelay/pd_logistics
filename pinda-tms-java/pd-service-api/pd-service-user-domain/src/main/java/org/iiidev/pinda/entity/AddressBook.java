@@ -3,7 +3,6 @@ package org.iiidev.pinda.entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -14,7 +13,6 @@ import java.time.LocalDateTime;
  * 地址簿
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
 public class AddressBook {
 
     private String id;

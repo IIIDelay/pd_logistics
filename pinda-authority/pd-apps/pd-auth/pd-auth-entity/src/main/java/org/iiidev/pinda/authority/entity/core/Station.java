@@ -26,7 +26,6 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
 @TableName("pd_core_station")
 @ApiModel(value = "Station", description = "岗位")
 public class Station extends Entity<Long> {

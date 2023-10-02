@@ -1,5 +1,7 @@
 package org.iiidev.pinda.authority.biz.service.auth.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,9 +17,11 @@ import org.iiidev.pinda.authority.enumeration.auth.AuthorizeType;
 import org.iiidev.pinda.common.utils.RedisHelper;
 import org.iiidev.pinda.common.constant.CacheKey;
 import org.iiidev.pinda.database.mybatis.conditions.Wraps;
+import org.iiidev.pinda.utils.CollectionHelper;
 import org.iiidev.pinda.utils.NumberHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -38,28 +42,26 @@ public class RoleAuthorityServiceImpl extends ServiceImpl<RoleAuthorityMapper, R
     private final ResourceService resourceService;
 
     @Override
-    public boolean saveUserRole(UserRoleSaveDTO userRole) {
-        userRoleService.remove(Wraps
-            .<UserRole>lbQ()
-            .eq(UserRole::getRoleId, userRole.getRoleId()));
-        List<UserRole> list = userRole
-            .getUserIdList()
-            .stream()
-            .map((userId) -> UserRole
-                .builder()
+    @Transactional(rollbackFor = Exception.class)
+    public boolean saveUserRole(UserRoleSaveDTO roleSaveDTO) {
+        LambdaQueryWrapper<UserRole> delWrapper = Wrappers.<UserRole>lambdaQuery()
+            .eq(UserRole::getRoleId, roleSaveDTO.getRoleId());
+        boolean remove = userRoleService.remove(delWrapper);
+
+        List<UserRole> userRoles = CollectionHelper.toList(roleSaveDTO.getUserIdList(),
+            userId -> UserRole.builder()
                 .userId(userId)
-                .roleId(userRole.getRoleId())
-                .build())
-            .collect(Collectors.toList());
-        userRoleService.saveBatch(list);
+                .roleId(roleSaveDTO.getRoleId()).build());
+
+        boolean result = userRoleService.saveBatch(userRoles);
 
         // 清除 用户拥有的资源列表
-        userRole.getUserIdList()
+        roleSaveDTO.getUserIdList()
             .forEach(userId -> {
                 String key = CacheKey.buildKey(userId);
                 RedisHelper.remove(CacheKey.USER_RESOURCE, key);
             });
-        return true;
+        return result;
     }
 
     @Override

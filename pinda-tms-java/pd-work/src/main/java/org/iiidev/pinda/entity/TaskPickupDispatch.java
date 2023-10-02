@@ -3,13 +3,10 @@ package org.iiidev.pinda.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
 
 /**
  * <p>
@@ -20,8 +17,6 @@ import lombok.experimental.Accessors;
  * @since 2020-01-11
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-@Accessors(chain = true)
 @TableName("pd_task_pickup_dispatch")
 public class TaskPickupDispatch implements Serializable {
 

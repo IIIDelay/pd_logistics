@@ -2,6 +2,7 @@ package org.iiidev.pinda.controller.admin;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.iiidev.pinda.constant.JwtClaimsConstant;
 import org.iiidev.pinda.dto.EmployeeDTO;
@@ -14,7 +15,6 @@ import org.iiidev.pinda.result.Result;
 import org.iiidev.pinda.service.EmployeeService;
 import org.iiidev.pinda.utils.JwtUtil;
 import org.iiidev.pinda.vo.EmployeeLoginVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,12 +33,11 @@ import java.util.Map;
 @RequestMapping("/admin/employee")
 @Slf4j
 @Api(tags = "员工相关接口")
+@RequiredArgsConstructor
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeService employeeService;
-    @Autowired
-    private JwtProperties jwtProperties;
+    private final EmployeeService employeeService;
+    private final JwtProperties jwtProperties;
 
     /**
      * 登录
@@ -56,17 +55,13 @@ public class EmployeeController {
         // 登录成功后，生成jwt令牌
         Map<String, Object> claims = new HashMap<>();
         claims.put(JwtClaimsConstant.EMP_ID, employee.getId());
-        String token = JwtUtil.createJWT(
-            jwtProperties.getAdminSecretKey(),
-            jwtProperties.getAdminTtl(),
-            claims);
+        String token = JwtUtil.createJWT(jwtProperties.getAdminSecretKey(), jwtProperties.getAdminTtl(), claims);
 
-        EmployeeLoginVO employeeLoginVO = EmployeeLoginVO.builder()
-            .id(employee.getId())
-            .userName(employee.getUsername())
-            .name(employee.getName())
-            .token(token)
-            .build();
+        EmployeeLoginVO employeeLoginVO = new EmployeeLoginVO();
+        employeeLoginVO.setId((employee.getId()));
+        employeeLoginVO.setUserName(employee.getUsername());
+        employeeLoginVO.setName(employee.getName());
+        employeeLoginVO.setToken(token);
 
         return Result.success(employeeLoginVO);
     }
