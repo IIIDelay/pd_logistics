@@ -52,6 +52,10 @@ public class BizException extends BaseUncheckedException {
         return new BizException(-9, msgTemplate, args);
     }
 
+    public static BizException validFail(String msgTemplate, Throwable throwable) {
+        return new BizException(-9, msgTemplate, throwable);
+    }
+
     public static BizException wrap(BaseExceptionCode ex) {
         return new BizException(ex.getCode(), ex.getMsg());
     }

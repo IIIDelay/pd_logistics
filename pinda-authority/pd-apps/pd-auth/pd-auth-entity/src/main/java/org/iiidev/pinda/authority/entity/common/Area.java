@@ -4,17 +4,17 @@ package org.iiidev.pinda.authority.entity.common;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import org.iiidev.pinda.base.entity.Entity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.validator.constraints.Length;
+import org.iiidev.pinda.base.entity.Entity;
 
 import java.io.Serializable;
 
 @TableName("pd_area")
 @ApiModel(
-        value = "Area",
-        description = "行政区域"
+    value = "Area",
+    description = "行政区域"
 )
 public class Area extends Entity<Long> implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -23,62 +23,62 @@ public class Area extends Entity<Long> implements Serializable {
     private Long parentId;
     @ApiModelProperty("行政区域名称")
     @Length(
-            max = 255,
-            message = "行政区域名称长度不能超过255"
+        max = 255,
+        message = "行政区域名称长度不能超过255"
     )
     @TableField(
-            value = "name",
-            condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
+        value = "name",
+        condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
     )
     private String name;
     @ApiModelProperty("行政区域编码")
     @Length(
-            max = 255,
-            message = "行政区域编码长度不能超过255"
+        max = 255,
+        message = "行政区域编码长度不能超过255"
     )
     @TableField(
-            value = "area_code",
-            condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
+        value = "area_code",
+        condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
     )
     private String areaCode;
     @ApiModelProperty("城市编码")
     @Length(
-            max = 255,
-            message = "城市编码长度不能超过255"
+        max = 255,
+        message = "城市编码长度不能超过255"
     )
     @TableField(
-            value = "city_code",
-            condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
+        value = "city_code",
+        condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
     )
     private String cityCode;
     @ApiModelProperty("合并名称")
     @Length(
-            max = 255,
-            message = "合并名称长度不能超过255"
+        max = 255,
+        message = "合并名称长度不能超过255"
     )
     @TableField(
-            value = "merger_name",
-            condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
+        value = "merger_name",
+        condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
     )
     private String mergerName;
     @ApiModelProperty("简称")
     @Length(
-            max = 255,
-            message = "简称长度不能超过255"
+        max = 255,
+        message = "简称长度不能超过255"
     )
     @TableField(
-            value = "short_name",
-            condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
+        value = "short_name",
+        condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
     )
     private String shortName;
     @ApiModelProperty("邮政编码")
     @Length(
-            max = 255,
-            message = "邮政编码长度不能超过255"
+        max = 255,
+        message = "邮政编码长度不能超过255"
     )
     @TableField(
-            value = "zip_code",
-            condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
+        value = "zip_code",
+        condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
     )
     private String zipCode;
     @ApiModelProperty("行政区域等级（0: 省级 1:市级 2:县级 3:镇级 4:乡村级）")
@@ -86,42 +86,42 @@ public class Area extends Entity<Long> implements Serializable {
     private Integer level;
     @ApiModelProperty("经度")
     @Length(
-            max = 255,
-            message = "经度长度不能超过255"
+        max = 255,
+        message = "经度长度不能超过255"
     )
     @TableField(
-            value = "lng",
-            condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
+        value = "lng",
+        condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
     )
     private String lng;
     @ApiModelProperty("纬度")
     @Length(
-            max = 255,
-            message = "纬度长度不能超过255"
+        max = 255,
+        message = "纬度长度不能超过255"
     )
     @TableField(
-            value = "lat",
-            condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
+        value = "lat",
+        condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
     )
     private String lat;
     @ApiModelProperty("拼音")
     @Length(
-            max = 255,
-            message = "拼音长度不能超过255"
+        max = 255,
+        message = "拼音长度不能超过255"
     )
     @TableField(
-            value = "pinyin",
-            condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
+        value = "pinyin",
+        condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
     )
     private String pinyin;
     @ApiModelProperty("首字母")
     @Length(
-            max = 255,
-            message = "首字母长度不能超过255"
+        max = 255,
+        message = "首字母长度不能超过255"
     )
     @TableField(
-            value = "first",
-            condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
+        value = "first",
+        condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
     )
     private String first;
 
@@ -283,13 +283,14 @@ public class Area extends Entity<Long> implements Serializable {
         } else if (!(o instanceof Area)) {
             return false;
         } else {
-            Area other = (Area)o;
+            Area other = (Area) o;
             if (!other.canEqual(this)) {
                 return false;
             } else if (!super.equals(o)) {
                 return false;
             } else {
-                label157: {
+                label157:
+                {
                     Object this$parentId = this.getParentId();
                     Object other$parentId = other.getParentId();
                     if (this$parentId == null) {
@@ -303,7 +304,8 @@ public class Area extends Entity<Long> implements Serializable {
                     return false;
                 }
 
-                label150: {
+                label150:
+                {
                     Object this$name = this.getName();
                     Object other$name = other.getName();
                     if (this$name == null) {
@@ -327,7 +329,8 @@ public class Area extends Entity<Long> implements Serializable {
                     return false;
                 }
 
-                label136: {
+                label136:
+                {
                     Object this$cityCode = this.getCityCode();
                     Object other$cityCode = other.getCityCode();
                     if (this$cityCode == null) {
@@ -351,7 +354,8 @@ public class Area extends Entity<Long> implements Serializable {
                     return false;
                 }
 
-                label122: {
+                label122:
+                {
                     Object this$shortName = this.getShortName();
                     Object other$shortName = other.getShortName();
                     if (this$shortName == null) {
@@ -395,7 +399,8 @@ public class Area extends Entity<Long> implements Serializable {
                     return false;
                 }
 
-                label94: {
+                label94:
+                {
                     Object this$lat = this.getLat();
                     Object other$lat = other.getLat();
                     if (this$lat == null) {
@@ -409,7 +414,8 @@ public class Area extends Entity<Long> implements Serializable {
                     return false;
                 }
 
-                label87: {
+                label87:
+                {
                     Object this$pinyin = this.getPinyin();
                     Object other$pinyin = other.getPinyin();
                     if (this$pinyin == null) {

@@ -1,22 +1,17 @@
 package org.iiidev.pinda.authority.entity.common;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import org.iiidev.pinda.base.entity.SuperEntity;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
+import org.iiidev.pinda.base.entity.SuperEntity;
+
+import java.time.LocalDate;
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -30,7 +25,7 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Accessors(chain = true)
+@Builder
 @TableName("pd_common_login_log")
 @ApiModel(value = "LoginLog", description = "登录日志")
 public class LoginLog extends SuperEntity<Long> {
@@ -122,26 +117,5 @@ public class LoginLog extends SuperEntity<Long> {
     @Length(max = 50, message = "登录地点长度不能超过50")
     @TableField(value = "location", condition = LIKE)
     private String location;
-
-
-    @Builder
-    public LoginLog(Long id, LocalDateTime createTime, Long createUser,
-                    String requestIp, Long userId, String userName, String account, String description,
-                    LocalDate loginDate, String ua, String browser, String browserVersion, String operatingSystem, String location) {
-        this.id = id;
-        this.createTime = createTime;
-        this.createUser = createUser;
-        this.requestIp = requestIp;
-        this.userId = userId;
-        this.userName = userName;
-        this.account = account;
-        this.description = description;
-        this.loginDate = loginDate;
-        this.ua = ua;
-        this.browser = browser;
-        this.browserVersion = browserVersion;
-        this.operatingSystem = operatingSystem;
-        this.location = location;
-    }
 
 }

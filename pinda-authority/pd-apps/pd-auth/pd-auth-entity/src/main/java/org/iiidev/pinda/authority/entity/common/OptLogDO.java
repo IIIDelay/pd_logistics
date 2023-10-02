@@ -5,11 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 import org.hibernate.validator.constraints.Length;
 import org.iiidev.pinda.authority.enumeration.common.LogType;
@@ -161,32 +158,5 @@ public class OptLogDO extends SuperEntity<Long> {
     @Length(max = 500, message = "浏览器长度不能超过500")
     @TableField(value = "ua", condition = LIKE)
     private String ua;
-
-
-    @Builder
-    public OptLogDO(Long id, LocalDateTime createTime, Long createUser,
-                    String requestIp, LogType type, String userName, String description, String classPath,
-                    String actionMethod, String requestUri, HttpMethod httpMethod, String params, String result, String exDesc,
-                    String exDetail, LocalDateTime startTime, LocalDateTime finishTime, Long consumingTime, String ua) {
-        this.id = id;
-        this.createTime = createTime;
-        this.createUser = createUser;
-        this.requestIp = requestIp;
-        this.type = type;
-        this.userName = userName;
-        this.description = description;
-        this.classPath = classPath;
-        this.actionMethod = actionMethod;
-        this.requestUri = requestUri;
-        this.httpMethod = httpMethod;
-        this.params = params;
-        this.result = result;
-        this.exDesc = exDesc;
-        this.exDetail = exDetail;
-        this.startTime = startTime;
-        this.finishTime = finishTime;
-        this.consumingTime = consumingTime;
-        this.ua = ua;
-    }
 
 }

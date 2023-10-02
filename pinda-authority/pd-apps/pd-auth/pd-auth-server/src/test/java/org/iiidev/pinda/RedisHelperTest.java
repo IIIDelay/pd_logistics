@@ -3,7 +3,12 @@ package org.iiidev.pinda;
 import org.iiidev.pinda.common.constant.UniqueIDEnum;
 import org.iiidev.pinda.common.utils.RedisHelper;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
+
+import java.time.Duration;
 
 /**
  * RedisHelperTest
@@ -13,6 +18,8 @@ import org.springframework.boot.test.context.SpringBootTest;
  **/
 @SpringBootTest
 public class RedisHelperTest {
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     @Test
     public void generateUniqueId() {
@@ -22,6 +29,7 @@ public class RedisHelperTest {
 
     @Test
     public void threadTest() {
-
+        ValueOperations<String, String> stringValueOperations = stringRedisTemplate.opsForValue();
+        stringValueOperations.set("namexx","zhangsanyy", Duration.ofSeconds(60));
     }
 }

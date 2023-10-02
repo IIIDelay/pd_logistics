@@ -75,9 +75,8 @@ public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> i
             .operatingSystem(simplifyOperatingSystem(operatingSystem.getName()))
             .build();
         if (user != null) {
-            loginLog
-                .setUserId(user.getId())
-                .setUserName(user.getName());
+            loginLog.setUserId(user.getId());
+            loginLog.setUserName(user.getName());
         }
         super.save(loginLog);
         return loginLog;
@@ -102,9 +101,7 @@ public class LoginLogServiceImpl extends ServiceImpl<LoginLogMapper, LoginLog> i
 
     @Override
     public List<Map<String, Object>> findLastTenDaysVisitCount(String account) {
-        LocalDate tenDays = LocalDate
-            .now()
-            .plusDays(-9);
+        LocalDate tenDays = LocalDate.now().plusDays(-9);
         return this.baseMapper.findLastTenDaysVisitCount(tenDays, account);
     }
 

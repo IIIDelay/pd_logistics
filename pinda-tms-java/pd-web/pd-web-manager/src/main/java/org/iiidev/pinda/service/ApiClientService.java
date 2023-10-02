@@ -1,7 +1,12 @@
-package org.iiidev.pinda.authority.api;
+package org.iiidev.pinda.service;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.iiidev.pinda.authority.api.AreaApi;
+import org.iiidev.pinda.authority.api.LogApi;
+import org.iiidev.pinda.authority.api.OrgApi;
+import org.iiidev.pinda.authority.api.RoleApi;
+import org.iiidev.pinda.authority.api.UserApi;
 import org.springframework.stereotype.Component;
 
 /**
