@@ -1,87 +1,39 @@
 <template>
   <div class="login-container">
-    <el-form
-      ref="loginForm"
-      :model="loginForm"
-      :rules="rules"
-      autocomplete="off"
-      class="login-form"
-      label-position="left"
-    >
+    <el-form ref="loginForm" :model="loginForm" :rules="rules" autocomplete="off" class="login-form"
+      label-position="left">
       <div class="title-container">
         <img src="../../assets/logo1.png" />
       </div>
       <span v-if="login.type === 'up'">
         <el-form-item v-show="isMultiTenant" prop="tenant">
-          <el-input
-            ref="tenant"
-            v-model="loginForm.tenant"
-            :placeholder="$t('login.tenant')"
-            autocomplete="off"
-            name="tenant"
-            prefix-icon="el-icon-user"
-            type="text"
-            style="width:300px"
-            @keyup.enter.native="handleLogin"
-          />
+          <el-input ref="tenant" v-model="loginForm.tenant" :placeholder="$t('login.tenant')" autocomplete="off"
+            name="tenant" prefix-icon="el-icon-user" type="text" style="width:300px" @keyup.enter.native="handleLogin" />
         </el-form-item>
         <el-form-item prop="account" style="width:255px">
-          <el-input
-            ref="account"
-            v-model="loginForm.account"
-            :placeholder="$t('login.username')"
-            autocomplete="off"
-            name="account"
-            prefix-icon="el-icon-user"
-            type="text"
-            @keyup.enter.native="handleLogin"
-          />
+          <el-input ref="account" v-model="loginForm.account" :placeholder="$t('login.username')" autocomplete="off"
+            name="account" prefix-icon="el-icon-user" type="text" @keyup.enter.native="handleLogin" />
         </el-form-item>
         <el-form-item prop="password" style="width:255px">
-          <el-input
-            ref="password"
-            v-model="loginForm.password"
-            :placeholder="$t('login.password')"
-            :show-password="true"
-            autocomplete="off"
-            name="password"
-            prefix-icon="el-icon-key"
-            type="password"
-            @keyup.enter.native="handleLogin"
-          />
+          <el-input ref="password" v-model="loginForm.password" :placeholder="$t('login.password')" :show-password="true"
+            autocomplete="off" name="password" prefix-icon="el-icon-key" type="password"
+            @keyup.enter.native="handleLogin" />
         </el-form-item>
         <el-form-item class="code-input" prop="code">
-          <el-input
-            ref="code"
-            v-model="loginForm.code"
-            :placeholder="$t('login.code')"
-            autocomplete="off"
-            name="code"
-            prefix-icon="el-icon-lock"
-            style="width: 70%"
-            type="text"
-            @keyup.enter.native="handleLogin"
-          />
+          <el-input ref="code" v-model="loginForm.code" :placeholder="$t('login.code')" autocomplete="off" name="code"
+            prefix-icon="el-icon-lock" style="width: 70%" type="text" @keyup.enter.native="handleLogin" />
         </el-form-item>
         <img :src="imageCode" alt="codeImage" class="code-image" @click="getCodeImage" />
-        <el-button
-          :loading="loading"
+        <el-button :loading="loading"
           style="width:100%;margin-bottom:14px;background-image: linear-gradient(to right, #D92E2C,#F86E2B);border:0px"
-          type="primary"
-          @click.native.prevent="handleLogin"
-        >{{ $t("login.logIn") }}</el-button>
+          type="primary" @click.native.prevent="handleLogin">{{ $t("login.logIn") }}</el-button>
       </span>
       <span v-if="login.type === 'social'">
         {{ $t("login.chooseToSignIn") }}
         <div>
           <template v-for="(l, index) in logo">
             <div :key="index" class="logo-wrapper">
-              <img
-                :class="{ radius: l.radius }"
-                :src="resolveLogo(l.img)"
-                alt
-                @click="socialLogin(l.name)"
-              />
+              <img :class="{ radius: l.radius }" :src="resolveLogo(l.img)" alt @click="socialLogin(l.name)" />
             </div>
           </template>
         </div>
@@ -90,65 +42,27 @@
         <el-tabs v-model="tabActiveName" @tab-click="handleTabClick">
           <el-tab-pane :label="$t('common.bindLogin')" name="bindLogin">
             <el-form-item prop="bindAccount">
-              <el-input
-                ref="bindAccount"
-                v-model="loginForm.bindAccount"
-                :placeholder="$t('login.account')"
-                autocomplete="off"
-                name="bindAccount"
-                prefix-icon="el-icon-user"
-                type="text"
-              />
+              <el-input ref="bindAccount" v-model="loginForm.bindAccount" :placeholder="$t('login.account')"
+                autocomplete="off" name="bindAccount" prefix-icon="el-icon-user" type="text" />
             </el-form-item>
             <el-form-item prop="bindPassword">
-              <el-input
-                ref="bindPassword"
-                v-model="loginForm.bindPassword"
-                :placeholder="$t('login.password')"
-                :show-password="true"
-                autocomplete="off"
-                name="bindPassword"
-                prefix-icon="el-icon-key"
-                type="password"
-              />
+              <el-input ref="bindPassword" v-model="loginForm.bindPassword" :placeholder="$t('login.password')"
+                :show-password="true" autocomplete="off" name="bindPassword" prefix-icon="el-icon-key" type="password" />
             </el-form-item>
-            <el-button
-              :loading="loading"
-              style="width:100%;margin-bottom:14px;"
-              type="primary"
-              @click.native.prevent="bindLogin"
-            >{{ $t("common.bindLogin") }}</el-button>
+            <el-button :loading="loading" style="width:100%;margin-bottom:14px;" type="primary"
+              @click.native.prevent="bindLogin">{{ $t("common.bindLogin") }}</el-button>
           </el-tab-pane>
           <el-tab-pane :label="$t('common.signLogin')" name="signLogin">
             <el-form-item prop="signAccount">
-              <el-input
-                ref="signAccount"
-                v-model="loginForm.signAccount"
-                :placeholder="$t('login.account')"
-                autocomplete="off"
-                name="signAccount"
-                prefix-icon="el-icon-user"
-                type="text"
-              />
+              <el-input ref="signAccount" v-model="loginForm.signAccount" :placeholder="$t('login.account')"
+                autocomplete="off" name="signAccount" prefix-icon="el-icon-user" type="text" />
             </el-form-item>
             <el-form-item prop="signPassword">
-              <el-input
-                ref="signPassword"
-                v-model="loginForm.signPassword"
-                :placeholder="$t('login.password')"
-                :show-password="true"
-                autocomplete="off"
-                name="signPassword"
-                prefix-icon="el-icon-key"
-                type="password"
-              />
+              <el-input ref="signPassword" v-model="loginForm.signPassword" :placeholder="$t('login.password')"
+                :show-password="true" autocomplete="off" name="signPassword" prefix-icon="el-icon-key" type="password" />
             </el-form-item>
-            <el-button
-              :loading="loading"
-              style="width:100%;margin-bottom:14px;"
-              type="primary"
-              @click.native.prevent="signLogin"
-            >{{ $t("common.signLogin") }}</el-button>
+            <el-button :loading="loading" style="width:100%;margin-bottom:14px;" type="primary"
+              @click.native.prevent="signLogin">{{ $t("common.signLogin") }}</el-button>
           </el-tab-pane>
         </el-tabs>
       </span>
@@ -170,7 +84,7 @@
       <!--</el-dropdown-menu>-->
       <!--</el-dropdown>-->
     </el-form>
-    <span class="login-footer">© 2020 - 品达物流集团</span>
+    <span class="login-footer">©2024 - 品达物流集团</span>
   </div>
 </template>
 
@@ -280,7 +194,7 @@ export default {
       }
     }
   },
-  created() {},
+  created() { },
   mounted() {
     db.clear()
     this.getCodeImage()
@@ -352,10 +266,10 @@ export default {
         that
           .$confirm(
             that.$t('common.current') +
-              authUser.source +
-              that.$t('common.socialAccount') +
-              authUser.nickname +
-              that.$t('common.socialTips'),
+            authUser.source +
+            that.$t('common.socialAccount') +
+            authUser.nickname +
+            that.$t('common.socialTips'),
             that.$t('common.tips'),
             {
               confirmButtonText: that.$t('common.signLogin'),
@@ -480,8 +394,10 @@ export default {
         that.loginForm['key'] = that.randomId
         loginApi.login(this.loginForm).then(response => {
           const res = response.data
+
           //debugger;
-          if (res.isSuccess) {
+          if (res.success) {
+            console.log("登录的信息", res);
             that.saveLoginData(res.data.token)
             that.saveUserInfo(res.data.user, res.data.permissionsList)
 
@@ -573,8 +489,8 @@ export default {
       this.$store.commit('account/setPermissions', permissionsList)
     },
     loginSuccessCallback(user) {
-      console.log(user)
-	  return ;
+      console.log("loginSuccessCallback...")
+      return;
       // 登录成功后的回调，记录登录日志，最后登录时间等
       // this.$get(`system/user/success/${account}`).catch((e) => { console.log(e) })
       commonApi.dictionaryEnums().then(response => {
@@ -598,10 +514,12 @@ $cursor: #555;
     color: $cursor;
   }
 }
+
 /* reset element-ui css */
 .login-container {
   .el-input {
     display: inline-block;
+
     input {
       background: transparent;
       border: 0;
@@ -623,6 +541,7 @@ $cursor: #555;
     border-radius: 2px;
     color: #454545;
     transition: all 0.3s;
+
     &:hover {
       border-color: #57a3f3;
     }
@@ -640,25 +559,30 @@ $light_gray: #eee;
   background-size: cover;
   width: 65%;
   height: 100vh;
+
   .login-info {
     position: absolute;
     left: 15%;
     top: 44%;
     margin-top: -100px;
     color: #fff;
+
     .title {
       font-size: 1.8rem;
       font-weight: 600;
     }
+
     .sub-title {
       font-size: 1.5rem;
       margin: 0.3rem 0 0.7rem 1rem;
     }
+
     .desc {
       font-size: 0.96rem;
       line-height: 1.9rem;
     }
   }
+
   .login-form {
     position: absolute;
     top: 50%;
@@ -669,35 +593,42 @@ $light_gray: #eee;
     padding: 36px;
     background: #fff;
     border-radius: 3px;
+
     .code-input {
       width: 50%;
       display: inline-block;
       vertical-align: middle;
     }
+
     .code-image {
       display: inline-block;
       vertical-align: top;
       cursor: pointer;
     }
+
     .login-type {
       text-align: right;
       display: inline-block;
       width: 100%;
     }
+
     .logo-wrapper {
       display: inline-block;
       margin: 10px 0;
+
       img {
         width: 1.9rem;
         display: inline-block;
         margin: 0.8rem 0.8rem -0.8rem 0.8rem;
         cursor: pointer;
+
         &.radius {
           border-radius: 50%;
         }
       }
     }
   }
+
   .login-footer {
     position: fixed;
     bottom: 1rem;
@@ -708,6 +639,7 @@ $light_gray: #eee;
     line-height: 1rem;
     height: 1rem;
   }
+
   .tips {
     font-size: 14px;
     color: #fff;
@@ -723,6 +655,7 @@ $light_gray: #eee;
   .title-container {
     position: relative;
     margin-bottom: 20px;
+
     .title {
       font-size: 20px;
       color: rgba(0, 0, 0, 0.85);
@@ -763,6 +696,7 @@ $light_gray: #eee;
     .login-form {
       left: 50%;
     }
+
     .login-info {
       display: none;
     }

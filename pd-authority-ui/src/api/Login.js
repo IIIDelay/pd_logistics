@@ -11,7 +11,6 @@ const apiList = {
 
 export default {
   getCaptcha(randomId) {
-    console.log("===>",process.env)
     return axiosApi({
       method: "GET",
       url: apiList.getCaptcha + `?key=${randomId}`,
