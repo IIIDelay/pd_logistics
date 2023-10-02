@@ -21,6 +21,7 @@
         <module>pd-parent</module>
         <module>pd-apps</module>
         <module>pd-tools</module>
+        <module>pd-apps/pd-goods</module>
     </modules>
     <packaging>pom</packaging>
 </project>
