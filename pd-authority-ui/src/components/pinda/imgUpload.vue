@@ -138,7 +138,7 @@ export default {
     handleChange(file, fileList) {
       const vm = this
       if (file.response) {
-        if (file.response.isSuccess) {
+        if (file.response.success) {
           const remoteFile = file.response.data
           vm.fileOtherData.bizId = remoteFile.bizId
           vm.imageUrl = remoteFile.url

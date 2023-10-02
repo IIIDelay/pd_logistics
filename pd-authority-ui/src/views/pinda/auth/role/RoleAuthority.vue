@@ -332,7 +332,7 @@ export default {
 
       roleApi.saveRoleAuthority(this.roleAuthority).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           vm.isVisible = false
           vm.$message({
             message: vm.$t('tips.createSuccess'),

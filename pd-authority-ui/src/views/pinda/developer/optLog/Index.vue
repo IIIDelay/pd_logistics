@@ -70,7 +70,7 @@
         @selection-change="onSelectChange"
         @sort-change="sortChange"
       >
-        <el-table-column align="center" type="selection" width="40px" />
+        <el-table-column align="center" type="selection" width="42px" />
         <el-table-column
           :label="$t('table.optLog.userName')"
           :show-overflow-tooltip="true"
@@ -379,7 +379,7 @@ export default {
     delete(logIds) {
       optLogApi.delete({ ids: logIds }).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           this.$message({
             message: this.$t('tips.deleteSuccess'),
             type: 'success'

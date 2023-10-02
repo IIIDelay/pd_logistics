@@ -41,7 +41,7 @@
       @selection-change="onSelectChange"
       @sort-change="sortChange"
     >
-      <el-table-column type="selection" align="center" width="40px" />
+      <el-table-column type="selection" align="center" width="42px" />
       <el-table-column :label="$t('table.user.username')" prop="username" :show-overflow-tooltip="true" align="center" min-width="120px">
         <template slot-scope="scope">
           <span>{{ scope.row.username }}</span>

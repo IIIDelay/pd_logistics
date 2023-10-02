@@ -135,3 +135,4 @@ yarn.lock
 target
 /.fastRequest/*
 /logs/*
+/pd-authority-ui/pinda/*

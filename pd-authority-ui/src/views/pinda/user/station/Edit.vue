@@ -190,7 +190,7 @@ export default {
       const vm = this
       stationApi.save(this.station).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           vm.isVisible = false
           vm.$message({
             message: vm.$t('tips.createSuccess'),
@@ -203,7 +203,7 @@ export default {
     update() {
       stationApi.update(this.station).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           this.isVisible = false
           this.$message({
             message: this.$t('tips.updateSuccess'),

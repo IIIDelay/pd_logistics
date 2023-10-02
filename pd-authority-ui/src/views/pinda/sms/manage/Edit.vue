@@ -369,7 +369,7 @@ export default {
     async initSmsTemplateList() {
       await smsTemplateApi.page({ current: 1, size: 10000 }).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           this.smsTemplateList = res.data.records
         }
         console.log('list 加载')
@@ -453,7 +453,7 @@ export default {
       smsTaskApi.save(vm.smsTask).then(response => {
         vm.disabled = false
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           vm.$message({
             message: vm.$t('tips.createSuccess'),
             type: 'success'
@@ -469,7 +469,7 @@ export default {
       smsTaskApi.update(vm.smsTask).then(response => {
         vm.disabled = false
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           vm.$message({
             message: vm.$t('tips.createSuccess'),
             type: 'success'

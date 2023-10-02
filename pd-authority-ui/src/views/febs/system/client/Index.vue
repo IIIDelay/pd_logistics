@@ -29,7 +29,7 @@
       :highlight-current-row="true"
       @selection-change="onSelectChange"
     >
-      <el-table-column type="selection" align="center" width="40px" />
+      <el-table-column type="selection" align="center" width="42px" />
       <el-table-column label="clientId" prop="clientId" :show-overflow-tooltip="true" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.clientId }}</span>

@@ -495,7 +495,7 @@ export default {
       // this.$get(`system/user/success/${account}`).catch((e) => { console.log(e) })
       commonApi.dictionaryEnums().then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           this.$store.commit('common/setEnums', res.data)
         }
       })

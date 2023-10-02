@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <div class="filter-container">
-      <label style="color:#909399;font-weight:500;">编码: </label>
+      <label style="color:#909399;font-weight:bolder;">编码: </label>
       <el-input
         v-model="queryParams.code"
         :placeholder="$t('table.role.code')"
         class="filter-item search-item"
         clearable
       />
-      <label style="color:#909399;font-weight:500;">角色名称: </label>
+      <label style="color:#909399;font-weight:bolder;">角色名称: </label>
       <el-input
         v-model="queryParams.name"
         :placeholder="$t('table.role.name')"
@@ -73,7 +73,7 @@
         @selection-change="onSelectChange"
         @sort-change="sortChange"
       >
-        <el-table-column align="center" type="selection" width="40px" />
+        <el-table-column align="center" type="selection" width="42" />
         <el-table-column :label="$t('table.role.code')" align="center" prop="code" width="200px">
           <template slot-scope="scope">
             <span>{{ scope.row.code }}</span>
@@ -337,7 +337,7 @@ export default {
     delete(ids) {
       roleApi.delete({ ids: ids }).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           this.$message({
             message: this.$t('tips.deleteSuccess'),
             type: 'success'

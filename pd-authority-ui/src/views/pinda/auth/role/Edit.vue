@@ -204,7 +204,7 @@ export default {
         if (!this.orgHidden) {
           roleApi.get(val.id).then(response => {
             const res = response.data
-            if (res.isSuccess) {
+            if (res.success) {
               this.role.orgList = res.data.orgList
               this.$refs.orgTree.setCheckedKeys(res.data.orgList)
             }
@@ -251,7 +251,7 @@ export default {
       const vm = this
       roleApi.save(this.role).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           vm.isVisible = false
           vm.$message({
             message: vm.$t('tips.createSuccess'),
@@ -264,7 +264,7 @@ export default {
     update() {
       roleApi.update(this.role).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           this.isVisible = false
           this.$message({
             message: this.$t('tips.updateSuccess'),

@@ -182,7 +182,7 @@ export default {
       const vm = this
       dictionaryApi.save(this.dictionary).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           vm.isVisible = false
           vm.$message({
             message: vm.$t('tips.createSuccess'),
@@ -195,7 +195,7 @@ export default {
     update() {
       dictionaryApi.update(this.dictionary).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           this.isVisible = false
           this.$message({
             message: this.$t('tips.updateSuccess'),

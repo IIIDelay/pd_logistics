@@ -131,7 +131,7 @@ export default {
       const vm = this
       if (file.response) {
         vm.uploadTotalNum += 1
-        if (file.response.isSuccess) {
+        if (file.response.success) {
           vm.fileOtherData.bizId = file.response.data.bizId
           vm.successNum += 1
         } else {

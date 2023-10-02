@@ -222,7 +222,7 @@
               @selection-change="onResourceSelectChange"
               @sort-change="resourceSortChange"
             >
-              <el-table-column align="center" type="selection" width="40px" />
+              <el-table-column align="center" type="selection" width="42px" />
               <el-table-column
                 :label="$t('table.resource.code')"
                 :show-overflow-tooltip="true"
@@ -490,7 +490,7 @@ export default {
       console.log(this.menu.component)
       menuApi.save(this.menu).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           this.$message({
             message: this.$t('tips.createSuccess'),
             type: 'success'
@@ -503,7 +503,7 @@ export default {
       console.log(this.menu)
       menuApi.update(this.menu).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           this.$message({
             message: this.$t('tips.updateSuccess'),
             type: 'success'
@@ -556,7 +556,7 @@ export default {
           .then(() => {
             menuApi.delete({ ids: checked }).then(response => {
               const res = response.data
-              if (res.isSuccess) {
+              if (res.success) {
                 this.$message({
                   message: this.$t('tips.deleteSuccess'),
                   type: 'success'
@@ -610,7 +610,7 @@ export default {
         const ids = this.resourceSelection.map(item => item.id)
         resourceApi.delete({ ids: ids }).then(response => {
           const res = response.data
-          if (res.isSuccess) {
+          if (res.success) {
             this.$message({
               message: this.$t('tips.deleteSuccess'),
               type: 'success'

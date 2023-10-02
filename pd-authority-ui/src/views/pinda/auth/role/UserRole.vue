@@ -4,8 +4,7 @@
     :title="title"
     :visible.sync="isVisible"
     :width="width"
-    top="50px"
-  >
+    top="50px">
     <el-form ref="form" :model="userRole" :rules="rules" label-position="right" label-width="100px">
       <el-form-item label="用户" prop="userIdList">
         <el-transfer
@@ -162,7 +161,7 @@ export default {
 
       roleApi.saveUserRole(this.userRole).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           vm.isVisible = false
           vm.$message({
             message: vm.$t('tips.createSuccess'),

@@ -42,7 +42,7 @@ function handleError (error, reject) {
 }
 
 function handleSuccess (res, resolve) {
-  if (res.data.isError) {
+  if (res.data.error) {
     // 未登录
     if (res.data.code === 40001) {
       // debugger

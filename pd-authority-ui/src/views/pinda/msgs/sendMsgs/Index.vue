@@ -322,7 +322,7 @@ export default {
       if (type === 'view') {
         msgsApi.get(id).then(response => {
           const res = response.data
-          if (res.isSuccess) {
+          if (res.success) {
             this.msgsCenterInfo.msgsCenterInfoDTO = res.data
             if (this.msgsCenterInfo.msgsCenterInfoDTO.bizType === null) {
               this.msgsCenterInfo.msgsCenterInfoDTO.bizType = { code: '' }
@@ -341,7 +341,7 @@ export default {
     loadUserList() {
       userApi.page({ current: 1, size: 10000 }).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           if (res.data.records.length > 0) {
             this.allUserList = [
               ...[{ id: '-1', name: '全选' }],
@@ -354,7 +354,7 @@ export default {
     loadRoleList() {
       roleApi.page({ current: 1, size: 10000 }).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           if (res.data.records.length > 0) {
             this.allRoleList = [
               ...[{ code: '-1', name: '全选' }],
@@ -485,7 +485,7 @@ export default {
       msgsApi.save(vm.msgsCenterInfo).then(response => {
         vm.disabled = false
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           vm.$message({
             message: vm.$t('tips.createSuccess'),
             type: 'success'
@@ -501,7 +501,7 @@ export default {
       msgsApi.update(vm.msgs).then(response => {
         vm.disabled = false
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           vm.$message({
             message: vm.$t('tips.createSuccess'),
             type: 'success'

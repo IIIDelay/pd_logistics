@@ -32,7 +32,7 @@
       @selection-change="onSelectChange"
       @sort-change="sortChange"
     >
-      <el-table-column align="center" type="selection" width="40px" />
+      <el-table-column align="center" type="selection" width="42px" />
       <el-table-column
         :label="$t('table.smsSendStatus.receiver')"
         :show-overflow-tooltip="true"

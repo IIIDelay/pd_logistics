@@ -221,7 +221,7 @@ export default {
           .then(() => {
             orgApi.delete({ ids: checked }).then(response => {
               const res = response.data
-              if (res.isSuccess) {
+              if (res.success) {
                 this.$message({
                   message: this.$t('tips.deleteSuccess'),
                   type: 'success'
@@ -259,7 +259,7 @@ export default {
     save() {
       orgApi.save({ ...this.org }).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           this.$message({
             message: this.$t('tips.createSuccess'),
             type: 'success'
@@ -272,7 +272,7 @@ export default {
     update() {
       orgApi.update({ ...this.org }).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           this.$message({
             message: this.$t('tips.updateSuccess'),
             type: 'success'

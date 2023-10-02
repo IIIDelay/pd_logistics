@@ -180,7 +180,7 @@ export default {
         .avatar({ id: this.$store.state.account.user.id, avatar: avatar })
         .then(response => {
           const res = response.data
-          if (res.isSuccess) {
+          if (res.success) {
             this.$emit('success', avatar)
           }
           this.updating = false

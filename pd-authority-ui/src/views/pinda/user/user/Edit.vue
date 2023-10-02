@@ -357,7 +357,7 @@ export default {
       const vm = this
       userApi.save(this.user).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           vm.isVisible = false
           vm.$message({
             message: vm.$t('tips.createSuccess'),
@@ -370,7 +370,7 @@ export default {
     update() {
       userApi.update(this.user).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           this.isVisible = false
           this.$message({
             message: this.$t('tips.updateSuccess'),

@@ -88,7 +88,7 @@ export default {
           temp.account = temp.status = temp.avatar = temp.avatar = null
           userApi.update({ ...temp }).then(response => {
             const res = response.data
-            if (res.isSuccess) {
+            if (res.success) {
               this.$message({
                 message: this.$t('tips.updateSuccess'),
                 type: 'success'

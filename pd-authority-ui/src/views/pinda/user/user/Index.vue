@@ -369,7 +369,7 @@ export default {
           })
           userApi.reset({ ids: ids }).then(response => {
             const res = response.data
-            if (res.isSuccess) {
+            if (res.success) {
               this.$message({
                 message: this.$t('tips.resetPasswordSuccess'),
                 type: 'success'
@@ -429,7 +429,7 @@ export default {
     delete(ids) {
       userApi.delete({ ids: ids }).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           this.$message({
             message: this.$t('tips.deleteSuccess'),
             type: 'success'
@@ -463,7 +463,7 @@ export default {
       userApi.page(params).then(response => {
         const res = response.data
         this.loading = false
-        if (res.isSuccess) {
+        if (res.success) {
           this.tableData = res.data
         }
       })

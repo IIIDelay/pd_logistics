@@ -76,7 +76,7 @@
         @selection-change="onSelectChange"
         @sort-change="sortChange"
       >
-        <el-table-column align="center" type="selection" width="40px" />
+        <el-table-column align="center" type="selection" width="42px" />
         <el-table-column
           :label="$t('table.station.name')"
           :show-overflow-tooltip="true"
@@ -307,7 +307,7 @@ export default {
     delete(ids) {
       stationApi.delete({ ids: ids }).then(response => {
         const res = response.data
-        if (res.isSuccess) {
+        if (res.success) {
           this.$message({
             message: this.$t('tips.deleteSuccess'),
             type: 'success'
@@ -337,7 +337,7 @@ export default {
       stationApi.page(params).then(response => {
         const res = response.data
         this.loading = false
-        if (res.isError) {
+        if (res.error) {
           return
         }
         this.tableData = res.data
