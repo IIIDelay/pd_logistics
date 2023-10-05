@@ -5,7 +5,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 抽象 ID 生成器
- *
  */
 public abstract class AbstractIdGenerate<T extends Serializable> implements IdGenerate<T> {
 
@@ -26,7 +25,7 @@ public abstract class AbstractIdGenerate<T extends Serializable> implements IdGe
      */
     private final static long START_TIME = 1420041600210L;
     /**
-     * 机器码 （0-31）
+     * 机器码 (0-31)
      */
     private final long MACHINE_CODE;
     /**
@@ -43,11 +42,11 @@ public abstract class AbstractIdGenerate<T extends Serializable> implements IdGe
     }
 
     protected Long generateLong() {
-        //1.与基准时间对其，得到相对时间
+        // 1.与基准时间对其，得到相对时间
         long currentTimeMillis = System.currentTimeMillis() - START_TIME;
-        //2.保留相对时间的低41bit
+        // 2.保留相对时间的低41bit
         currentTimeMillis = currentTimeMillis & TIME_CODE;
-        //3、将1到41bit移到高位去 就是23~63。
+        // 3、将1到41bit移到高位去 就是23~63。
         currentTimeMillis = currentTimeMillis << 22;
 
         /*
@@ -57,18 +56,18 @@ public abstract class AbstractIdGenerate<T extends Serializable> implements IdGe
         int orderNo = this.orderNo.incrementAndGet();
         do {
             if (orderNo > MAX_ORDER_NO) {
-                //如果超过了最大序列号   则重置为0
+                // 如果超过了最大序列号   则重置为0
                 if (this.orderNo.compareAndSet(orderNo, 0)) {
-                    //这里使用cas操作，所以不需要加锁    1、操作失败了   则表示别的线程已经更改了数据，则直接进行自增并获取则可以了
+                    // 这里使用cas操作，所以不需要加锁    1、操作失败了   则表示别的线程已经更改了数据，则直接进行自增并获取则可以了
                     orderNo = 0;
                 } else {
-                    //注意: 先增加再取值。
+                    // 注意: 先增加再取值。
                     orderNo = this.orderNo.incrementAndGet();
                 }
             }
         } while (orderNo > MAX_ORDER_NO);
 
-        //符号位（1）bit、时间戳（2~42）bit | 序列号（43~59）bit | 机器码（60~64）bit
+        // 符号位(1)bit、时间戳(2~42)bit | 序列号(43~59)bit | 机器码(60~64)bit
         return currentTimeMillis | (orderNo << 5) | MACHINE_CODE;
     }
 }

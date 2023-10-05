@@ -32,7 +32,7 @@ public class TaskPickupDispatchDTO implements Serializable {
     private Integer taskType;
 
     /**
-     * 任务状态，1为待执行（对应 待上门和须交接）、2为进行中（该状态暂不使用，属于保留状态）、3为待确认（对应 待妥投和须交件）、4为已完成、5为已取消
+     * 任务状态，1为待执行(对应 待上门和须交接)、2为进行中(该状态暂不使用，属于保留状态)、3为待确认(对应 待妥投和须交件)、4为已完成、5为已取消
      */
     private Integer status;
 

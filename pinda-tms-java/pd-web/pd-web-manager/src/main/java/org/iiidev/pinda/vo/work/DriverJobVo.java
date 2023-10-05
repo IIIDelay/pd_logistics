@@ -23,7 +23,7 @@ public class DriverJobVo implements Serializable {
     @ApiModelProperty(value = "目的机构")
     private AgencySimpleVo endAgency;
 
-    @ApiModelProperty(value = "作业状态，1为待执行（对应 待提货）、2为进行中（对应在途）、3为改派（对应 已交付）、4为已完成（对应 已交付）、5为已作废")
+    @ApiModelProperty(value = "作业状态，1为待执行(对应 待提货)、2为进行中(对应在途)、3为改派(对应 已交付)、4为已完成(对应 已交付)、5为已作废")
     private Integer status;
 
     @ApiModelProperty(value = "司机")

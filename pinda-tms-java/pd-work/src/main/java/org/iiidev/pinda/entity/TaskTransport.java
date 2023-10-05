@@ -44,7 +44,7 @@ public class TaskTransport implements Serializable {
     private String endAgencyId;
 
     /**
-     * 任务状态，1为待执行（对应 待提货）、2为进行中（对应在途）、3为待确认（保留状态）、4为已完成（对应 已交付）、5为已取消
+     * 任务状态，1为待执行(对应 待提货)、2为进行中(对应在途)、3为待确认(保留状态)、4为已完成(对应 已交付)、5为已取消
      */
     private Integer status;
 

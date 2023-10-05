@@ -16,7 +16,7 @@ public interface RoleAuthorityService extends IService<RoleAuthority> {
     boolean saveUserRole(UserRoleSaveDTO userRole);
 
     /**
-     * 给角色重新分配 权限（资源/菜单）
+     * 给角色重新分配 权限(资源/菜单)
      */
     boolean saveRoleAuthority(RoleAuthoritySaveDTO roleAuthoritySaveDTO);
 }

@@ -19,7 +19,7 @@ export const readUserAgent = ua => {
     iPhone: ua.indexOf('iPhone') > -1, // 是否为iPhone或者QQHD浏览器
     iPad: ua.indexOf('iPad') > -1, // 是否iPad
     webApp: ua.indexOf('Safari') === -1, // 是否web应该程序，没有头部与底部
-    weixin: ua.indexOf('MicroMessenger') > -1, // 是否微信 （2015-01-22新增）
+    weixin: ua.indexOf('MicroMessenger') > -1, // 是否微信 (2015-01-22新增)
     qq: ua.match(/\sQQ/i) === ' qq' // 是否QQ
   }
   if (

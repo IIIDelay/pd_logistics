@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 登录（认证）控制器
+ * 登录(认证)控制器
  */
 @RestController
 @RequestMapping("/anno")

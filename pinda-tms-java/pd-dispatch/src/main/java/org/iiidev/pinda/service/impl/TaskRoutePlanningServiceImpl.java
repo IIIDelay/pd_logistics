@@ -53,7 +53,7 @@ public class TaskRoutePlanningServiceImpl implements ITaskRoutePlanningService {
         // 新订单调度
         orderClassifyGroupDTOS.stream().filter(item -> (item.isNew() && !"ERROR".equals(item.getKey()))).forEach(item -> {
             log.info("开始计算线路 {} -> {}", item.getStartAgencyId(), item.getEndAgencyId());
-            // 查找到所有相关线路 （存在无法通行的情况，）
+            // 查找到所有相关线路 (存在无法通行的情况，)
             RoutePlanningDTO routePlanningDTO = findLine(0, agencyId, item.getStartAgencyId(), item.getEndAgencyId(), new ArrayList<>());
             log.info("RoutePlanningDTO:{}", JSON.toJSONString(routePlanningDTO));
             // 查找到的线路分析，拆分，聚合。
@@ -206,7 +206,7 @@ public class TaskRoutePlanningServiceImpl implements ITaskRoutePlanningService {
         });
         Map<String, Integer> deleteLindVerifyKey = new HashMap<>();
         for (Map.Entry<String, List<Map.Entry<CacheLineEntity, List<CacheLineDetailEntity>>>> stringListEntry : groupMap.entrySet()) {
-            // 同一 起始，终点的线路（多种方案）
+            // 同一 起始，终点的线路(多种方案)
             List<Map.Entry<CacheLineEntity, List<CacheLineDetailEntity>>> list = stringListEntry.getValue();
             String notEqualsLineStart = null;
             String notEqualsLineEnd = null;
@@ -279,7 +279,7 @@ public class TaskRoutePlanningServiceImpl implements ITaskRoutePlanningService {
 
         transportLineDtos = findStartLine(start, agencyId);
         superiorStarts.add(start);
-        // 1 过滤已经直达的路线，2 过滤上一级的机构（本次查询到的路线 终点不能是上一级或者在上级的机构，若不过滤，理论上会出现死循环）
+        // 1 过滤已经直达的路线，2 过滤上一级的机构(本次查询到的路线 终点不能是上一级或者在上级的机构，若不过滤，理论上会出现死循环)
         transportLineDtos = transportLineDtos.stream()
                 .filter(item -> ((!feasibleIds.contains(item.getId())) && (!superiorStarts.contains(item.getEndAgencyId()))))
                 .collect(Collectors.toList());

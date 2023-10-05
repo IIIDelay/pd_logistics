@@ -18,7 +18,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
  * <p>
  * 拦截器: 
  * 解析请求头数据， 将用户信息、应用信息封装到BaseContextHandler
- * 考虑请求来源是否网关（ip等）
+ * 考虑请求来源是否网关(ip等)
  * <p>
  */
 @Slf4j

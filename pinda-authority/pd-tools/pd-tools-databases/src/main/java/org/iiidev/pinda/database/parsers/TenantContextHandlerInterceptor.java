@@ -46,7 +46,7 @@ public class TenantContextHandlerInterceptor extends HandlerInterceptorAdapter {
 
     /**
      * 在DispatcherServlet完全处理完请求后被调用，可用于清理资源等。
-     * 返回处理（已经渲染了页面），可以根据ex是否为null判断是否发生了异常，进行日志记录；
+     * 返回处理(已经渲染了页面)，可以根据ex是否为null判断是否发生了异常，进行日志记录；
      * @param request
      * @param response
      * @param handler

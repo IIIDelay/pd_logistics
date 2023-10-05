@@ -81,7 +81,7 @@ public class Area extends Entity<Long> implements Serializable {
         condition = "%s LIKE CONCAT('%%',#{%s},'%%')"
     )
     private String zipCode;
-    @ApiModelProperty("行政区域等级（0: 省级 1:市级 2:县级 3:镇级 4:乡村级）")
+    @ApiModelProperty("行政区域等级(0: 省级 1:市级 2:县级 3:镇级 4:乡村级)")
     @TableField("level")
     private Integer level;
     @ApiModelProperty("经度")

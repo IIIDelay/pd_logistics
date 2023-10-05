@@ -29,7 +29,7 @@ public class TaskTransportVo implements Serializable {
     @ApiModelProperty(value = "目的机构")
     private AgencySimpleVo endAgency;
 
-    @ApiModelProperty(value = "任务状态，1为待执行（对应 待提货）、2为进行中（对应在途）、3为待确认（保留状态）、4为已完成（对应 已交付）、5为已取消")
+    @ApiModelProperty(value = "任务状态，1为待执行(对应 待提货)、2为进行中(对应在途)、3为待确认(保留状态)、4为已完成(对应 已交付)、5为已取消")
     private Integer status;
 
     @ApiModelProperty(value = "任务分配状态(1未分配2已分配3待人工分配)")

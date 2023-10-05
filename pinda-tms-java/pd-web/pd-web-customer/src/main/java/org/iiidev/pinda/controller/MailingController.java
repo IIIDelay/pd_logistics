@@ -1010,7 +1010,7 @@ public class MailingController {
                     User user = userResult.getData();
                     String mobile = user.getMobile();
                     String name = user.getName();
-                    builder.msg("快件交给" + name + "，正在派送中（联系电话: " + mobile + "）");
+                    builder.msg("快件交给" + name + "，正在派送中(联系电话: " + mobile + ")");
                 }
                 result.add(builder.build());
             }

@@ -14,7 +14,7 @@ public class TaskPickupDispatchQueryDTO {
     @ApiModelProperty("任务类型，1为取件任务，2为派件任务")
     private Integer taskType;
 
-    @ApiModelProperty("任务状态，1为待执行（对应 待上门和须交接）、2为进行中（该状态暂不使用，属于保留状态）、3为待确认（对应 待妥投和须交件）、4为已完成、5为已取消")
+    @ApiModelProperty("任务状态，1为待执行(对应 待上门和须交接)、2为进行中(该状态暂不使用，属于保留状态)、3为待确认(对应 待妥投和须交件)、4为已完成、5为已取消")
     private Integer status;
 
     @ApiModelProperty("运单id")

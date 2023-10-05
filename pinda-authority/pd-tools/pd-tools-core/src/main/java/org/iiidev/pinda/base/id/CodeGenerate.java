@@ -29,7 +29,7 @@ public class CodeGenerate {
     private final static long START_TIME = 1548954061000L;
 
     /**
-     * 机器码 （0-15）
+     * 机器码 (0-15)
      */
     private final int MACHINE_CODE;
     /**

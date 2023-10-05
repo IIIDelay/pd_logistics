@@ -10,7 +10,7 @@ vueSticky.install = Vue => {
 
       elStyle.position = '-webkit-sticky'
       elStyle.position = 'sticky'
-      // if the browser support css sticky（Currently Safari, Firefox and Chrome Canary）
+      // if the browser support css sticky(Currently Safari, Firefox and Chrome Canary)
       // if (~elStyle.position.indexOf('sticky')) {
       //     elStyle.top = `${stickyTop}px`;
       //     elStyle.zIndex = zIndex;

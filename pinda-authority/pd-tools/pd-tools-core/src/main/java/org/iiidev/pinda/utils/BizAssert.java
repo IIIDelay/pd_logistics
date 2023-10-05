@@ -259,7 +259,7 @@ public class BizAssert {
 
 
     /**
-     * 断言 预期值（expected） 大于 实际值（actual）
+     * 断言 预期值(expected) 大于 实际值(actual)
      *
      * @param expected      预期值
      * @param actual        实际值

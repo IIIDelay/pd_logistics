@@ -31,7 +31,7 @@ public class DriverJobDTO implements Serializable {
     private String endAgencyId;
 
     /**
-     * 作业状态，1为待执行（对应 待提货）、2为进行中（对应在途）、3为改派（对应 已交付）、4为已完成（对应 已交付）、5为已作废
+     * 作业状态，1为待执行(对应 待提货)、2为进行中(对应在途)、3为改派(对应 已交付)、4为已完成(对应 已交付)、5为已作废
      */
     private Integer status;
 

@@ -117,12 +117,12 @@ import data2blob from './utils/data2blob.js'
 import effectRipple from './utils/effectRipple.js'
 export default {
   props: {
-    // 域，上传文件name，触发事件会带上（如果一个页面多个图片上传控件，可以做区分
+    // 域，上传文件name，触发事件会带上(如果一个页面多个图片上传控件，可以做区分
     field: {
       type: String,
       'default': 'avatar'
     },
-    // 原名key，类似于id，触发事件会带上（如果一个页面多个图片上传控件，可以做区分
+    // 原名key，类似于id，触发事件会带上(如果一个页面多个图片上传控件，可以做区分
     ki: {
       'default': 0
     },
@@ -714,7 +714,7 @@ export default {
       // 新宽高
       const nWidth = minWidth + (maxWidth - minWidth) * newRange / 100
       const nHeight = minHeight + (maxHeight - minHeight) * newRange / 100
-      // 新坐标（根据蒙版中心点缩放）
+      // 新坐标(根据蒙版中心点缩放)
       let nX = sWidth / 2 - (nWidth / width) * (sWidth / 2 - x)
       let nY = sHeight / 2 - (nHeight / height) * (sHeight / 2 - y)
       // 判断新坐标是否超过蒙版限制

@@ -81,7 +81,7 @@ public class JwtHelper {
             // 返回的字符串便是我们的jwt串了
             String compactJws =
                 builder.setExpiration(DateUtils.localDateTime2Date(LocalDateTime.now().plusSeconds(expire)))
-                    // 设置算法（必须）
+                    // 设置算法(必须)
                     .signWith(SignatureAlgorithm.RS256, RSA_KEY_HELPER.getPrivateKey(priKeyPath))
                     // 这个是全部设置完成后拼成jwt串的方法
                     .compact();

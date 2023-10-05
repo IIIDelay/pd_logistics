@@ -1,4 +1,4 @@
-# 该配置文件，只做注释参考，请勿修改此文件。（修改后也不会有任何效果，如要修改配置，请在nacos中修改redis.yml）
+# 该配置文件，只做注释参考，请勿修改此文件。(修改后也不会有任何效果，如要修改配置，请在nacos中修改redis.yml)
 pinda:
   redis:
     ip: 127.0.0.1
@@ -11,7 +11,7 @@ spring:
     type: GENERIC
 
 j2cache:
-  # j2cache 配置文件的在项目中/resources文件夹下的路径 （注意，若想将里面的配置存放在naocs或者application.yml中，需要注释这行）
+  # j2cache 配置文件的在项目中/resources文件夹下的路径 (注意，若想将里面的配置存放在naocs或者application.yml中，需要注释这行)
   # configLocation: /j2cache.properties
   # 是否开启 SpringCache 支持
   open-spring-cache: true
@@ -71,15 +71,15 @@ j2cache:
 #json:
 #  map.person: net.oschina.j2cache.demo.Person
 
-# 广播相关配置:  jgroups 配置 （当 j2cache.broadcast=jgroups 时，才需要配置）
+# 广播相关配置:  jgroups 配置 (当 j2cache.broadcast=jgroups 时，才需要配置)
 jgroups:
-  # 网络配置文件路径 （相对于/resources 目录）
+  # 网络配置文件路径 (相对于/resources 目录)
   configXml: /network.xml
   # 广播渠道名称
   channel:
     name: j2cache
 
-# 广播相关配置:  rabbitmq 配置 （当 j2cache.broadcast=rabbitmq 时，才需要配置）
+# 广播相关配置:  rabbitmq 配置 (当 j2cache.broadcast=rabbitmq 时，才需要配置)
 rabbitmq:
   exchange: j2cache
   host: localhost
@@ -87,37 +87,37 @@ rabbitmq:
   username: guest
   password: guest
 
-# 广播相关配置:  rocketmq 配置 （当 j2cache.broadcast=rocketmq 时，才需要配置）
+# 广播相关配置:  rocketmq 配置 (当 j2cache.broadcast=rocketmq 时，才需要配置)
 rocketmq:
   name: j2cache
   topic: j2cache
   # 使用;分割多台主机
   hosts: 127.0.0.1:9876
 
-# 1级相关缓存配置:  （当 j2cache.L1.config_section=ehcache 时，才需要配置）
+# 1级相关缓存配置:  (当 j2cache.L1.config_section=ehcache 时，才需要配置)
 ehcache:
   configXml: /ehcache.xml
 
-# 1级相关缓存配置:  （当 j2cache.L1.config_section=ehcache3 时，才需要配置）
+# 1级相关缓存配置:  (当 j2cache.L1.config_section=ehcache3 时，才需要配置)
 ehcache3:
   configXml: /ehcache.xml
   defaultHeapSize: 1000
 
-# 1级相关缓存配置:  （当 j2cache.L1.config_section=caffeine 时，才需要配置）
+# 1级相关缓存配置:  (当 j2cache.L1.config_section=caffeine 时，才需要配置)
 caffeine:
   # properties 和 region.[name] 任选一种方式配置
   properties: /j2cache/caffeine.properties   # 这个配置文件需要放在项目中
   #region.[name]: size, xxxx[s|m|h|d]
 
 
-# 广播相关配置: redis 配置      （当 j2cache.broadcast=redis 时 或者 j2cache.L2.config_section=redis 时，才需要配置）
-# 2级缓存相关配置:  redis 配置   （当 j2cache.broadcast=redis 时 或者 j2cache.L2.config_section=redis 或者 j2cache.L2.provider_class=redis 时，才需要配置）
+# 广播相关配置: redis 配置      (当 j2cache.broadcast=redis 时 或者 j2cache.L2.config_section=redis 时，才需要配置)
+# 2级缓存相关配置:  redis 配置   (当 j2cache.broadcast=redis 时 或者 j2cache.L2.config_section=redis 或者 j2cache.L2.provider_class=redis 时，才需要配置)
 redis:
   # Redis 集群模式
   # single -> 单 redis 服务
   # sentinel -> 主从 服务
-  # cluster -> 集群 服务 (数据库配置无效，使用 database = 0）
-  # sharded -> 分片 服务  (密码、数据库必须在 hosts 中指定，且连接池配置无效 ; redis://user:password@127.0.0.1:6379/0）
+  # cluster -> 集群 服务 (数据库配置无效，使用 database = 0)
+  # sharded -> 分片 服务  (密码、数据库必须在 hosts 中指定，且连接池配置无效 ; redis://user:password@127.0.0.1:6379/0)
   mode: single
   # redis storage mode (generic|hash)
   storage: generic
@@ -148,8 +148,8 @@ redis:
   blockWhenExhausted: false
   jmxEnabled: false
 
-# 广播相关配置: lettuce 配置      （当 j2cache.broadcast=lettuce 或者 j2cache.L2.config_section=lettuce 时，才需要配置）
-# 2级缓存相关配置:  lettuce 配置（当 j2cache.broadcast=lettuce 或者 j2cache.L2.config_section=lettuce 或者 j2cache.L2.provider_class=redis 时，才需要配置）
+# 广播相关配置: lettuce 配置      (当 j2cache.broadcast=lettuce 或者 j2cache.L2.config_section=lettuce 时，才需要配置)
+# 2级缓存相关配置:  lettuce 配置(当 j2cache.broadcast=lettuce 或者 j2cache.L2.config_section=lettuce 或者 j2cache.L2.provider_class=redis 时，才需要配置)
 lettuce:
   mode: single
   namespace:
@@ -165,8 +165,8 @@ lettuce:
   minIdle: 10
   timeout: 10000
 
-# 广播相关配置: memcached 配置      （当 j2cache.broadcast=memcached 或者 j2cache.L2.config_section=memcached 时，才需要配置）
-# 2级缓存相关配置: memcached 配置（当 j2cache.broadcast=memcached 或者 j2cache.L2.config_section=memcached 或者 j2cache.L2.provider_class=memcached 时，才需要配置）
+# 广播相关配置: memcached 配置      (当 j2cache.broadcast=memcached 或者 j2cache.L2.config_section=memcached 时，才需要配置)
+# 2级缓存相关配置: memcached 配置(当 j2cache.broadcast=memcached 或者 j2cache.L2.config_section=memcached 或者 j2cache.L2.provider_class=memcached 时，才需要配置)
 memcached:
   servers: 127.0.0.1:11211
   username:

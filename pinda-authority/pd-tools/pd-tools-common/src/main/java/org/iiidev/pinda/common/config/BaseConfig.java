@@ -50,13 +50,13 @@ public abstract class BaseConfig {
 
     /**
      * 解决序列化和反序列化时，参数转换问题
-     * addSerializer: 序列化 （Controller 返回 给前端的json）
+     * addSerializer: 序列化 (Controller 返回 给前端的json)
      * Long -> string
      * BigInteger -> string
      * BigDecimal -> string
      * date -> string
      * <p>
-     * addDeserializer: 反序列化 （前端调用接口时，传递到后台的json）
+     * addDeserializer: 反序列化 (前端调用接口时，传递到后台的json)
      * 枚举类型: {"code": "xxx"} -> Enum
      *
      */
@@ -75,7 +75,7 @@ public abstract class BaseConfig {
                 .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
                 //忽略未知字段
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                //该特性决定parser是否允许JSON字符串包含非引号控制字符（值小于32的ASCII字符，包含制表符和换行符）。 如果该属性关闭，则如果遇到这些字符，则会抛出异常。JSON标准说明书要求所有控制符必须使用引号，因此这是一个非标准的特性
+                //该特性决定parser是否允许JSON字符串包含非引号控制字符(值小于32的ASCII字符，包含制表符和换行符)。 如果该属性关闭，则如果遇到这些字符，则会抛出异常。JSON标准说明书要求所有控制符必须使用引号，因此这是一个非标准的特性
                 .configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true)
                 // 忽略不能转移的字符
                 .configure(JsonParser.Feature.ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER, true)

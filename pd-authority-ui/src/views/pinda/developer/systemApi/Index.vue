@@ -437,7 +437,7 @@ export default {
     },
 
     cellClick(row, column) {
-      var oInput = document.createElement('input') //创建一个隐藏input（重要！）
+      var oInput = document.createElement('input') //创建一个隐藏input(重要！)
       oInput.value = row[column.property] //赋值
 
       document.body.appendChild(oInput)

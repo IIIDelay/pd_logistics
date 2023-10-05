@@ -85,7 +85,7 @@ public class TaskTripsSchedulingServiceImpl implements ITaskTripsSchedulingServi
             }
             log.info("可用车次列表:{}", tripsTruckDriverDTOS);
 
-            // 便利全部可用车次 根据时间匹配车次 （根据车次发车时间（小时: 分钟）与当前时间比较，最近发车的车次作为最优方案）
+            // 便利全部可用车次 根据时间匹配车次 (根据车次发车时间(小时: 分钟)与当前时间比较，最近发车的车次作为最优方案)
             TripsTruckDriverDTO tripsTruckDriverDTO = getBestTripsTruckDriverDTO(tripsTruckDriverDTOS);
             if (tripsTruckDriverDTO == null) {
                 return;

@@ -312,7 +312,7 @@ export default {
       generate: {
         tableName: '表名',
         remark: '备注',
-        dataRows: '数据量（行）',
+        dataRows: '数据量(行)',
         createTime: '创建时间',
         updateTime: '更新时间'
       }

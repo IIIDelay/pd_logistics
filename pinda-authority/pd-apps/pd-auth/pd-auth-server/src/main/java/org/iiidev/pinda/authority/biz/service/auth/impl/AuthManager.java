@@ -58,10 +58,10 @@ public class AuthManager {
 
         List<String> permissionList = null;
         if (userResource != null && userResource.size() > 0) {
-            // 用户对应的权限（给前端使用的）
+            // 用户对应的权限(给前端使用的)
             permissionList = userResource.stream().map(Resource::getCode).collect(Collectors.toList());
 
-            // 将用户对应的权限（给后端网关使用的）进行缓存
+            // 将用户对应的权限(给后端网关使用的)进行缓存
             List<String> visibleResource = userResource.stream()
                 .map((resource -> resource.getMethod() + resource.getUrl()))
                 .collect(Collectors.toList());

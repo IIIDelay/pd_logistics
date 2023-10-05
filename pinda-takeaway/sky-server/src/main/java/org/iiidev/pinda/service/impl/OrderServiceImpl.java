@@ -79,7 +79,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderSubmitVO submitOrder(OrdersSubmitDTO ordersSubmitDTO) {
 
-        // 1. 处理各种业务异常（地址簿为空、购物车数据为空）
+        // 1. 处理各种业务异常(地址簿为空、购物车数据为空)
         AddressBook addressBook = addressBookMapper.getById(ordersSubmitDTO.getAddressBookId());
         if (addressBook == null) {
             // 抛出业务异常
@@ -446,10 +446,10 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     private String getOrderDishesStr(Orders orders) {
-        // 查询订单菜品详情信息（订单中的菜品和数量）
+        // 查询订单菜品详情信息(订单中的菜品和数量)
         List<OrderDetail> orderDetailList = orderDetailMapper.getByOrderId(orders.getId());
 
-        // 将每一条订单菜品信息拼接为字符串（格式: 宫保鸡丁*3；）
+        // 将每一条订单菜品信息拼接为字符串(格式: 宫保鸡丁*3；)
         List<String> orderDishList = orderDetailList.stream().map(x -> {
             String orderDish = x.getName() + "*" + x.getNumber() + ";";
             return orderDish;
@@ -501,7 +501,7 @@ public class OrderServiceImpl implements OrderService {
         // 根据id查询订单
         Orders ordersDB = orderMapper.getById(ordersRejectionDTO.getId());
 
-        // 订单只有存在且状态为2（待接单）才可以拒单
+        // 订单只有存在且状态为2(待接单)才可以拒单
         if (ordersDB == null || !ordersDB.getStatus().equals(Orders.TO_BE_CONFIRMED)) {
             throw new OrderBusinessException(MessageConstant.ORDER_STATUS_ERROR);
         }

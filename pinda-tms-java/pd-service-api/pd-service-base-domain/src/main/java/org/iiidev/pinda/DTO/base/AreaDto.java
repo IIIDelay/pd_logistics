@@ -42,7 +42,7 @@ public class AreaDto implements Serializable {
     private String zipCode;
 
     /**
-     * 行政区域等级（0: 省级 1:市级 2:县级 3:镇级 4:乡村级）
+     * 行政区域等级(0: 省级 1:市级 2:县级 3:镇级 4:乡村级)
      */
     private Integer level;
     /**

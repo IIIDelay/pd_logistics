@@ -54,7 +54,7 @@ public class TaskOrderClassifyServiceImpl implements ITaskOrderClassifyService {
 
     /**
      * 订单分类核心逻辑
-     * @param agencyId 机构id（网点或者转运中心的id）
+     * @param agencyId 机构id(网点或者转运中心的id)
      * @param jobId 定时任务id
      * @param logId 日志id
      * @return
@@ -259,7 +259,7 @@ public class TaskOrderClassifyServiceImpl implements ITaskOrderClassifyService {
         List<OrderClassifyDTO> orderClassifyDTOS = orders.stream().map(item -> {
             //起始机构
             builder.startAgencyId(agencyId);
-            //目的地机构（网点）
+            //目的地机构(网点)
             builder.endAgencyId(getEndAgencyId(item));
             builder.orderType(item.getOrderType());
             builder.order(item);
@@ -287,7 +287,7 @@ public class TaskOrderClassifyServiceImpl implements ITaskOrderClassifyService {
      * @return
      */
     private String getEndAgencyId(Order order) {
-        //获得收件人详细地址（包含省市区）
+        //获得收件人详细地址(包含省市区)
         String address = receiverFullAddress(order);
         if (StringUtils.isBlank(address)) {
             exceptionHappend("下单时收货地址不能为空");
