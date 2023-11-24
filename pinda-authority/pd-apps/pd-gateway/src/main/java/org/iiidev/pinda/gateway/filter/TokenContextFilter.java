@@ -58,8 +58,6 @@ public class TokenContextFilter extends BaseFilter {
         }
 
         // 将信息放入header
-        ServerHttpRequest.Builder mutate = request.mutate();
-
         HttpHeaders headers = request.getHeaders();
         if (userInfo != null && headers != null) {
             request.mutate()

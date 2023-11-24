@@ -3,15 +3,11 @@ package org.iiidev.pinda.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.experimental.Accessors;
+import java.util.List;
 
 /**
  * 货物
@@ -87,4 +83,6 @@ public class OrderCargo implements Serializable {
      * 货品总重量
      */
     private BigDecimal totalWeight;
+
+    private List<OrderLocation> orderLocationOrs;
 }

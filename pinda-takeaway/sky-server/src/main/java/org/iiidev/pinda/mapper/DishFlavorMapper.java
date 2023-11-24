@@ -2,6 +2,7 @@ package org.iiidev.pinda.mapper;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.iiidev.pinda.entity.DishFlavor;
 
@@ -14,7 +15,7 @@ public interface DishFlavorMapper {
      *
      * @param flavors
      */
-    void insertBatch(List<DishFlavor> flavors);
+    void insertBatch(@Param("flavors") List<DishFlavor> flavors);
 
     /**
      * 根据菜品id删除对应的口味数据

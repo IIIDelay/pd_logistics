@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 /**
  * 登录(认证)控制器
@@ -54,7 +53,7 @@ public class LoginController extends BaseController {
             return result;
         }
         // 验证码校验不通过，直接返回
-        return this.success(null);
+        return this.fail("验证失败");
     }
 
     // 校验验证码

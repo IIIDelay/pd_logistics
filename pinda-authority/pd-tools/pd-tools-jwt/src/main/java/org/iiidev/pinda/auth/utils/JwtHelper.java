@@ -100,7 +100,7 @@ public class JwtHelper {
      * @return
      * @throws Exception
      */
-    private static Jws<Claims> parserToken(String token, String pubKeyPath) throws BizException {
+    private static Jws<Claims> parserToken(String token, String pubKeyPath) {
         try {
             return Jwts.parser().setSigningKey(RSA_KEY_HELPER.getPublicKey(pubKeyPath)).parseClaimsJws(token);
         } catch (ExpiredJwtException ex) {

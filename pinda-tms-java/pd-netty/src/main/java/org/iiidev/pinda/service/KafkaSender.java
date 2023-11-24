@@ -1,26 +1,20 @@
 package org.iiidev.pinda.service;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import javax.annotation.PostConstruct;
 
-@Component
 @Slf4j
-public class KafkaSender {
+@Component
+public class KafkaSender implements ApplicationContextAware {
     public final static String MSG_TOPIC = "ip_msg";
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
 
     private static KafkaTemplate<String, String> template;
 
-    @PostConstruct
-    public void init() {
-        KafkaSender.template = this.kafkaTemplate;
-    }
-
-    //发送消息到kafka队列
+    // 发送消息到kafka队列
     public static boolean send(String topic, String message) {
         try {
             template.send(topic, message);
@@ -32,4 +26,9 @@ public class KafkaSender {
         return true;
     }
 
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        KafkaTemplate<String, String> kafkaTemplate = applicationContext.getBean(KafkaTemplate.class);
+        this.template = kafkaTemplate;
+    }
 }
