@@ -56,11 +56,4 @@ public class RespResult extends HashMap<String, Object> implements Serializable 
     public static RespResult ok() {
         return new RespResult();
     }
-
-    @Override
-    public RespResult put(String key, Object value) {
-        super.put(key, value);
-        log.info("key:{} value:{}", key, value);
-        return this;
-    }
 }

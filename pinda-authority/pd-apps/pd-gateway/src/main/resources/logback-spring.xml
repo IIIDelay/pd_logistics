@@ -2,6 +2,9 @@
 <configuration>
     <include resource="org/iiidev/pinda/log/logback/pinda-defaults.xml"/>
 
+    <conversionRule conversionWord="wEx"
+                    converterClass="org.iiidev.pinda.gateway.config.LogbackConvert"/>
+
     <springProfile name="test,docker,prod">
         <logger name="org.iiidev.pinda.gateway" additivity="true" level="${log.level.controller}">
             <appender-ref ref="ASYNC_CONTROLLER_APPENDER"/>

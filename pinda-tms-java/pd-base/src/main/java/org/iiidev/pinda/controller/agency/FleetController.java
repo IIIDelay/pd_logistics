@@ -1,15 +1,11 @@
 package org.iiidev.pinda.controller.agency;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.iiidev.pinda.DTO.angency.FleetDto;
 import org.iiidev.pinda.common.utils.PageResponse;
 import org.iiidev.pinda.common.utils.RespResult;
 import org.iiidev.pinda.entity.agency.PdFleet;
 import org.iiidev.pinda.service.agency.IPdFleetService;
-import org.iiidev.pinda.DTO.angency.FleetDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * FleetController
@@ -82,8 +82,13 @@ public class FleetController {
             BeanUtils.copyProperties(PdFleet, dto);
             dtoList.add(dto);
         });
-        return PageResponse.<FleetDto>builder().items(dtoList).pagesize(pageSize).page(page).counts(fleetPage.getTotal())
-                .pages(fleetPage.getPages()).build();
+        return PageResponse.<FleetDto>builder()
+            .items(dtoList)
+            .pagesize(pageSize)
+            .page(page)
+            .counts(fleetPage.getTotal())
+            .pages(fleetPage.getPages())
+            .build();
     }
 
     /**
